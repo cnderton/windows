@@ -62,7 +62,6 @@ pylint==2.3.1
 pymediawiki==0.6.1
 pynput==1.4.2
 pyowm==2.10.0
-pypiwin32==223
 pyquery==1.4.0
 pyrsistent==0.15.4
 pyTelegramBotAPI==3.6.6
