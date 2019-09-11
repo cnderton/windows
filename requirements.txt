@@ -66,9 +66,7 @@ pyquery==1.4.0
 pyrsistent==0.15.4
 pyTelegramBotAPI==3.6.6
 pyttsx3==2.71
-pytube==9.5.1
 pytz==2019.2
-pywin32==224
 PyYAML==5.1.2
 regex==2019.6.8
 requests==2.21.0
