@@ -1,0 +1,9 @@
+emoji==0.5.3
+nasa-api-wrapper==0.1.5
+newsapi-python==0.2.5
+pymediawiki==0.6.1
+pyowm==2.10.0
+pyTelegramBotAPI==3.6.6
+requests==2.21.0
+telepot==12.7
+wikipedia==1.4.0
