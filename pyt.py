@@ -1,3 +1,5 @@
+#Imports
+
 import telebot
 import wikipedia
 import pyowm
