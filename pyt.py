@@ -146,7 +146,7 @@ def talkk (message):
         bot.send_message(message.chat.id , 'Thanks')    
     elif message.text == "Who is ilham?" or message.text == "Who is Ilham?":
         bot.send_message(message.chat.id , 'He is my love ♥')    
-    elif message.text == "Who are you?" or message.text == "who are you?" or message.text == "Who are you" or message.text == "who are you":
+    elif message.text == "Who are you?" or message.text == "who are you?" or message.text == "Who are you" or message.text == "who are you" or message.text == "What's your name?" or message.text == "What's your name" or message.text == "what's your name?" or message.text == "what's your name":
         bot.send_message(message.chat.id , "I'm Avrean 😊")
     else:
         bot.send_message(message.chat.id , "I don't understand you 😔 " )    
