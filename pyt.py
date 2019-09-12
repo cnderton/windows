@@ -117,7 +117,7 @@ def errorr_soo(message):
 
 @bot.message_handler(commands=['talk'])
 def talk_me(message):
-    bot.reply_to(message , 'Talk to me 😁')   
+    bot.reply_to(message , 'alk to me 😁')   
 @bot.message_handler(content_types = ['text'])
 def talkk (message):    
     if message.text == "Hello" or message.text == "hi" or message.text == "hey" or message.text == 'hey there' or message.text == 'hello there' or message.text == 'hello':
