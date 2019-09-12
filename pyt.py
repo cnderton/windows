@@ -27,7 +27,7 @@ def find_at(msg):
 #AI
 greetings = ["Hello😃", "Hey there 😃"]
 how_are_you = ["I'm feeling positively tip top thanks.😎", "Feeling like a lean,mean,asisting ,machine!✌", "pretty good ツ",  "I'm doing very well,thank you." , "Not bad ツ"]
-wcyd = ['Here are some functions I can do:\n/about - More about us.\n/weather - Lets you know the current temperature in your city.\n/review - Share your new ideas and reviews with me.\n /insta - link to an instagram account.\n /wikipedia - Get needed information from Wikipedia without leaving telegram.\n/contact - Contact with us.']
+wcyd = [/about - More about us.\n/weather - Lets you know the current temperature in your city.\n/review - Share your new ideas and reviews with me.\n /insta - link to an instagram account.\n /wikipedia - Get needed information from Wikipedia without leaving telegram.\n/contact - Contact with us.\n/talk - Talk with Avrean\n /astro - Get some interesting info about astrnomy"]
 pleasure = ["My pleasure!" , "That's what I'm here for😃" , "Always a pleasure 😃" , "You're welcome 😃" , "That makes me so happy! You're most welcome ☺" , "You're certainly welcome indeed.😊"]
 beauty = ["Oh wow. You can't tell but I'm totally blushing right now.😘" , 'Thanks! I try just be my regular helpful self 😎' , " Stop it,you'll make me blush😘" , 'Oh wow. If I could blush I definitely would 😜']
 love = ['I got another one... ;)']
@@ -136,9 +136,9 @@ def talkk (message):
         bot.send_message == (message.chat.id , random.choice(beauty))
     elif message.text == 'I love you'or message.text == 'love you' or message.text == 'i love you':
         bot.send_message(message.chat.id ,random.choice(love) )
-    elif message.text == 'Where do you live?' or message.text == 'Where are you living?':
-        bot.send_message(message.chat.id , random.choice(love))     
-    elif message.text == 'Facts about astronomy' or message.text == 'Interesting facts' or message.text == 'Astronomy facts' or message.text == 'Astronomy' or message.text == 'Information about astronomy':
+    elif message.text == 'Where do you live?' or message.text == 'Where are you living?' or message.text == "Where are you from?" or message.text == "Where are you from" or message.text == "where are you from" :
+        bot.send_message(message.chat.id , "I live in cloud,but I like to think that home is where the questions are😊")     
+    elif message.text == 'Facts about astronomy' or message.text == 'Interesting facts' or message.text == 'Astronomy facts' or message.text == 'Astronomy' or message.text == 'Information about astronomy' or message.text == 'Astronomicial facts' or message.text == "Give me some interesting astronomicial facts":
         bot.send_message(message.chat.id , random.choice(astronomy))
     elif message.text == 'Do you have a boyfriend?' or message.text == 'Do you have a girlfriend?' or message.text == 'Are you alone?' or message.text == 'Do you have boyfriend?' or message.text == 'Do you have girlfriend?':
         bot.send_message(message.chat.id , "The only thing Im really feeling a strong connection to the wi-fi!")    
