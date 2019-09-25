@@ -3,6 +3,7 @@
 import telebot
 import wikipedia
 import pyowm
+import pyjokes
 import random
 from time import sleep
 from emailverifier import Client
@@ -27,12 +28,14 @@ def find_at(msg):
 #AI
 greetings = ["Hello😃", "Hey there 😃"]
 how_are_you = ["I'm feeling positively tip top thanks.😎", "Feeling like a lean,mean,asisting ,machine!✌", "pretty good ツ",  "I'm doing very well,thank you." , "Not bad ツ"]
-wcyd = ["---Here are some stuff I can do -- \n /about - More about us.\n/weather - Lets you know the current temperature in your city.\n/review - Share your new ideas and reviews with me.\n /insta - link to an instagram account.\n /wikipedia - Get needed information from Wikipedia without leaving telegram.\n/contact - Contact with us.\n/talk - Talk with Avrean\n /astro - Get some interesting info about astrnomy"]
+wcyd = ["---Here are some stuff I can do -- \n /about - 𝕄𝕠𝕣𝕖 𝕒𝕓𝕠𝕦𝕥 𝕦𝕤.\n--------------------------------------------------------\n/weather - 𝕃𝕖𝕥𝕤 𝕪𝕠𝕦 𝕜𝕟𝕠𝕨 𝕥𝕙𝕖 𝕔𝕦𝕣𝕣𝕖𝕟𝕥 𝕥𝕖𝕞𝕡𝕖𝕣𝕒𝕥𝕦𝕣𝕖 𝕚𝕟 𝕪𝕠𝕦𝕣 𝕔𝕚𝕥𝕪.\n--------------------------------------------------------\n/review - 𝕊𝕙𝕒𝕣𝕖 𝕪𝕠𝕦𝕣 𝕟𝕖𝕨 𝕚𝕕𝕖𝕒𝕤 𝕒𝕟𝕕 𝕣𝕖𝕧𝕚𝕖𝕨𝕤 𝕨𝕚𝕥𝕙 𝕞𝕖.\n--------------------------------------------------------\n /insta - 𝕊𝕙𝕒𝕣𝕖 𝕪𝕠𝕦𝕣 𝕟𝕖𝕨 𝕚𝕕𝕖𝕒𝕤 𝕒𝕟𝕕 𝕣𝕖𝕧𝕚𝕖𝕨𝕤 𝕨𝕚𝕥𝕙 𝕞𝕖.\n--------------------------------------------------------\n /wikipedia - 𝔾𝕖𝕥 𝕟𝕖𝕖𝕕𝕖𝕕 𝕚𝕟𝕗𝕠𝕣𝕞𝕒𝕥𝕚𝕠𝕟 𝕗𝕣𝕠𝕞 𝕎𝕚𝕜𝕚𝕡𝕖𝕕𝕚𝕒 𝕨𝕚𝕥𝕙𝕠𝕦𝕥 𝕝𝕖𝕒𝕧𝕚𝕟𝕘 𝕥𝕖𝕝𝕖𝕘𝕣𝕒𝕞.\n--------------------------------------------------------\n/contact - ℂ𝕠𝕟𝕥𝕒𝕔𝕥 𝕨𝕚𝕥𝕙 𝕦𝕤.\n--------------------------------------------------------\n/talk - 𝕋𝕒𝕝𝕜 𝕨𝕚𝕥𝕙 𝔸𝕧𝕣𝕖𝕒𝕟\n--------------------------------------------------------\n /astro - 𝔾𝕖𝕥 𝕤𝕠𝕞𝕖 𝕚𝕟𝕥𝕖𝕣𝕖𝕤𝕥𝕚𝕟𝕘 𝕚𝕟𝕗𝕠 𝕒𝕓𝕠𝕦𝕥 𝕒𝕤𝕥𝕣𝕠𝕟𝕠𝕞𝕪.\n--------------------------------------------------------\n/jokes - 𝕊𝕠𝕞𝕖 𝕗𝕦𝕟𝕟𝕪 𝕛𝕠𝕜𝕖𝕤:)\n--------------------------------------------------------\n"]
 pleasure = ["My pleasure!" , "That's what I'm here for😃" , "Always a pleasure 😃" , "You're welcome 😃" , "That makes me so happy! You're most welcome ☺" , "You're certainly welcome indeed.😊"]
 beauty = ["Oh wow. You can't tell but I'm totally blushing right now.😘" , 'Thanks! I try just be my regular helpful self 😎' , " Stop it,you'll make me blush😘" , 'Oh wow. If I could blush I definitely would 😜']
 love = ['I got another one... ;)']
 astronomy = ['If you want to get some exciting astrnomical facts just click this >>> /astro <<<']
 lv2 = ['He is my love ♥' , 'He is my founder.']
+emoji = ["😂",'🤣','😅','😆']
+dont_get_it = ["I don't understand you 😔" , "I'm afraid I don't understand." , "Sorry,I don't understand." , "I don't understand."]
 @bot.message_handler(commands=['start'])
 def handle_start_help(message):
     bot.reply_to(message, "-- Hello dear user -- \n I'm currently working on this bot. It already can do some basic things. \n If you want to know what this bot can do and commands to turn it on. JUST USE /commands command.")
@@ -41,7 +44,11 @@ def handle_start_help(message):
 @bot.message_handler(commands=['commands'])
 def handle_start(message):
     bot.reply_to(
-        message, "/about - More about us.\n/weather - Lets you know the current temperature in your city.\n/review - Share your new ideas and reviews with me.\n /insta - link to an instagram account.\n /wikipedia - Get needed information from Wikipedia without leaving telegram.\n/contact - Contact with us.\n/talk - Talk with Avrean\n /astro - Get some interesting info about astrnomy")
+        message, "🅐🅥🅡🅔🅐🅝  🅕🅔🅐🅤🅣🅤🅡🅔🅢\n/about - 𝕄𝕠𝕣𝕖 𝕒𝕓𝕠𝕦𝕥 𝕦𝕤.\n--------------------------------------------------------\n/weather - 𝕃𝕖𝕥𝕤 𝕪𝕠𝕦 𝕜𝕟𝕠𝕨 𝕥𝕙𝕖 𝕔𝕦𝕣𝕣𝕖𝕟𝕥 𝕥𝕖𝕞𝕡𝕖𝕣𝕒𝕥𝕦𝕣𝕖 𝕚𝕟 𝕪𝕠𝕦𝕣 𝕔𝕚𝕥𝕪.\n--------------------------------------------------------\n/review - 𝕊𝕙𝕒𝕣𝕖 𝕪𝕠𝕦𝕣 𝕟𝕖𝕨 𝕚𝕕𝕖𝕒𝕤 𝕒𝕟𝕕 𝕣𝕖𝕧𝕚𝕖𝕨𝕤 𝕨𝕚𝕥𝕙 𝕞𝕖.\n--------------------------------------------------------\n /insta - 𝕊𝕙𝕒𝕣𝕖 𝕪𝕠𝕦𝕣 𝕟𝕖𝕨 𝕚𝕕𝕖𝕒𝕤 𝕒𝕟𝕕 𝕣𝕖𝕧𝕚𝕖𝕨𝕤 𝕨𝕚𝕥𝕙 𝕞𝕖.\n--------------------------------------------------------\n /wikipedia - 𝔾𝕖𝕥 𝕟𝕖𝕖𝕕𝕖𝕕 𝕚𝕟𝕗𝕠𝕣𝕞𝕒𝕥𝕚𝕠𝕟 𝕗𝕣𝕠𝕞 𝕎𝕚𝕜𝕚𝕡𝕖𝕕𝕚𝕒 𝕨𝕚𝕥𝕙𝕠𝕦𝕥 𝕝𝕖𝕒𝕧𝕚𝕟𝕘 𝕥𝕖𝕝𝕖𝕘𝕣𝕒𝕞.\n--------------------------------------------------------\n/contact - ℂ𝕠𝕟𝕥𝕒𝕔𝕥 𝕨𝕚𝕥𝕙 𝕦𝕤.\n--------------------------------------------------------\n/talk - 𝕋𝕒𝕝𝕜 𝕨𝕚𝕥𝕙 𝔸𝕧𝕣𝕖𝕒𝕟\n--------------------------------------------------------\n /astro - 𝔾𝕖𝕥 𝕤𝕠𝕞𝕖 𝕚𝕟𝕥𝕖𝕣𝕖𝕤𝕥𝕚𝕟𝕘 𝕚𝕟𝕗𝕠 𝕒𝕓𝕠𝕦𝕥 𝕒𝕤𝕥𝕣𝕠𝕟𝕠𝕞𝕪.\n--------------------------------------------------------\n /jokes - 𝕊𝕠𝕞𝕖 𝕗𝕦𝕟𝕟𝕪 𝕛𝕠𝕜𝕖𝕤:)\n--------------------------------------------------------\n")
+
+@bot.message_handler(commands = ['jokes'])
+def jokes(message):
+    bot.reply_to(message , pyjokes.get_joke() + random.choice(emoji) )
 
 @bot.message_handler(commands = ['astro'])
 def first(message): 
@@ -115,7 +122,7 @@ def echo_all(message):
 
 @bot.message_handler(commands=['contact'])
 def errorr_soo(message):
-      bot.reply_to(message, "My phone number: +994 55 414 31 95\nMy e-mail: boredguy982@gmail.com\nMy telegram: @Avrean\n   /commands  ")
+      bot.reply_to(message, "My phone number: +994 55 414 31 95\nMy e-mail: boredguy982@gmail.com\nMy telegram: @Wingine\n   /commands  ")
 
 @bot.message_handler(commands=['talk'])
 def talk_me(message):
@@ -136,7 +143,7 @@ def talkk (message):
         bot.send_message == (message.chat.id , random.choice(beauty))
     elif message.text == 'I love you'or message.text == 'love you' or message.text == 'i love you':
         bot.send_message(message.chat.id ,random.choice(love) )
-    elif message.text == 'Where do you live?' or message.text == 'Where are you living?' or message.text == "Where are you from?" or message.text == "Where are you from" or message.text == "where are you from" :
+    elif message.text == 'Where do you live?' or message.text == 'Where are you living?' or message.text == "Where are you from?" or message.text == "Where are you from" or message.text == "where are you from" or message.text == "where are you from?":
         bot.send_message(message.chat.id , "I live in cloud,but I like to think that home is where the questions are😊")     
     elif message.text == 'Facts about astronomy' or message.text == 'Interesting facts' or message.text == 'Astronomy facts' or message.text == 'Astronomy' or message.text == 'Information about astronomy' or message.text == 'Astronomicial facts' or message.text == "Give me some interesting astronomicial facts":
         bot.send_message(message.chat.id , random.choice(astronomy))
@@ -145,11 +152,16 @@ def talkk (message):
     elif message.text == "Great" or message.text == 'Cool':
         bot.send_message(message.chat.id , 'Thanks')    
     elif message.text == "Who is ilham?" or message.text == "Who is Ilham?":
-        bot.send_message(message.chat.id , 'He is my love ♥')    
+        bot.send_message(message.chat.id , 'He is founder of Avrean.')    
     elif message.text == "Who are you?" or message.text == "who are you?" or message.text == "Who are you" or message.text == "who are you" or message.text == "What's your name?" or message.text == "What's your name" or message.text == "what's your name?" or message.text == "what's your name":
         bot.send_message(message.chat.id , "I'm Avrean 😊")
+    elif message.text == "Tell me a joke" or message.text == 'Tell me joke' or message.text == 'Funny jokes' or message.text == 'funny jokes' or message.text == "tell me a joke" or message.text == "Tell me some funny jokes" or message.text == "Jokes" or message.text == 'jokes' or message.text == "Make some funny jokes" or message.text == "Funny joke" or message.text == "Make a funny joke" or message.text == "Make a joke" or message.text == "joke" or message.text == "Joke":
+        bot.send_message(message.chat.id , pyjokes.get_joke() + random.choice(emoji))
+    elif message.text == "Who created you?" or message.text == "Who is your creator?" or message.text == "Who created you" or message.text == "Who is your creator" or message.text == "who created you" or message.text == "Who's your creator?" or message.text == "Who's created you?" or message.text == "Who's your creator?" or message.text == "Who's your creator" or message.text == "Who's your founder?" or message.text == "who's your founder?" or message.text == "who's your founder" or message.text == "Who is your founder?" or message.text == "Who is your founder":
+        bot.send_message(message.chat.id , "My creator is Ilham. He's the god of this temple🔱")  
     else:
-        bot.send_message(message.chat.id , "I don't understand you 😔 " )    
+        bot.send_message(message.chat.id , random.choice(dont_get_it) )   
+         
 
 @bot.message_handler(content_types=['sticker'])
 def sticker_handler(message):
