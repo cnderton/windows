@@ -67,7 +67,7 @@ def handle(message):
        
 @bot.message_handler(commands=['review'])
 def error_soo(message):
-    bot.reply_to(message, " If you have a new idea for this project, you can share it with me here.\nAlso you can share your experience about this project with me.\nI would love to know about your experience.\n Write your feedback here: @Avrean\n   /commands ")
+    bot.reply_to(message, " If you have a new idea for this project, you can share it with me here.\nAlso you can share your experience about this project with me.\nI would love to know about your experience.\n Write your feedback here: @Wingine\n   /commands ")
 
 
 @bot.message_handler(commands=["weather"])
