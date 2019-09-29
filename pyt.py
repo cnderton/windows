@@ -63,6 +63,7 @@ def first(message):
         for key in decoded_json: #iterate through the json dictionary
             value = decoded_json[key]
             bot.reply_to(message , '{}: {}'.format(key, value))
+            bot.reply_to(message , '/commands')
 
 
 @bot.message_handler(commands=['about'])
