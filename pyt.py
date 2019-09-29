@@ -1,14 +1,15 @@
 #Imports
-
 import telebot
 import wikipedia
 import pyowm
 import pyjokes
 import random
+from tmdbv3api import Movie, TMDb
 from time import sleep
 from emailverifier import Client
 from emailverifier import exceptions
 from urllib.request import urlopen as url_open
+from telebot import types
 import json
 #Token
 token = '939354885:AAHPdTAK8PdTlx0ICYC6HZ6Hvca_TgPYz_Q'
@@ -17,6 +18,10 @@ STICKER_ID = 'CAADAgADXwMAAgw7AAEKTh8jAAH9Q-gAAQI'
 client = Client('at_Gzzvwmp3zBAnbVjRYpO7P2MdXpE3b')
 url = 'https://api.nasa.gov/planetary/apod?' # I don't get how url queries work, someone help
 API_KEY = 'api_key=dWpZtxYFFudFeJi4KnQmoDXZz6y8rf7pPus6yoqu' #own API key, please register for your own at NASA Open APIs
+tmdb = TMDb()
+tmdb.api_key = 'ee01893e3d8f4d2026795ad38b8bb5fe'
+tmdb.language = 'en'
+movie = Movie()
 
 def find_at(msg):
       for text in msg:
@@ -28,7 +33,7 @@ def find_at(msg):
 #AI
 greetings = ["Hello😃", "Hey there 😃"]
 how_are_you = ["I'm feeling positively tip top thanks.😎", "Feeling like a lean,mean,asisting ,machine!✌", "pretty good ツ",  "I'm doing very well,thank you." , "Not bad ツ"]
-wcyd = ["---Here are some stuff I can do -- \n /about - 𝕄𝕠𝕣𝕖 𝕒𝕓𝕠𝕦𝕥 𝕦𝕤.\n--------------------------------------------------------\n/weather - 𝕃𝕖𝕥𝕤 𝕪𝕠𝕦 𝕜𝕟𝕠𝕨 𝕥𝕙𝕖 𝕔𝕦𝕣𝕣𝕖𝕟𝕥 𝕥𝕖𝕞𝕡𝕖𝕣𝕒𝕥𝕦𝕣𝕖 𝕚𝕟 𝕪𝕠𝕦𝕣 𝕔𝕚𝕥𝕪.\n--------------------------------------------------------\n/review - 𝕊𝕙𝕒𝕣𝕖 𝕪𝕠𝕦𝕣 𝕟𝕖𝕨 𝕚𝕕𝕖𝕒𝕤 𝕒𝕟𝕕 𝕣𝕖𝕧𝕚𝕖𝕨𝕤 𝕨𝕚𝕥𝕙 𝕞𝕖.\n--------------------------------------------------------\n /insta - 𝔾𝕖𝕥 𝕝𝕚𝕟𝕜 𝕥𝕠 𝕒𝕟 𝕚𝕟𝕤𝕥𝕒𝕘𝕣𝕒𝕞 𝕒𝕔𝕔𝕠𝕦𝕟𝕥 𝕓𝕪 𝕥𝕪𝕡𝕚𝕟𝕘 𝕦𝕤𝕖𝕣'𝕤 𝕟𝕚𝕔𝕜𝕟𝕒𝕞𝕖\n--------------------------------------------------------\n /wikipedia - 𝔾𝕖𝕥 𝕟𝕖𝕖𝕕𝕖𝕕 𝕚𝕟𝕗𝕠𝕣𝕞𝕒𝕥𝕚𝕠𝕟 𝕗𝕣𝕠𝕞 𝕎𝕚𝕜𝕚𝕡𝕖𝕕𝕚𝕒 𝕨𝕚𝕥𝕙𝕠𝕦𝕥 𝕝𝕖𝕒𝕧𝕚𝕟𝕘 𝕥𝕖𝕝𝕖𝕘𝕣𝕒𝕞.\n--------------------------------------------------------\n/contact - ℂ𝕠𝕟𝕥𝕒𝕔𝕥 𝕨𝕚𝕥𝕙 𝕦𝕤.\n--------------------------------------------------------\n/talk - 𝕋𝕒𝕝𝕜 𝕨𝕚𝕥𝕙 𝔸𝕧𝕣𝕖𝕒𝕟\n--------------------------------------------------------\n /astro - 𝔾𝕖𝕥 𝕤𝕠𝕞𝕖 𝕚𝕟𝕥𝕖𝕣𝕖𝕤𝕥𝕚𝕟𝕘 𝕚𝕟𝕗𝕠 𝕒𝕓𝕠𝕦𝕥 𝕒𝕤𝕥𝕣𝕠𝕟𝕠𝕞𝕪.\n--------------------------------------------------------\n/jokes - 𝕊𝕠𝕞𝕖 𝕗𝕦𝕟𝕟𝕪 𝕛𝕠𝕜𝕖𝕤:)\n--------------------------------------------------------\n"]
+wcyd = ["---Here are some stuff I can do -- \n /about - 𝕄𝕠𝕣𝕖 𝕒𝕓𝕠𝕦𝕥 𝕦𝕤.\n--------------------------------------------------------\n/weather - 𝕃𝕖𝕥𝕤 𝕪𝕠𝕦 𝕜𝕟𝕠𝕨 𝕥𝕙𝕖 𝕔𝕦𝕣𝕣𝕖𝕟𝕥 𝕥𝕖𝕞𝕡𝕖𝕣𝕒𝕥𝕦𝕣𝕖 𝕚𝕟 𝕪𝕠𝕦𝕣 𝕔𝕚𝕥𝕪.\n--------------------------------------------------------\n/review - 𝕊𝕙𝕒𝕣𝕖 𝕪𝕠𝕦𝕣 𝕟𝕖𝕨 𝕚𝕕𝕖𝕒𝕤 𝕒𝕟𝕕 𝕣𝕖𝕧𝕚𝕖𝕨𝕤 𝕨𝕚𝕥𝕙 𝕞𝕖.\n--------------------------------------------------------\n /insta - 𝔾𝕖𝕥 𝕝𝕚𝕟𝕜 𝕥𝕠 𝕒𝕟 𝕚𝕟𝕤𝕥𝕒𝕘𝕣𝕒𝕞 𝕒𝕔𝕔𝕠𝕦𝕟𝕥 𝕓𝕪 𝕥𝕪𝕡𝕚𝕟𝕘 𝕦𝕤𝕖𝕣'𝕤 𝕟𝕚𝕔𝕜𝕟𝕒𝕞𝕖\n--------------------------------------------------------\n /wikipedia - 𝔾𝕖𝕥 𝕟𝕖𝕖𝕕𝕖𝕕 𝕚𝕟𝕗𝕠𝕣𝕞𝕒𝕥𝕚𝕠𝕟 𝕗𝕣𝕠𝕞 𝕎𝕚𝕜𝕚𝕡𝕖𝕕𝕚𝕒 𝕨𝕚𝕥𝕙𝕠𝕦𝕥 𝕝𝕖𝕒𝕧𝕚𝕟𝕘 𝕥𝕖𝕝𝕖𝕘𝕣𝕒𝕞.\n--------------------------------------------------------\n/contact - ℂ𝕠𝕟𝕥𝕒𝕔𝕥 𝕨𝕚𝕥𝕙 𝕦𝕤.\n--------------------------------------------------------\n/talk - 𝕋𝕒𝕝𝕜 𝕨𝕚𝕥𝕙 𝔸𝕧𝕣𝕖𝕒𝕟\n--------------------------------------------------------\n /astro - 𝔾𝕖𝕥 𝕤𝕠𝕞𝕖 𝕚𝕟𝕥𝕖𝕣𝕖𝕤𝕥𝕚𝕟𝕘 𝕚𝕟𝕗𝕠 𝕒𝕓𝕠𝕦𝕥 𝕒𝕤𝕥𝕣𝕠𝕟𝕠𝕞𝕪.\n--------------------------------------------------------\n/jokes - 𝕊𝕠𝕞𝕖 𝕗𝕦𝕟𝕟𝕪 𝕛𝕠𝕜𝕖𝕤:)\n--------------------------------------------------------\n/movie - 𝔾𝕖𝕥 𝕤𝕦𝕘𝕘𝕖𝕤𝕥𝕖𝕕 & 𝕡𝕠𝕡𝕦𝕝𝕒𝕣 𝕞𝕠𝕧𝕚𝕖𝕤 𝕟𝕒𝕞𝕖 𝕒𝕟𝕕 𝕠𝕧𝕖𝕣𝕧𝕚𝕖𝕨𝕤\n--------------------------------------------------------\n"]
 pleasure = ["My pleasure!" , "That's what I'm here for😃" , "Always a pleasure 😃" , "You're welcome 😃" , "That makes me so happy! You're most welcome ☺" , "You're certainly welcome indeed.😊"]
 beauty = ["Oh wow. You can't tell but I'm totally blushing right now.😘" , 'Thanks! I try just be my regular helpful self 😎' , " Stop it,you'll make me blush😘" , 'Oh wow. If I could blush I definitely would 😜']
 love = ['I got another one... ;)']
@@ -38,13 +43,12 @@ emoji = ["😂",'🤣','😅','😆']
 dont_get_it = ["I don't understand you 😔" , "I'm afraid I don't understand." , "Sorry,I don't understand." , "I don't understand."]
 @bot.message_handler(commands=['start'])
 def handle_start_help(message):
-    bot.reply_to(message, "-- Hello dear user -- \n I'm currently working on this bot. It already can do some basic things. \n If you want to know what this bot can do and commands to turn it on. JUST USE /commands command.")
-
+    bot.reply_to(message, "Hey there😃 It's wonderful to see you here! I'm Avrean. Your little asistant on Telegram. Now you you might be wondering that what can this bot do? To be able to see what I'm capable of doing,you need to type /commands on you keyboard or you can click to that blue button:)")
 
 @bot.message_handler(commands=['commands'])
 def handle_start(message):
     bot.reply_to(
-        message, "🅐🅥🅡🅔🅐🅝  🅕🅔🅐🅤🅣🅤🅡🅔🅢\n/about - 𝕄𝕠𝕣𝕖 𝕒𝕓𝕠𝕦𝕥 𝕦𝕤.\n--------------------------------------------------------\n/weather - 𝕃𝕖𝕥𝕤 𝕪𝕠𝕦 𝕜𝕟𝕠𝕨 𝕥𝕙𝕖 𝕔𝕦𝕣𝕣𝕖𝕟𝕥 𝕥𝕖𝕞𝕡𝕖𝕣𝕒𝕥𝕦𝕣𝕖 𝕚𝕟 𝕪𝕠𝕦𝕣 𝕔𝕚𝕥𝕪.\n--------------------------------------------------------\n/review - 𝕊𝕙𝕒𝕣𝕖 𝕪𝕠𝕦𝕣 𝕟𝕖𝕨 𝕚𝕕𝕖𝕒𝕤 𝕒𝕟𝕕 𝕣𝕖𝕧𝕚𝕖𝕨𝕤 𝕨𝕚𝕥𝕙 𝕞𝕖.\n--------------------------------------------------------\n /insta - 𝔾𝕖𝕥 𝕝𝕚𝕟𝕜 𝕥𝕠 𝕒𝕟 𝕚𝕟𝕤𝕥𝕒𝕘𝕣𝕒𝕞 𝕒𝕔𝕔𝕠𝕦𝕟𝕥 𝕓𝕪 𝕥𝕪𝕡𝕚𝕟𝕘 𝕦𝕤𝕖𝕣'𝕤 𝕟𝕚𝕔𝕜𝕟𝕒𝕞𝕖\n--------------------------------------------------------\n /wikipedia - 𝔾𝕖𝕥 𝕟𝕖𝕖𝕕𝕖𝕕 𝕚𝕟𝕗𝕠𝕣𝕞𝕒𝕥𝕚𝕠𝕟 𝕗𝕣𝕠𝕞 𝕎𝕚𝕜𝕚𝕡𝕖𝕕𝕚𝕒 𝕨𝕚𝕥𝕙𝕠𝕦𝕥 𝕝𝕖𝕒𝕧𝕚𝕟𝕘 𝕥𝕖𝕝𝕖𝕘𝕣𝕒𝕞.\n--------------------------------------------------------\n/contact - ℂ𝕠𝕟𝕥𝕒𝕔𝕥 𝕨𝕚𝕥𝕙 𝕦𝕤.\n--------------------------------------------------------\n/talk - 𝕋𝕒𝕝𝕜 𝕨𝕚𝕥𝕙 𝔸𝕧𝕣𝕖𝕒𝕟\n--------------------------------------------------------\n /astro - 𝔾𝕖𝕥 𝕤𝕠𝕞𝕖 𝕚𝕟𝕥𝕖𝕣𝕖𝕤𝕥𝕚𝕟𝕘 𝕚𝕟𝕗𝕠 𝕒𝕓𝕠𝕦𝕥 𝕒𝕤𝕥𝕣𝕠𝕟𝕠𝕞𝕪.\n--------------------------------------------------------\n /jokes - 𝕊𝕠𝕞𝕖 𝕗𝕦𝕟𝕟𝕪 𝕛𝕠𝕜𝕖𝕤:)\n--------------------------------------------------------\n")
+        message, "🅐🅥🅡🅔🅐🅝  🅕🅔🅐🅤🅣🅤🅡🅔🅢\n/about - 𝕄𝕠𝕣𝕖 𝕒𝕓𝕠𝕦𝕥 𝕦𝕤.\n--------------------------------------------------------\n/weather - 𝕃𝕖𝕥𝕤 𝕪𝕠𝕦 𝕜𝕟𝕠𝕨 𝕥𝕙𝕖 𝕔𝕦𝕣𝕣𝕖𝕟𝕥 𝕥𝕖𝕞𝕡𝕖𝕣𝕒𝕥𝕦𝕣𝕖 𝕚𝕟 𝕪𝕠𝕦𝕣 𝕔𝕚𝕥𝕪.\n--------------------------------------------------------\n/review - 𝕊𝕙𝕒𝕣𝕖 𝕪𝕠𝕦𝕣 𝕟𝕖𝕨 𝕚𝕕𝕖𝕒𝕤 𝕒𝕟𝕕 𝕣𝕖𝕧𝕚𝕖𝕨𝕤 𝕨𝕚𝕥𝕙 𝕞𝕖.\n--------------------------------------------------------\n /insta - 𝔾𝕖𝕥 𝕝𝕚𝕟𝕜 𝕥𝕠 𝕒𝕟 𝕚𝕟𝕤𝕥𝕒𝕘𝕣𝕒𝕞 𝕒𝕔𝕔𝕠𝕦𝕟𝕥 𝕓𝕪 𝕥𝕪𝕡𝕚𝕟𝕘 𝕦𝕤𝕖𝕣'𝕤 𝕟𝕚𝕔𝕜𝕟𝕒𝕞𝕖\n--------------------------------------------------------\n /wikipedia - 𝔾𝕖𝕥 𝕟𝕖𝕖𝕕𝕖𝕕 𝕚𝕟𝕗𝕠𝕣𝕞𝕒𝕥𝕚𝕠𝕟 𝕗𝕣𝕠𝕞 𝕎𝕚𝕜𝕚𝕡𝕖𝕕𝕚𝕒 𝕨𝕚𝕥𝕙𝕠𝕦𝕥 𝕝𝕖𝕒𝕧𝕚𝕟𝕘 𝕥𝕖𝕝𝕖𝕘𝕣𝕒𝕞.\n--------------------------------------------------------\n/contact - ℂ𝕠𝕟𝕥𝕒𝕔𝕥 𝕨𝕚𝕥𝕙 𝕦𝕤.\n--------------------------------------------------------\n/talk - 𝕋𝕒𝕝𝕜 𝕨𝕚𝕥𝕙 𝔸𝕧𝕣𝕖𝕒𝕟\n--------------------------------------------------------\n /astro - 𝔾𝕖𝕥 𝕤𝕠𝕞𝕖 𝕚𝕟𝕥𝕖𝕣𝕖𝕤𝕥𝕚𝕟𝕘 𝕚𝕟𝕗𝕠 𝕒𝕓𝕠𝕦𝕥 𝕒𝕤𝕥𝕣𝕠𝕟𝕠𝕞𝕪.\n--------------------------------------------------------\n /jokes - 𝕊𝕠𝕞𝕖 𝕗𝕦𝕟𝕟𝕪 𝕛𝕠𝕜𝕖𝕤:)\n--------------------------------------------------------\n /movie - 𝔾𝕖𝕥 𝕤𝕦𝕘𝕘𝕖𝕤𝕥𝕖𝕕 & 𝕡𝕠𝕡𝕦𝕝𝕒𝕣 𝕞𝕠𝕧𝕚𝕖𝕤 𝕟𝕒𝕞𝕖 𝕒𝕟𝕕 𝕠𝕧𝕖𝕣𝕧𝕚𝕖𝕨𝕤\n--------------------------------------------------------\n ")
 
 @bot.message_handler(commands = ['jokes'])
 def jokes(message):
@@ -69,7 +73,6 @@ def handle(message):
 def error_soo(message):
     bot.reply_to(message, " If you have a new idea for this project, you can share it with me here.\nAlso you can share your experience about this project with me.\nI would love to know about your experience.\n Write your feedback here: @Wingine\n   /commands ")
 
-
 @bot.message_handler(commands=["weather"])
 def weather(message):
     city = bot.send_message(message.chat.id, "Type city name first.")
@@ -92,7 +95,7 @@ def weath(message):
 
 @bot.message_handler(commands=['insta'])
 def cool_messsage(message):
-      bot.reply_to(message , " Type the username.And don't forget to add '@' before u type username. " )
+      bot.reply_to(message , " 𝕋𝕪𝕡𝕖 𝕥𝕙𝕖 𝕦𝕤𝕖𝕣𝕟𝕒𝕞𝕖.𝔸𝕟𝕕 𝕕𝕠𝕟'𝕥 𝕗𝕠𝕣𝕘𝕖𝕥 𝕥𝕠 𝕒𝕕𝕕 '@' 𝕓𝕖𝕗𝕠𝕣𝕖 𝕦 𝕥𝕪𝕡𝕖 𝕦𝕤𝕖𝕣𝕟𝕒𝕞𝕖. " )
       
 @bot.message_handler(func = lambda msg: msg.text is not None and '@' in msg.text)
 def at_answer(message):
@@ -126,7 +129,48 @@ def errorr_soo(message):
 
 @bot.message_handler(commands=['talk'])
 def talk_me(message):
-    bot.reply_to(message , 'Talk to me 😁')   
+    bot.reply_to(message , 'Talk to me 😁') 
+
+@bot.message_handler(commands=["movie"])
+def movie_1(message):
+    reply_markup = keyboard()
+    bot.send_message(
+                message.chat.id,
+                '''Choose an action.
+                ''',
+                reply_markup=keyboard())      
+
+@bot.message_handler(func = lambda message: message.text and '_' in message.text)   
+def send_anytext(message):
+    chat_id = message.chat.id
+    if message.text == '*Suggested movies':
+        bot.send_message(message.chat.id, "Please wait...")
+        sleep(3)
+        movie = Movie()
+        recommendations = movie.recommendations(movie_id=111)
+        for recommendation in recommendations:
+            bot.send_message(
+                message.chat.id, "Film name - " + recommendation.title)
+            sleep(1)
+            bot.send_message(message.chat.id, "Overwiew - " +
+                             recommendation.overview) 
+
+    if message.text == '*Popular movies':
+        bot.send_message(message.chat.id , "Please wait...")
+        #movie = Movie()
+        movie = Movie()
+        popular = movie.popular()
+        sleep(5)
+        
+        for p in popular:
+            bot.send_message(message.chat.id ,"Film name - " +  p.title)
+            sleep(1)
+            bot.send_message(message.chat.id ,"Overview - " + p.overview + "\n----------------------------------------------------------------------")
+            sleep(1)
+
+        bot.send_message(message.chat.id , "That's all for now😊")
+
+
 @bot.message_handler(content_types = ['text'])
 def talkk (message):    
     if message.text == "Hello" or message.text == "hi" or message.text == "hey" or message.text == 'hey there' or message.text == 'hello there' or message.text == 'hello':
@@ -162,12 +206,9 @@ def talkk (message):
     else:
         bot.send_message(message.chat.id , random.choice(dont_get_it) )   
          
-
 @bot.message_handler(content_types=['sticker'])
 def sticker_handler(message):
     bot.send_sticker(message.chat.id, STICKER_ID)
-
-
 
 def console_listener(messages):
     for message in messages:
@@ -177,6 +218,15 @@ def console_listener(messages):
         except:
             # Ignore errors at printing the messages
             pass
+
+
+def keyboard():
+        markup = types.ReplyKeyboardMarkup(
+            one_time_keyboard=True, resize_keyboard=True)
+        btn1 = types.KeyboardButton('*Suggested movies')
+        btn2 = types.KeyboardButton('*Popular movies')
+        markup.add(btn1,btn2)
+        return markup
 
 bot.set_update_listener(console_listener)
 
