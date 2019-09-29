@@ -140,7 +140,7 @@ def movie_1(message):
                 ''',
                 reply_markup=keyboard())      
 
-@bot.message_handler(func = lambda message: message.text and '_' in message.text)   
+@bot.message_handler(func = lambda message: message.text and '*' in message.text)   
 def send_anytext(message):
     chat_id = message.chat.id
     if message.text == '*Suggested movies':
