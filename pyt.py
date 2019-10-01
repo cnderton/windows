@@ -68,7 +68,7 @@ def first(message):
 
 @bot.message_handler(commands=['about'])
 def handle(message):
-    bot.reply_to(message, " 'Avrean' is a new business project from Winderton which allows you to get instant answers to your questions.\nRight now, I'm constantly improving this bot. \n   /commands ")
+    bot.reply_to(message, " 'Avrean' is a new project which allows you to get instant answers to your questions.\nRight now, I'm constantly improving this bot. \n   /commands ")
        
 @bot.message_handler(commands=['review'])
 def error_soo(message):
