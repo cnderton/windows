@@ -12,7 +12,7 @@ from urllib.request import urlopen as url_open
 from telebot import types
 import json
 #Token
-token = '939354885:AAHPdTAK8PdTlx0ICYC6HZ6Hvca_TgPYz_Q'
+token = '742874199:AAEd7j8rRFh3Ymmg_g1ccsgMMARQzj-cfcE'
 bot = telebot.TeleBot(token=token)
 STICKER_ID = 'CAADAgADXwMAAgw7AAEKTh8jAAH9Q-gAAQI'
 client = Client('at_Gzzvwmp3zBAnbVjRYpO7P2MdXpE3b')
