@@ -126,7 +126,7 @@ def echo_all(message):
 
 @bot.message_handler(commands=['contact'])
 def errorr_soo(message):
-      bot.reply_to(message, "My phone number: +994 55 414 31 95\nMy e-mail: boredguy982@gmail.com\nMy telegram: @Wingine\n   /commands  ")
+      bot.reply_to(message, "My e-mail: boredguy982@gmail.com\nMy telegram: @Wingine\n   /commands  ")
 
 @bot.message_handler(commands=['talk'])
 def talk_me(message):
