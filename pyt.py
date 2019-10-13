@@ -11,8 +11,9 @@ from emailverifier import exceptions
 from urllib.request import urlopen as url_open
 from telebot import types
 import json
+import translators as ts
 #Token
-token = '742874199:AAEd7j8rRFh3Ymmg_g1ccsgMMARQzj-cfcE'
+token = '988380133:AAFE3rl69lQ7Y3wDJbYsb8f4rPL7bvMg6Dw'
 bot = telebot.TeleBot(token=token)
 STICKER_ID = 'CAADAgADXwMAAgw7AAEKTh8jAAH9Q-gAAQI'
 client = Client('at_Gzzvwmp3zBAnbVjRYpO7P2MdXpE3b')
@@ -33,7 +34,7 @@ def find_at(msg):
 #AI
 greetings = ["Hello😃", "Hey there 😃"]
 how_are_you = ["I'm feeling positively tip top thanks.😎", "Feeling like a lean,mean,asisting ,machine!✌", "pretty good ツ",  "I'm doing very well,thank you." , "Not bad ツ"]
-wcyd = ["---Here are some stuff I can do -- \n /about - 𝕄𝕠𝕣𝕖 𝕒𝕓𝕠𝕦𝕥 𝕦𝕤.\n--------------------------------------------------------\n/weather - 𝕃𝕖𝕥𝕤 𝕪𝕠𝕦 𝕜𝕟𝕠𝕨 𝕥𝕙𝕖 𝕔𝕦𝕣𝕣𝕖𝕟𝕥 𝕥𝕖𝕞𝕡𝕖𝕣𝕒𝕥𝕦𝕣𝕖 𝕚𝕟 𝕪𝕠𝕦𝕣 𝕔𝕚𝕥𝕪.\n--------------------------------------------------------\n/review - 𝕊𝕙𝕒𝕣𝕖 𝕪𝕠𝕦𝕣 𝕟𝕖𝕨 𝕚𝕕𝕖𝕒𝕤 𝕒𝕟𝕕 𝕣𝕖𝕧𝕚𝕖𝕨𝕤 𝕨𝕚𝕥𝕙 𝕞𝕖.\n--------------------------------------------------------\n /insta - 𝔾𝕖𝕥 𝕝𝕚𝕟𝕜 𝕥𝕠 𝕒𝕟 𝕚𝕟𝕤𝕥𝕒𝕘𝕣𝕒𝕞 𝕒𝕔𝕔𝕠𝕦𝕟𝕥 𝕓𝕪 𝕥𝕪𝕡𝕚𝕟𝕘 𝕦𝕤𝕖𝕣'𝕤 𝕟𝕚𝕔𝕜𝕟𝕒𝕞𝕖\n--------------------------------------------------------\n /wikipedia - 𝔾𝕖𝕥 𝕟𝕖𝕖𝕕𝕖𝕕 𝕚𝕟𝕗𝕠𝕣𝕞𝕒𝕥𝕚𝕠𝕟 𝕗𝕣𝕠𝕞 𝕎𝕚𝕜𝕚𝕡𝕖𝕕𝕚𝕒 𝕨𝕚𝕥𝕙𝕠𝕦𝕥 𝕝𝕖𝕒𝕧𝕚𝕟𝕘 𝕥𝕖𝕝𝕖𝕘𝕣𝕒𝕞.\n--------------------------------------------------------\n/contact - ℂ𝕠𝕟𝕥𝕒𝕔𝕥 𝕨𝕚𝕥𝕙 𝕦𝕤.\n--------------------------------------------------------\n/talk - 𝕋𝕒𝕝𝕜 𝕨𝕚𝕥𝕙 𝔸𝕧𝕣𝕖𝕒𝕟\n--------------------------------------------------------\n /astro - 𝔾𝕖𝕥 𝕤𝕠𝕞𝕖 𝕚𝕟𝕥𝕖𝕣𝕖𝕤𝕥𝕚𝕟𝕘 𝕚𝕟𝕗𝕠 𝕒𝕓𝕠𝕦𝕥 𝕒𝕤𝕥𝕣𝕠𝕟𝕠𝕞𝕪.\n--------------------------------------------------------\n/jokes - 𝕊𝕠𝕞𝕖 𝕗𝕦𝕟𝕟𝕪 𝕛𝕠𝕜𝕖𝕤:)\n--------------------------------------------------------\n/movie - 𝔾𝕖𝕥 𝕤𝕦𝕘𝕘𝕖𝕤𝕥𝕖𝕕 & 𝕡𝕠𝕡𝕦𝕝𝕒𝕣 𝕞𝕠𝕧𝕚𝕖𝕤 𝕟𝕒𝕞𝕖 𝕒𝕟𝕕 𝕠𝕧𝕖𝕣𝕧𝕚𝕖𝕨𝕤\n--------------------------------------------------------\n"]
+wcyd = ["---Here are some stuff I can do -- \n /about - 𝕄𝕠𝕣𝕖 𝕒𝕓𝕠𝕦𝕥 𝕦𝕤.\n--------------------------------------------------------\n/weather - 𝕃𝕖𝕥𝕤 𝕪𝕠𝕦 𝕜𝕟𝕠𝕨 𝕥𝕙𝕖 𝕔𝕦𝕣𝕣𝕖𝕟𝕥 𝕥𝕖𝕞𝕡𝕖𝕣𝕒𝕥𝕦𝕣𝕖 𝕚𝕟 𝕪𝕠𝕦𝕣 𝕔𝕚𝕥𝕪.\n--------------------------------------------------------\n/review - 𝕊𝕙𝕒𝕣𝕖 𝕪𝕠𝕦𝕣 𝕟𝕖𝕨 𝕚𝕕𝕖𝕒𝕤 𝕒𝕟𝕕 𝕣𝕖𝕧𝕚𝕖𝕨𝕤 𝕨𝕚𝕥𝕙 𝕞𝕖.\n--------------------------------------------------------\n /insta - 𝔾𝕖𝕥 𝕝𝕚𝕟𝕜 𝕥𝕠 𝕒𝕟 𝕚𝕟𝕤𝕥𝕒𝕘𝕣𝕒𝕞 𝕒𝕔𝕔𝕠𝕦𝕟𝕥 𝕓𝕪 𝕥𝕪𝕡𝕚𝕟𝕘 𝕦𝕤𝕖𝕣'𝕤 𝕟𝕚𝕔𝕜𝕟𝕒𝕞𝕖\n--------------------------------------------------------\n /wikipedia - 𝔾𝕖𝕥 𝕟𝕖𝕖𝕕𝕖𝕕 𝕚𝕟𝕗𝕠𝕣𝕞𝕒𝕥𝕚𝕠𝕟 𝕗𝕣𝕠𝕞 𝕎𝕚𝕜𝕚𝕡𝕖𝕕𝕚𝕒 𝕨𝕚𝕥𝕙𝕠𝕦𝕥 𝕝𝕖𝕒𝕧𝕚𝕟𝕘 𝕥𝕖𝕝𝕖𝕘𝕣𝕒𝕞.\n--------------------------------------------------------\n/contact - ℂ𝕠𝕟𝕥𝕒𝕔𝕥 𝕨𝕚𝕥𝕙 𝕦𝕤.\n--------------------------------------------------------\n/talk - 𝕋𝕒𝕝𝕜 𝕨𝕚𝕥𝕙 𝔸𝕧𝕣𝕖𝕒𝕟\n--------------------------------------------------------\n /astro - 𝔾𝕖𝕥 𝕤𝕠𝕞𝕖 𝕚𝕟𝕥𝕖𝕣𝕖𝕤𝕥𝕚𝕟𝕘 𝕚𝕟𝕗𝕠 𝕒𝕓𝕠𝕦𝕥 𝕒𝕤𝕥𝕣𝕠𝕟𝕠𝕞𝕪.\n--------------------------------------------------------\n /jokes - 𝕊𝕠𝕞𝕖 𝕗𝕦𝕟𝕟𝕪 𝕛𝕠𝕜𝕖𝕤:)\n--------------------------------------------------------\n /movie - 𝔾𝕖𝕥 𝕤𝕦𝕘𝕘𝕖𝕤𝕥𝕖𝕕 & 𝕡𝕠𝕡𝕦𝕝𝕒𝕣 𝕞𝕠𝕧𝕚𝕖𝕤 𝕟𝕒𝕞𝕖 𝕒𝕟𝕕 𝕠𝕧𝕖𝕣𝕧𝕚𝕖𝕨𝕤\n--------------------------------------------------------\n/translate - 𝕋𝕣𝕒𝕟𝕤𝕝𝕒𝕥𝕖 𝕨𝕠𝕣𝕕𝕤 & 𝕤𝕖𝕟𝕥𝕖𝕟𝕔𝕖𝕤 𝕗𝕣𝕠𝕞 𝔼𝕟𝕘𝕝𝕚𝕤𝕙 𝕥𝕠 ℝ𝕦𝕤𝕤𝕚𝕒𝕟,𝔸𝕫𝕖𝕣𝕚 𝕒𝕟𝕕 ℂ𝕫𝕖𝕔𝕙\n--------------------------------------------------------\n"]
 pleasure = ["My pleasure!" , "That's what I'm here for😃" , "Always a pleasure 😃" , "You're welcome 😃" , "That makes me so happy! You're most welcome ☺" , "You're certainly welcome indeed.😊"]
 beauty = ["Oh wow. You can't tell but I'm totally blushing right now.😘" , 'Thanks! I try just be my regular helpful self 😎' , " Stop it,you'll make me blush😘" , 'Oh wow. If I could blush I definitely would 😜']
 love = ['I got another one... ;)']
@@ -48,7 +49,7 @@ def handle_start_help(message):
 @bot.message_handler(commands=['commands'])
 def handle_start(message):
     bot.reply_to(
-        message, "🅐🅥🅡🅔🅐🅝  🅕🅔🅐🅤🅣🅤🅡🅔🅢\n/about - 𝕄𝕠𝕣𝕖 𝕒𝕓𝕠𝕦𝕥 𝕦𝕤.\n--------------------------------------------------------\n/weather - 𝕃𝕖𝕥𝕤 𝕪𝕠𝕦 𝕜𝕟𝕠𝕨 𝕥𝕙𝕖 𝕔𝕦𝕣𝕣𝕖𝕟𝕥 𝕥𝕖𝕞𝕡𝕖𝕣𝕒𝕥𝕦𝕣𝕖 𝕚𝕟 𝕪𝕠𝕦𝕣 𝕔𝕚𝕥𝕪.\n--------------------------------------------------------\n/review - 𝕊𝕙𝕒𝕣𝕖 𝕪𝕠𝕦𝕣 𝕟𝕖𝕨 𝕚𝕕𝕖𝕒𝕤 𝕒𝕟𝕕 𝕣𝕖𝕧𝕚𝕖𝕨𝕤 𝕨𝕚𝕥𝕙 𝕞𝕖.\n--------------------------------------------------------\n /insta - 𝔾𝕖𝕥 𝕝𝕚𝕟𝕜 𝕥𝕠 𝕒𝕟 𝕚𝕟𝕤𝕥𝕒𝕘𝕣𝕒𝕞 𝕒𝕔𝕔𝕠𝕦𝕟𝕥 𝕓𝕪 𝕥𝕪𝕡𝕚𝕟𝕘 𝕦𝕤𝕖𝕣'𝕤 𝕟𝕚𝕔𝕜𝕟𝕒𝕞𝕖\n--------------------------------------------------------\n /wikipedia - 𝔾𝕖𝕥 𝕟𝕖𝕖𝕕𝕖𝕕 𝕚𝕟𝕗𝕠𝕣𝕞𝕒𝕥𝕚𝕠𝕟 𝕗𝕣𝕠𝕞 𝕎𝕚𝕜𝕚𝕡𝕖𝕕𝕚𝕒 𝕨𝕚𝕥𝕙𝕠𝕦𝕥 𝕝𝕖𝕒𝕧𝕚𝕟𝕘 𝕥𝕖𝕝𝕖𝕘𝕣𝕒𝕞.\n--------------------------------------------------------\n/contact - ℂ𝕠𝕟𝕥𝕒𝕔𝕥 𝕨𝕚𝕥𝕙 𝕦𝕤.\n--------------------------------------------------------\n/talk - 𝕋𝕒𝕝𝕜 𝕨𝕚𝕥𝕙 𝔸𝕧𝕣𝕖𝕒𝕟\n--------------------------------------------------------\n /astro - 𝔾𝕖𝕥 𝕤𝕠𝕞𝕖 𝕚𝕟𝕥𝕖𝕣𝕖𝕤𝕥𝕚𝕟𝕘 𝕚𝕟𝕗𝕠 𝕒𝕓𝕠𝕦𝕥 𝕒𝕤𝕥𝕣𝕠𝕟𝕠𝕞𝕪.\n--------------------------------------------------------\n /jokes - 𝕊𝕠𝕞𝕖 𝕗𝕦𝕟𝕟𝕪 𝕛𝕠𝕜𝕖𝕤:)\n--------------------------------------------------------\n /movie - 𝔾𝕖𝕥 𝕤𝕦𝕘𝕘𝕖𝕤𝕥𝕖𝕕 & 𝕡𝕠𝕡𝕦𝕝𝕒𝕣 𝕞𝕠𝕧𝕚𝕖𝕤 𝕟𝕒𝕞𝕖 𝕒𝕟𝕕 𝕠𝕧𝕖𝕣𝕧𝕚𝕖𝕨𝕤\n--------------------------------------------------------\n ")
+        message, "🅐🅥🅡🅔🅐🅝  🅕🅔🅐🅤🅣🅤🅡🅔🅢\n/about - 𝕄𝕠𝕣𝕖 𝕒𝕓𝕠𝕦𝕥 𝕦𝕤.\n--------------------------------------------------------\n/weather - 𝕃𝕖𝕥𝕤 𝕪𝕠𝕦 𝕜𝕟𝕠𝕨 𝕥𝕙𝕖 𝕔𝕦𝕣𝕣𝕖𝕟𝕥 𝕥𝕖𝕞𝕡𝕖𝕣𝕒𝕥𝕦𝕣𝕖 𝕚𝕟 𝕪𝕠𝕦𝕣 𝕔𝕚𝕥𝕪.\n--------------------------------------------------------\n/review - 𝕊𝕙𝕒𝕣𝕖 𝕪𝕠𝕦𝕣 𝕟𝕖𝕨 𝕚𝕕𝕖𝕒𝕤 𝕒𝕟𝕕 𝕣𝕖𝕧𝕚𝕖𝕨𝕤 𝕨𝕚𝕥𝕙 𝕞𝕖.\n--------------------------------------------------------\n /insta - 𝔾𝕖𝕥 𝕝𝕚𝕟𝕜 𝕥𝕠 𝕒𝕟 𝕚𝕟𝕤𝕥𝕒𝕘𝕣𝕒𝕞 𝕒𝕔𝕔𝕠𝕦𝕟𝕥 𝕓𝕪 𝕥𝕪𝕡𝕚𝕟𝕘 𝕦𝕤𝕖𝕣'𝕤 𝕟𝕚𝕔𝕜𝕟𝕒𝕞𝕖\n--------------------------------------------------------\n /wikipedia - 𝔾𝕖𝕥 𝕟𝕖𝕖𝕕𝕖𝕕 𝕚𝕟𝕗𝕠𝕣𝕞𝕒𝕥𝕚𝕠𝕟 𝕗𝕣𝕠𝕞 𝕎𝕚𝕜𝕚𝕡𝕖𝕕𝕚𝕒 𝕨𝕚𝕥𝕙𝕠𝕦𝕥 𝕝𝕖𝕒𝕧𝕚𝕟𝕘 𝕥𝕖𝕝𝕖𝕘𝕣𝕒𝕞.\n--------------------------------------------------------\n/contact - ℂ𝕠𝕟𝕥𝕒𝕔𝕥 𝕨𝕚𝕥𝕙 𝕦𝕤.\n--------------------------------------------------------\n/talk - 𝕋𝕒𝕝𝕜 𝕨𝕚𝕥𝕙 𝔸𝕧𝕣𝕖𝕒𝕟\n--------------------------------------------------------\n /astro - 𝔾𝕖𝕥 𝕤𝕠𝕞𝕖 𝕚𝕟𝕥𝕖𝕣𝕖𝕤𝕥𝕚𝕟𝕘 𝕚𝕟𝕗𝕠 𝕒𝕓𝕠𝕦𝕥 𝕒𝕤𝕥𝕣𝕠𝕟𝕠𝕞𝕪.\n--------------------------------------------------------\n /jokes - 𝕊𝕠𝕞𝕖 𝕗𝕦𝕟𝕟𝕪 𝕛𝕠𝕜𝕖𝕤:)\n--------------------------------------------------------\n /movie - 𝔾𝕖𝕥 𝕤𝕦𝕘𝕘𝕖𝕤𝕥𝕖𝕕 & 𝕡𝕠𝕡𝕦𝕝𝕒𝕣 𝕞𝕠𝕧𝕚𝕖𝕤 𝕟𝕒𝕞𝕖 𝕒𝕟𝕕 𝕠𝕧𝕖𝕣𝕧𝕚𝕖𝕨𝕤\n--------------------------------------------------------\n/translate - 𝕋𝕣𝕒𝕟𝕤𝕝𝕒𝕥𝕖 𝕨𝕠𝕣𝕕𝕤 & 𝕤𝕖𝕟𝕥𝕖𝕟𝕔𝕖𝕤 𝕗𝕣𝕠𝕞 𝔼𝕟𝕘𝕝𝕚𝕤𝕙 𝕥𝕠 ℝ𝕦𝕤𝕤𝕚𝕒𝕟,𝔸𝕫𝕖𝕣𝕚 𝕒𝕟𝕕 ℂ𝕫𝕖𝕔𝕙\n--------------------------------------------------------\n")
 
 @bot.message_handler(commands = ['jokes'])
 def jokes(message):
@@ -68,7 +69,7 @@ def first(message):
 
 @bot.message_handler(commands=['about'])
 def handle(message):
-    bot.reply_to(message, " 'Avrean' is a new project which allows you to get instant answers to your questions.\nRight now, I'm constantly improving this bot. \n   /commands ")
+    bot.reply_to(message, " 'Avrean' is a new business project from Winderton which allows you to get instant answers to your questions.\nRight now, I'm constantly improving this bot. \n   /commands ")
        
 @bot.message_handler(commands=['review'])
 def error_soo(message):
@@ -126,7 +127,7 @@ def echo_all(message):
 
 @bot.message_handler(commands=['contact'])
 def errorr_soo(message):
-      bot.reply_to(message, "My e-mail: boredguy982@gmail.com\nMy telegram: @Wingine\n   /commands  ")
+      bot.reply_to(message, "My phone number: +994 55 414 31 95\nMy e-mail: boredguy982@gmail.com\nMy telegram: @Wingine\n   /commands  ")
 
 @bot.message_handler(commands=['talk'])
 def talk_me(message):
@@ -170,7 +171,56 @@ def send_anytext(message):
             sleep(1)
 
         bot.send_message(message.chat.id , "That's all for now😊")
+@bot.message_handler(commands=['translate'])
+def firstt(message):
+    reply_markup = keyboard()
+    bot.send_message(
+                message.chat.id,
+                '''Choose a language.
+                ''',
+                reply_markup=keyboard())           
 
+def keyboard():
+        markup = types.ReplyKeyboardMarkup(
+            one_time_keyboard=True, resize_keyboard=True)
+        btn1 = types.KeyboardButton('*Suggested movies')
+        btn2 = types.KeyboardButton('*Popular movies')
+        btn3 = types.KeyboardButton('「Russian」')
+        btn4 = types.KeyboardButton('「Azeri」')
+        btn5 = types.KeyboardButton('『Czech』')
+        markup.add(btn1,btn2,btn3,btn4,btn5)
+        return markup
+
+                         #Russian
+@bot.message_handler(func = lambda message: message.text and '「' in message.text)   
+def first_part(message):
+    chat_id = message.chat.id
+    if message.text == '「Russian」':
+        bot.send_message(message.chat.id , "Type the word you want to translate. Before you type the word u want to translate,type 'Ru' to make it translate the word you type to Russian.")
+
+@bot.message_handler(func = lambda message: message.text and 'Ru' in message.text) 
+def second_part(message):
+    bot.reply_to(message , ts.tencent(message.text ,'en','ru'))  
+                         #Azerbaijani
+@bot.message_handler(func = lambda message: message.text and '」' in message.text)   
+def az_part(message):
+    chat_id = message.chat.id
+    if message.text == '「Azeri」':
+        bot.send_message(message.chat.id , "Type the word you want to translate. Before you type the word u want to translate,type 'Az' to make it translate the word you type to Azerbaijani.")
+
+@bot.message_handler(func = lambda message: message.text and 'Az' in message.text) 
+def scns_part(message):
+    bot.reply_to(message , ts.google(message.text , 'en' , 'az'))  
+                         #Czech 
+@bot.message_handler(func = lambda message: message.text and '『' in message.text)   
+def cz_part(message):
+    chat_id = message.chat.id
+    if message.text == '『Czech』':
+        bot.send_message(message.chat.id , "Type the word you want to translate. Before you type the word u want to translate,type 'Cz' to make it translate the word you type to Czech language.")
+
+@bot.message_handler(func = lambda message: message.text and 'Cz' in message.text) 
+def czech_part(message):
+    bot.reply_to(message , ts.google(message.text , 'en' , 'cs') )
 
 @bot.message_handler(content_types = ['text'])
 def talkk (message):    
@@ -206,10 +256,14 @@ def talkk (message):
         bot.send_message(message.chat.id , "My creator is Ilham. He's the god of this temple🔱")  
     else:
         bot.send_message(message.chat.id , random.choice(dont_get_it) )   
+        
          
 @bot.message_handler(content_types=['sticker'])
 def sticker_handler(message):
     bot.send_sticker(message.chat.id, STICKER_ID)
+
+
+
 
 def console_listener(messages):
     for message in messages:
@@ -218,17 +272,7 @@ def console_listener(messages):
             print('[Sender ID: ' + str(message.chat.id) + '] Text: ' + message.text)
         except:
             # Ignore errors at printing the messages
-            pass
-
-
-def keyboard():
-        markup = types.ReplyKeyboardMarkup(
-            one_time_keyboard=True, resize_keyboard=True)
-        btn1 = types.KeyboardButton('*Suggested movies')
-        btn2 = types.KeyboardButton('*Popular movies')
-        markup.add(btn1,btn2)
-        return markup
+            pass        
 
 bot.set_update_listener(console_listener)
-
 bot.polling(timeout=15)
