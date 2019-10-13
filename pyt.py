@@ -13,7 +13,7 @@ from telebot import types
 import json
 import translators as ts
 #Token
-token = '988380133:AAFE3rl69lQ7Y3wDJbYsb8f4rPL7bvMg6Dw'
+token = '742874199:AAEd7j8rRFh3Ymmg_g1ccsgMMARQzj-cfcE'
 bot = telebot.TeleBot(token=token)
 STICKER_ID = 'CAADAgADXwMAAgw7AAEKTh8jAAH9Q-gAAQI'
 client = Client('at_Gzzvwmp3zBAnbVjRYpO7P2MdXpE3b')
