@@ -188,7 +188,7 @@ def keyboard():
         btn3 = types.KeyboardButton('「Russian」')
         #btn4 = types.KeyboardButton('「Azeri」')
         #btn5 = types.KeyboardButton('『Czech』')
-        markup.add(btn1,btn2,btn3,btn4,btn5)
+        markup.add(btn1,btn2,btn3)
         return markup
 
                          #Russian
