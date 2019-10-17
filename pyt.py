@@ -186,8 +186,8 @@ def keyboard():
         btn1 = types.KeyboardButton('*Suggested movies')
         btn2 = types.KeyboardButton('*Popular movies')
         btn3 = types.KeyboardButton('「Russian」')
-        btn4 = types.KeyboardButton('「Azeri」')
-        btn5 = types.KeyboardButton('『Czech』')
+        #btn4 = types.KeyboardButton('「Azeri」')
+        #btn5 = types.KeyboardButton('『Czech』')
         markup.add(btn1,btn2,btn3,btn4,btn5)
         return markup
 
