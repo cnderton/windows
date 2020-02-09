@@ -2,27 +2,28 @@
 import telebot
 import wikipedia
 import pyowm
-import pyjokes
 import random
 from tmdbv3api import Movie, TMDb
 from time import sleep
-from emailverifier import Client
-from emailverifier import exceptions
-from urllib.request import urlopen as url_open
 from telebot import types
+from urllib.request import urlopen as url_open
+from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 import json
 import translators as ts
+from translate import Translator
+from currency_converter import CurrencyConverter
 #Token
-token = '742874199:AAEd7j8rRFh3Ymmg_g1ccsgMMARQzj-cfcE'
+token = '722951298:AAEX7TdUvpedfJmoXFQMVtPuuKlp3z-dPww'
 bot = telebot.TeleBot(token=token)
 STICKER_ID = 'CAADAgADXwMAAgw7AAEKTh8jAAH9Q-gAAQI'
-client = Client('at_Gzzvwmp3zBAnbVjRYpO7P2MdXpE3b')
+#client = Client('ylFpj3mg5MhcKlQGkSnqcnyU1NCQm88KicZVFLHV')
 url = 'https://api.nasa.gov/planetary/apod?' # I don't get how url queries work, someone help
-API_KEY = 'api_key=dWpZtxYFFudFeJi4KnQmoDXZz6y8rf7pPus6yoqu' #own API key, please register for your own at NASA Open APIs
+API_KEY = 'api_key=ylFpj3mg5MhcKlQGkSnqcnyU1NCQm88KicZVFLHV' #own API key, please register for your own at NASA Open APIs
 tmdb = TMDb()
 tmdb.api_key = 'ee01893e3d8f4d2026795ad38b8bb5fe'
 tmdb.language = 'en'
 movie = Movie()
+c = CurrencyConverter()
 
 def find_at(msg):
       for text in msg:
@@ -34,38 +35,46 @@ def find_at(msg):
 #AI
 greetings = ["Hello😃", "Hey there 😃"]
 how_are_you = ["I'm feeling positively tip top thanks.😎", "Feeling like a lean,mean,asisting ,machine!✌", "pretty good ツ",  "I'm doing very well,thank you." , "Not bad ツ"]
-wcyd = ["---Here are some stuff I can do -- \n /about - 𝕄𝕠𝕣𝕖 𝕒𝕓𝕠𝕦𝕥 𝕦𝕤.\n--------------------------------------------------------\n/weather - 𝕃𝕖𝕥𝕤 𝕪𝕠𝕦 𝕜𝕟𝕠𝕨 𝕥𝕙𝕖 𝕔𝕦𝕣𝕣𝕖𝕟𝕥 𝕥𝕖𝕞𝕡𝕖𝕣𝕒𝕥𝕦𝕣𝕖 𝕚𝕟 𝕪𝕠𝕦𝕣 𝕔𝕚𝕥𝕪.\n--------------------------------------------------------\n/review - 𝕊𝕙𝕒𝕣𝕖 𝕪𝕠𝕦𝕣 𝕟𝕖𝕨 𝕚𝕕𝕖𝕒𝕤 𝕒𝕟𝕕 𝕣𝕖𝕧𝕚𝕖𝕨𝕤 𝕨𝕚𝕥𝕙 𝕞𝕖.\n--------------------------------------------------------\n /insta - 𝔾𝕖𝕥 𝕝𝕚𝕟𝕜 𝕥𝕠 𝕒𝕟 𝕚𝕟𝕤𝕥𝕒𝕘𝕣𝕒𝕞 𝕒𝕔𝕔𝕠𝕦𝕟𝕥 𝕓𝕪 𝕥𝕪𝕡𝕚𝕟𝕘 𝕦𝕤𝕖𝕣'𝕤 𝕟𝕚𝕔𝕜𝕟𝕒𝕞𝕖\n--------------------------------------------------------\n /wikipedia - 𝔾𝕖𝕥 𝕟𝕖𝕖𝕕𝕖𝕕 𝕚𝕟𝕗𝕠𝕣𝕞𝕒𝕥𝕚𝕠𝕟 𝕗𝕣𝕠𝕞 𝕎𝕚𝕜𝕚𝕡𝕖𝕕𝕚𝕒 𝕨𝕚𝕥𝕙𝕠𝕦𝕥 𝕝𝕖𝕒𝕧𝕚𝕟𝕘 𝕥𝕖𝕝𝕖𝕘𝕣𝕒𝕞.\n--------------------------------------------------------\n/contact - ℂ𝕠𝕟𝕥𝕒𝕔𝕥 𝕨𝕚𝕥𝕙 𝕦𝕤.\n--------------------------------------------------------\n/talk - 𝕋𝕒𝕝𝕜 𝕨𝕚𝕥𝕙 𝔸𝕧𝕣𝕖𝕒𝕟\n--------------------------------------------------------\n /astro - 𝔾𝕖𝕥 𝕤𝕠𝕞𝕖 𝕚𝕟𝕥𝕖𝕣𝕖𝕤𝕥𝕚𝕟𝕘 𝕚𝕟𝕗𝕠 𝕒𝕓𝕠𝕦𝕥 𝕒𝕤𝕥𝕣𝕠𝕟𝕠𝕞𝕪.\n--------------------------------------------------------\n /jokes - 𝕊𝕠𝕞𝕖 𝕗𝕦𝕟𝕟𝕪 𝕛𝕠𝕜𝕖𝕤:)\n--------------------------------------------------------\n /movie - 𝔾𝕖𝕥 𝕤𝕦𝕘𝕘𝕖𝕤𝕥𝕖𝕕 & 𝕡𝕠𝕡𝕦𝕝𝕒𝕣 𝕞𝕠𝕧𝕚𝕖𝕤 𝕟𝕒𝕞𝕖 𝕒𝕟𝕕 𝕠𝕧𝕖𝕣𝕧𝕚𝕖𝕨𝕤\n--------------------------------------------------------\n/translate - 𝕋𝕣𝕒𝕟𝕤𝕝𝕒𝕥𝕖 𝕨𝕠𝕣𝕕𝕤 & 𝕤𝕖𝕟𝕥𝕖𝕟𝕔𝕖𝕤 𝕗𝕣𝕠𝕞 𝔼𝕟𝕘𝕝𝕚𝕤𝕙 𝕥𝕠 ℝ𝕦𝕤𝕤𝕚𝕒𝕟,𝔸𝕫𝕖𝕣𝕚 𝕒𝕟𝕕 ℂ𝕫𝕖𝕔𝕙\n--------------------------------------------------------\n"]
+wcyd = ["---Here are some stuff I can do -- \n ●/about - 𝑴𝒐𝒓𝒆 𝒂𝒃𝒐𝒖𝒕 𝒖𝒔.\n--------------------------------------------------------\n●/weather - 𝑭𝒊𝒏𝒅 𝒐𝒖𝒕 𝒄𝒖𝒓𝒓𝒆𝒏𝒕 𝒕𝒆𝒎𝒑𝒆𝒓𝒂𝒕𝒖𝒓𝒆 𝒊𝒏 𝒚𝒐𝒖𝒓 𝒓𝒆𝒈𝒊𝒐𝒏\n--------------------------------------------------------\n●/review - 𝑺𝒉𝒂𝒓𝒆 𝒚𝒐𝒖𝒓 𝒏𝒆𝒘 𝒊𝒅𝒆𝒂𝒔 𝒂𝒏𝒅 𝒓𝒆𝒗𝒊𝒆𝒘𝒔 𝒘𝒊𝒕𝒉 𝒎𝒆.\n--------------------------------------------------------\n●/wikipedia - 𝑮𝒆𝒕 𝒏𝒆𝒆𝒅𝒆𝒅 𝒊𝒏𝒇𝒐𝒓𝒎𝒂𝒕𝒊𝒐𝒏 𝒇𝒓𝒐𝒎 𝑾𝒊𝒌𝒊𝒑𝒆𝒅𝒊𝒂 𝒘𝒊𝒕𝒉𝒐𝒖𝒕 𝒍𝒆𝒂𝒗𝒊𝒏𝒈 𝒕𝒆𝒍𝒆𝒈𝒓𝒂𝒎.\n--------------------------------------------------------\n●/contact - 𝑪𝒐𝒏𝒕𝒂𝒄𝒕 𝒘𝒊𝒕𝒉 𝒎𝒆\n--------------------------------------------------------\n●/talk - 𝑯𝒂𝒗𝒆 𝒂 𝒕𝒂𝒍𝒌 𝒘𝒊𝒕𝒉 𝑨𝒗𝒓𝒆𝒂𝒏.\n--------------------------------------------------------\n●/astro - 𝑰𝒏𝒕𝒆𝒓𝒆𝒔𝒕𝒊𝒏𝒈 𝒇𝒂𝒄𝒕𝒔 𝒂𝒃𝒐𝒖𝒕 𝒂𝒔𝒕𝒓𝒐𝒏𝒐𝒎𝒚.\n--------------------------------------------------------\n●/jokes - 𝑭𝒖𝒏𝒏𝒚 𝒋𝒐𝒌𝒆𝒔\n--------------------------------------------------------\n●/movie - 𝑮𝒆𝒕 𝒔𝒖𝒈𝒈𝒆𝒔𝒕𝒆𝒅 & 𝒑𝒐𝒑𝒖𝒍𝒂𝒓 𝒎𝒐𝒗𝒊𝒆𝒔 𝒏𝒂𝒎𝒆 𝒂𝒏𝒅 𝒐𝒗𝒆𝒓𝒗𝒊𝒆𝒘𝒔.\n--------------------------------------------------------\n●/translate - 𝑻𝒓𝒂𝒏𝒔𝒍𝒂𝒕𝒆 𝒘𝒐𝒓𝒅𝒔 & 𝒔𝒆𝒏𝒕𝒆𝒏𝒄𝒆𝒔 𝒇𝒓𝒐𝒎 𝑬𝒏𝒈𝒍𝒊𝒔𝒉 𝒕𝒐 𝒐𝒕𝒉𝒆𝒓 𝒍𝒂𝒏𝒈𝒖𝒂𝒈𝒆𝒔.\n--------------------------------------------------------\n●/currency - 𝑮𝒆𝒕 𝒇𝒓𝒆𝒆 𝒍𝒊𝒗𝒆 𝒄𝒖𝒓𝒓𝒆𝒏𝒄𝒚 𝒓𝒂𝒕𝒆𝒔 𝒖𝒔𝒊𝒏𝒈 𝒕𝒉𝒆 𝒂𝒄𝒄𝒖𝒓𝒂𝒕𝒆 𝒅𝒂𝒕𝒂.\n--------------------------------------------------------"]
 pleasure = ["My pleasure!" , "That's what I'm here for😃" , "Always a pleasure 😃" , "You're welcome 😃" , "That makes me so happy! You're most welcome ☺" , "You're certainly welcome indeed.😊"]
 beauty = ["Oh wow. You can't tell but I'm totally blushing right now.😘" , 'Thanks! I try just be my regular helpful self 😎' , " Stop it,you'll make me blush😘" , 'Oh wow. If I could blush I definitely would 😜']
 love = ['I got another one... ;)']
 astronomy = ['If you want to get some exciting astrnomical facts just click this >>> /astro <<<']
 lv2 = ['He is my love ♥' , 'He is my founder.']
 emoji = ["😂",'🤣','😅','😆']
+jokes = ["https://raw.githubusercontent.com/cnderton/windows/master/Screenshot_20200116-213702_Instagram%20(2).jpg" , "https://ruinmyweek.com/wp-content/uploads/2019/05/21-damn-funny-memes-everyone-should-see-this-morning-16.jpg" , "https://preview.redd.it/53o0u089qr941.jpg?width=640&height=756&crop=smart&auto=webp&s=009ce8eb5c1eda639b1869067f1959ccae826d76" , "https://preview.redd.it/wh63r3wiqka41.jpg?width=640&crop=smart&auto=webp&s=dff976e7bbd522004cddcafb7b9583346cd74f58" , "https://preview.redd.it/p7lynnvlt4b41.jpg?width=640&crop=smart&auto=webp&s=8e19418b580d54ad0ce728464a16bcfa6e70e2ad" , "https://i.redd.it/45ib7na1i5b41.jpg" , "https://preview.redd.it/84f3z7w0k4b41.jpg?width=640&crop=smart&auto=webp&s=e01c4a77f9b3d17aa729d7fc1e94b6f01020818a" , "https://preview.redd.it/yt1si5kmwza41.jpg?width=640&crop=smart&auto=webp&s=9d8ea1762efdb854381542cb932d8f51eb8dadf9" , "https://preview.redd.it/6p1g6wtry8941.jpg?width=640&crop=smart&auto=webp&s=72e44928e2274527a18b71ee540dbb75f3c52ac3" , "https://preview.redd.it/4906dkbaoya41.jpg?width=640&crop=smart&auto=webp&s=0708b95fafb8acc225078f09a11626f3cdc9d8f6" , "https://preview.redd.it/80avvadxgga41.jpg?width=640&crop=smart&auto=webp&s=6dda4d0d8383f7ccaa2d16b5c7cb834f3ec49ca3" , "https://preview.redd.it/29rtu3f6ow941.jpg?width=640&crop=smart&auto=webp&s=20caa5b383cb0fcaa912c5b29e32038f6bcbd874" , "https://preview.redd.it/zmz1nsxv5l941.jpg?width=640&crop=smart&auto=webp&s=bf698faeebc41cf910a4a9298f811c471555bb7d" , "https://i.redd.it/78luedbauta41.png" , "https://i.redd.it/3ghlucwbwu241.jpg" , "https://preview.redd.it/o3vkuwmnp8241.jpg?width=640&crop=smart&auto=webp&s=b5dc842ce27833bffe798c56460fd5433683b538" , "https://i.redd.it/gjp7s00du8w31.png" , "https://preview.redd.it/yvicqmymgdr31.jpg?width=640&crop=smart&auto=webp&s=52a9041f88059775c804d3e77d1129ce64944a10"]
 dont_get_it = ["I don't understand you 😔" , "I'm afraid I don't understand." , "Sorry,I don't understand." , "I don't understand."]
 @bot.message_handler(commands=['start'])
 def handle_start_help(message):
-    bot.reply_to(message, "Hey there😃 It's wonderful to see you here! I'm Avrean. Your little asistant on Telegram. Now you you might be wondering that what can this bot do? To be able to see what I'm capable of doing,you need to type /commands on you keyboard or you can click to that blue button:)")
+    name = message.from_user.first_name
+    bot.send_message(message.chat.id, "Welcome " + name + ".  I'm your Telegram asistant. You can call me Avrean 😁. To find out my features just click /commands button." )
 
 @bot.message_handler(commands=['commands'])
 def handle_start(message):
-    bot.reply_to(
-        message, "🅐🅥🅡🅔🅐🅝  🅕🅔🅐🅣🅤🅡🅔🅢\n🔸/about - 𝕄𝕠𝕣𝕖 𝕒𝕓𝕠𝕦𝕥 𝕦𝕤.\n--------------------------------------------------------\n🔸/weather - 𝕃𝕖𝕥𝕤 𝕪𝕠𝕦 𝕜𝕟𝕠𝕨 𝕥𝕙𝕖 𝕔𝕦𝕣𝕣𝕖𝕟𝕥 𝕥𝕖𝕞𝕡𝕖𝕣𝕒𝕥𝕦𝕣𝕖 𝕚𝕟 𝕪𝕠𝕦𝕣 𝕔𝕚𝕥𝕪.\n--------------------------------------------------------\n🔸/review - 𝕊𝕙𝕒𝕣𝕖 𝕪𝕠𝕦𝕣 𝕟𝕖𝕨 𝕚𝕕𝕖𝕒𝕤 𝕒𝕟𝕕 𝕣𝕖𝕧𝕚𝕖𝕨𝕤 𝕨𝕚𝕥𝕙 𝕞𝕖.\n--------------------------------------------------------\n 🔸/insta - 𝔾𝕖𝕥 𝕝𝕚𝕟𝕜 𝕥𝕠 𝕒𝕟 𝕚𝕟𝕤𝕥𝕒𝕘𝕣𝕒𝕞 𝕒𝕔𝕔𝕠𝕦𝕟𝕥 𝕓𝕪 𝕥𝕪𝕡𝕚𝕟𝕘 𝕦𝕤𝕖𝕣'𝕤 𝕟𝕚𝕔𝕜𝕟𝕒𝕞𝕖\n--------------------------------------------------------\n 🔸/wikipedia - 𝔾𝕖𝕥 𝕟𝕖𝕖𝕕𝕖𝕕 𝕚𝕟𝕗𝕠𝕣𝕞𝕒𝕥𝕚𝕠𝕟 𝕗𝕣𝕠𝕞 𝕎𝕚𝕜𝕚𝕡𝕖𝕕𝕚𝕒 𝕨𝕚𝕥𝕙𝕠𝕦𝕥 𝕝𝕖𝕒𝕧𝕚𝕟𝕘 𝕥𝕖𝕝𝕖𝕘𝕣𝕒𝕞.\n--------------------------------------------------------\n🔸/contact - ℂ𝕠𝕟𝕥𝕒𝕔𝕥 𝕨𝕚𝕥𝕙 𝕦𝕤.\n--------------------------------------------------------\n🔸/talk - 𝕋𝕒𝕝𝕜 𝕨𝕚𝕥𝕙 𝔸𝕧𝕣𝕖𝕒𝕟\n--------------------------------------------------------\n 🔸/astro - 𝔾𝕖𝕥 𝕤𝕠𝕞𝕖 𝕚𝕟𝕥𝕖𝕣𝕖𝕤𝕥𝕚𝕟𝕘 𝕚𝕟𝕗𝕠 𝕒𝕓𝕠𝕦𝕥 𝕒𝕤𝕥𝕣𝕠𝕟𝕠𝕞𝕪.\n--------------------------------------------------------\n 🔸/jokes - 𝕊𝕠𝕞𝕖 𝕗𝕦𝕟𝕟𝕪 𝕛𝕠𝕜𝕖𝕤:)\n--------------------------------------------------------\n 🔸/movie - 𝔾𝕖𝕥 𝕤𝕦𝕘𝕘𝕖𝕤𝕥𝕖𝕕 & 𝕡𝕠𝕡𝕦𝕝𝕒𝕣 𝕞𝕠𝕧𝕚𝕖𝕤 𝕟𝕒𝕞𝕖 𝕒𝕟𝕕 𝕠𝕧𝕖𝕣𝕧𝕚𝕖𝕨𝕤\n--------------------------------------------------------\n🔸/translate - 𝕋𝕣𝕒𝕟𝕤𝕝𝕒𝕥𝕖 𝕨𝕠𝕣𝕕𝕤 & 𝕤𝕖𝕟𝕥𝕖𝕟𝕔𝕖𝕤 𝕗𝕣𝕠𝕞 𝔼𝕟𝕘𝕝𝕚𝕤𝕙 𝕥𝕠 ℝ𝕦𝕤𝕤𝕚𝕒𝕟\n--------------------------------------------------------\n")
+    bot.send_photo(message.chat.id , "https://github.com/cnderton/windows/blob/master/AVrean.jpg?raw=true")
+    bot.send_message(message.chat.id , "🅐🅥🅡🅔🅐🅝  🅕🅔🅐🅣🅤🅡🅔🅢\n●/about - 𝑴𝒐𝒓𝒆 𝒂𝒃𝒐𝒖𝒕 𝒖𝒔.\n--------------------------------------------------------\n●/weather - 𝑭𝒊𝒏𝒅 𝒐𝒖𝒕 𝒄𝒖𝒓𝒓𝒆𝒏𝒕 𝒕𝒆𝒎𝒑𝒆𝒓𝒂𝒕𝒖𝒓𝒆 𝒊𝒏 𝒚𝒐𝒖𝒓 𝒓𝒆𝒈𝒊𝒐𝒏\n--------------------------------------------------------\n●/review - 𝑺𝒉𝒂𝒓𝒆 𝒚𝒐𝒖𝒓 𝒏𝒆𝒘 𝒊𝒅𝒆𝒂𝒔 𝒂𝒏𝒅 𝒓𝒆𝒗𝒊𝒆𝒘𝒔 𝒘𝒊𝒕𝒉 𝒎𝒆.\n--------------------------------------------------------\n●/wikipedia - 𝑮𝒆𝒕 𝒏𝒆𝒆𝒅𝒆𝒅 𝒊𝒏𝒇𝒐𝒓𝒎𝒂𝒕𝒊𝒐𝒏 𝒇𝒓𝒐𝒎 𝑾𝒊𝒌𝒊𝒑𝒆𝒅𝒊𝒂 𝒘𝒊𝒕𝒉𝒐𝒖𝒕 𝒍𝒆𝒂𝒗𝒊𝒏𝒈 𝒕𝒆𝒍𝒆𝒈𝒓𝒂𝒎.\n--------------------------------------------------------\n●/contact - 𝑪𝒐𝒏𝒕𝒂𝒄𝒕 𝒘𝒊𝒕𝒉 𝒎𝒆\n--------------------------------------------------------\n●/talk - 𝑯𝒂𝒗𝒆 𝒂 𝒕𝒂𝒍𝒌 𝒘𝒊𝒕𝒉 𝑨𝒗𝒓𝒆𝒂𝒏.\n--------------------------------------------------------\n●/astro - 𝑰𝒏𝒕𝒆𝒓𝒆𝒔𝒕𝒊𝒏𝒈 𝒇𝒂𝒄𝒕𝒔 𝒂𝒃𝒐𝒖𝒕 𝒂𝒔𝒕𝒓𝒐𝒏𝒐𝒎𝒚.\n--------------------------------------------------------\n●/jokes - 𝑭𝒖𝒏𝒏𝒚 𝒋𝒐𝒌𝒆𝒔\n--------------------------------------------------------\n●/movie - 𝑮𝒆𝒕 𝒔𝒖𝒈𝒈𝒆𝒔𝒕𝒆𝒅 & 𝒑𝒐𝒑𝒖𝒍𝒂𝒓 𝒎𝒐𝒗𝒊𝒆𝒔 𝒏𝒂𝒎𝒆 𝒂𝒏𝒅 𝒐𝒗𝒆𝒓𝒗𝒊𝒆𝒘𝒔.\n--------------------------------------------------------\n●/translate - 𝑻𝒓𝒂𝒏𝒔𝒍𝒂𝒕𝒆 𝒘𝒐𝒓𝒅𝒔 & 𝒔𝒆𝒏𝒕𝒆𝒏𝒄𝒆𝒔 𝒇𝒓𝒐𝒎 𝑬𝒏𝒈𝒍𝒊𝒔𝒉 𝒕𝒐 𝒐𝒕𝒉𝒆𝒓 𝒍𝒂𝒏𝒈𝒖𝒂𝒈𝒆𝒔.\n--------------------------------------------------------\n●/currency - 𝑮𝒆𝒕 𝒇𝒓𝒆𝒆 𝒍𝒊𝒗𝒆 𝒄𝒖𝒓𝒓𝒆𝒏𝒄𝒚 𝒓𝒂𝒕𝒆𝒔 𝒖𝒔𝒊𝒏𝒈 𝒕𝒉𝒆 𝒂𝒄𝒄𝒖𝒓𝒂𝒕𝒆 𝒅𝒂𝒕𝒂.\n--------------------------------------------------------")
+
+@bot.message_handler(func = lambda message: message.text and '.' in message.text)   
+def currency(message):
+    euro_usd = c.convert(str(message.text) , 'EUR' , 'USD')
+    usd_euro = c.convert(str(message.text) , 'USD' , 'EUR')
+    usd_ru = c.convert(str(message.text) , 'USD' , 'RUB' )
+    rub_usd = c.convert(message.text ,'RUB' , 'USD' )
+    usd_try = c.convert(message.text , 'USD' , 'TRY')
+    bot.reply_to(message , "🔴 Live converter 🔴\n" + " \n1) " + message.text +" Eur➡️Usd ➖ " + str(euro_usd)+"$\n" + "\n2) " + message.text + " Usd➡️Eur ➖ " + str(usd_euro) + "€\n" + "\n3)" + message.text + " Usd➡️Rub ➖ " + str(usd_ru) + "₽\n" + "\n4)" + message.text + " Rub➡️Usd ➖ " + str(rub_usd) + "$\n" + "\n5)" + message.text + " Usd➡️Try ➖ " + str(usd_try) + "₺\n"+"\n ⚪️⚪️⚪️ Other Currencies coming soon ⚪️⚪️⚪️")
 
 @bot.message_handler(commands = ['jokes'])
-def jokes(message):
-    bot.reply_to(message , pyjokes.get_joke() + random.choice(emoji) )
-
-@bot.message_handler(commands = ['astro'])
-def first(message): 
-        bot.reply_to(message , 'Processing...')
-        sleep(5)
-        decoded_string = url_open(url + API_KEY).read().decode('utf-8') #url_open().read() returns a string with b prepended, which needs to be decoded first with decode('utf-8') before it can be transformed into json format
-        decoded_json = json.loads(decoded_string)
-        for key in decoded_json: #iterate through the json dictionary
-            value = decoded_json[key]
-            bot.reply_to(message , '{}: {}'.format(key, value))
-            bot.reply_to(message , '/commands')
-
+def jokess(message):
+    #bot.send_photo(message.chat.id , random.choice(jokes) ,reply_markup=emotion )
+    emotion     = types.InlineKeyboardMarkup(row_width=2)
+    emo1         = types.InlineKeyboardButton(text="👍"   , callback_data="emo1" )
+    emo2          =types.InlineKeyboardButton(text="👎"   , callback_data="emo2")
+    emotion.add(emo1 , emo2)
+    bot.send_photo(message.chat.id , random.choice(jokes) ,reply_markup=emotion )
+    
+@bot.message_handler(commands = ['currency'])
+def currencyy(message):
+    bot.send_message(message.chat.id , "Type the number you want and we'll send you detailed info about most currencies.\nWARNING! - Type '.' after you type the target number.")
 
 @bot.message_handler(commands=['about'])
 def handle(message):
@@ -73,8 +82,10 @@ def handle(message):
        
 @bot.message_handler(commands=['review'])
 def error_soo(message):
-    bot.reply_to(message, " If you have a new idea for this project, you can share it with me here.\nAlso you can share your experience about this project with me.\nI would love to know about your experience.\n Write your feedback here: @Wingine\n   /commands ")
-
+    linkk    = types.InlineKeyboardMarkup()
+    link3         = types.InlineKeyboardButton(text="Write your feedback here"   , callback_data="link" , url = "https://t.me/demoonov")
+    linkk.add(link3)
+    bot.send_message(message.chat.id , "I would highly rate it if you write your feedback about this bot. You can contact with me by clicking the link below." , reply_markup=linkk)
 @bot.message_handler(commands=["weather"])
 def weather(message):
     city = bot.send_message(message.chat.id, "Type city name first.")
@@ -95,9 +106,6 @@ def weath(message):
       except Exception as e:
             bot.reply_to(message, 'oooops. We could not find the city :(\nTry again using  /weather  command')
 
-@bot.message_handler(commands=['insta'])
-def cool_messsage(message):
-      bot.reply_to(message , " 𝕋𝕪𝕡𝕖 𝕥𝕙𝕖 𝕦𝕤𝕖𝕣𝕟𝕒𝕞𝕖.𝔸𝕟𝕕 𝕕𝕠𝕟'𝕥 𝕗𝕠𝕣𝕘𝕖𝕥 𝕥𝕠 𝕒𝕕𝕕 '@' 𝕓𝕖𝕗𝕠𝕣𝕖 𝕦 𝕥𝕪𝕡𝕖 𝕦𝕤𝕖𝕣𝕟𝕒𝕞𝕖. " )
       
 @bot.message_handler(func = lambda msg: msg.text is not None and '@' in msg.text)
 def at_answer(message):
@@ -109,119 +117,155 @@ def at_answer(message):
 @bot.message_handler(commands=['wikipedia'])
 def wikiipedia(message):
     v = message.text
-    bot.send_message(message.chat.id, "type your request. To get result you MUST add '.' before you type your request.")
+    bot.send_message(message.chat.id, "type your request. To get result you MUST add ':' after typing your request.")
     #bot.register_next_step_handler(v, a)
     sleep(15)
    
-@bot.message_handler(func = lambda message: message.text and '.' in message.text)    
+@bot.message_handler(func = lambda message: message.text and ':' in message.text)    
 def echo_all(message):
     try:
-        bot.reply_to(message , 'Processing...')
-        bot.reply_to(message, wikipedia.summary(message.text) )
+        bot.send_message(message.chat.id , 'Processing...')
+        bot.send_message(message.chat.id, wikipedia.summary(message.text) )
         a = wikipedia.page(message.text) 
-        bot.reply_to(message ,a.url )
+        bot.send_message(message.chat.id ,a.url )
         sleep(1)
-        bot.reply_to(message,'/commands')      
+        bot.send_message(message.chat.id,'/commands')      
     except Exception:
         bot.reply_to(message , "Oops,we couldn't find any results :(")
 
+def Turkish_language(message):
+    if "Tr" in message.text:
+        bot.reply_to(message , ts.google(message.text , 'auto', 'tr') )  
+
 @bot.message_handler(commands=['contact'])
 def errorr_soo(message):
-      bot.reply_to(message, "My e-mail: boredguy982@gmail.com\nMy telegram: @Ovrbffr\n   /commands  ")
+    link     = types.InlineKeyboardMarkup()
+    link2         = types.InlineKeyboardButton(text="Contact with Developer"   , callback_data="link" , url = "https://t.me/demoonov")
+    link.add(link2)
+    bot.send_message(message.chat.id , "Contact with developer by clicking a link below." , reply_markup=link)
 
 @bot.message_handler(commands=['talk'])
 def talk_me(message):
     bot.reply_to(message , 'Talk to me 😁') 
 
+
 @bot.message_handler(commands=["movie"])
 def movie_1(message):
-    reply_markup = keyboard()
-    bot.send_message(
-                message.chat.id,
-                '''Choose an action.
-                ''',
-                reply_markup=keyboard())      
+    keyboard     = types.InlineKeyboardMarkup(row_width=2)
+    suggested         = types.InlineKeyboardButton(text="Suggested movies"   , callback_data="suggested")
+    popularr  = types.InlineKeyboardButton(text="Popular movies"      , callback_data="popularr")
+    keyboard.add(suggested , popularr)
+    bot.send_message(message.chat.id, "Choose an action", reply_markup=keyboard)
 
-@bot.message_handler(func = lambda message: message.text and '*' in message.text)   
-def send_anytext(message):
-    chat_id = message.chat.id
-    if message.text == '*Suggested movies':
-        bot.send_message(message.chat.id, "Please wait...")
-        sleep(3)
-        movie = Movie()
-        recommendations = movie.recommendations(movie_id=111)
-        for recommendation in recommendations:
-            bot.send_message(
-                message.chat.id, "Film name - " + recommendation.title)
-            sleep(1)
-            bot.send_message(message.chat.id, "Overwiew - " +
-                             recommendation.overview) 
-
-    if message.text == '*Popular movies':
-        bot.send_message(message.chat.id , "Please wait...")
-        #movie = Movie()
-        movie = Movie()
-        popular = movie.popular()
-        sleep(5)
-        
-        for p in popular:
-            bot.send_message(message.chat.id ,"Film name - " +  p.title)
-            sleep(1)
-            bot.send_message(message.chat.id ,"Overview - " + p.overview + "\n----------------------------------------------------------------------")
-            sleep(1)
-
-        bot.send_message(message.chat.id , "That's all for now😊")
 @bot.message_handler(commands=['translate'])
-def firstt(message):
-    reply_markup = keyboard()
-    bot.send_message(
-                message.chat.id,
-                '''Choose a language.
-                ''',
-                reply_markup=keyboard())           
+def lang_functions(message):
+    lang     = types.InlineKeyboardMarkup(row_width=2)
+    russian         = types.InlineKeyboardButton(text="🇷🇺 Russian 🇷🇺"   , callback_data="russian")      
+    turkish         = types.InlineKeyboardButton(text="🇹🇷 Turkish 🇹🇷"   , callback_data="turkish")
+    czech           = types.InlineKeyboardButton(text="🇨🇿 Czech 🇨🇿"     , callback_data="czech")
+    spanish         = types.InlineKeyboardButton(text="🇪🇸 Spanish 🇪🇸"   , callback_data="spanish")   
+    azeri           = types.InlineKeyboardButton(text="🇦🇿 Azerbaijani 🇦🇿" , callback_data="azeri")  
+    #url             = types.InlineKeyboardButton(text="Url"             , callback_data='url' , url = "google.com")
+    #lang.add(url)
+    lang.add(russian)
+    lang.add(turkish)
+    lang.add(czech)
+    lang.add(spanish)
+    lang.add(azeri)
+    bot.send_message(message.chat.id , "Choose a language to translate" , reply_markup = lang)
+   
+      #Russian
+@bot.message_handler(func = lambda message: message.text and 'Ru' in message.text)   
+def mess_lan(message):
+    bot.reply_to(message ,  ts.google(message.text, 'auto', 'ru'))    
+      #Turkish
+@bot.message_handler(func = lambda message: message.text and 'Tr' in message.text)   
+def messs_lan(message):
+    bot.reply_to(message , ts.google(message.text, 'en', 'tr'))
+      #Czech
+@bot.message_handler(func = lambda message: message.text and 'Cz' in message.text)   
+def messss_lan(message):        
+    bot.reply_to(message , ts.google(message.text, 'auto', 'cs'))
+      #Spanish
+@bot.message_handler(func = lambda message: message.text and 'Es' in message.text)   
+def meess_lan(message):
+    bot.reply_to(message , ts.google(message.text, 'auto', 'es'))
+    #Azeri
+@bot.message_handler(func = lambda message: message.text and 'Az' in message.text)   
+def mmess_lan(message):
+    bot.reply_to(message , ts.google(message.text, 'auto', 'az'))
+        
+@bot.callback_query_handler(func=lambda call: True)
+def callback_inline(call):
+    if call.message:
+        if call.data == 'russian' :
+            bot.send_message(call.message.chat.id , "Type the translations word. Please make sure add 'Ru' before you type your text")
+            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="🇷🇺 Russian 🇷🇺",
+                reply_markup=None)
 
-def keyboard():
-        markup = types.ReplyKeyboardMarkup(
-            one_time_keyboard=True, resize_keyboard=True)
-        btn1 = types.KeyboardButton('*Suggested movies')
-        btn2 = types.KeyboardButton('*Popular movies')
-        btn3 = types.KeyboardButton('「Russian」')
-        #btn4 = types.KeyboardButton('「Azeri」')
-        #btn5 = types.KeyboardButton('『Czech』')
-        markup.add(btn1,btn2,btn3)
-        return markup
+    if call.message:
+        if call.data == 'turkish':
+            bot.send_message(call.message.chat.id , "Type the translations word. Please make sure add 'Tr' before you type your text")
+            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="🇹🇷 Turkish 🇹🇷",
+                reply_markup=None)   
+    if call.message:
+        if call.data == 'czech':
+            bot.send_message(call.message.chat.id , "Type the translations word. Please make sure add 'Cz' before you type your text" )    
+            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="🇨🇿 Czech 🇨🇿",
+                reply_markup=None)
+    if call.message:
+        if call.data == "spanish":
+            bot.send_message(call.message.chat.id ,"Type the translations word. Please make sure add 'Es' before you type your text" )        
+            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="🇪🇸 Spanish 🇪🇸",
+                reply_markup=None)      
+    if call.message:
+        if call.data == "azeri":
+            bot.send_message(call.message.chat.id , "Type the translations word. Please make sure add 'Az' before you type your text")
+            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="🇦🇿 Azerbaijani 🇦🇿",
+                reply_markup=None)      
+    if call.message:
+        if call.data == "emo1":
+            bot.answer_callback_query(callback_query_id=call.id, show_alert= False,
+                text="Thanks a million:)"  ) 
+    if call.message:
+        if call.data == "emo2":
+            bot.answer_callback_query(callback_query_id=call.id, show_alert= False,
+                text="Thanks a million:)"  )        
 
-                         #Russian
-@bot.message_handler(func = lambda message: message.text and '「' in message.text)   
-def first_part(message):
-    chat_id = message.chat.id
-    if message.text == '「Russian」':
-        bot.send_message(message.chat.id , "Type the word you want to translate. Before you type the word u want to translate,type 'Ru' to make it translate the word you type to Russian.")
+#def film_part(call):
 
-@bot.message_handler(func = lambda message: message.text and 'Ru' in message.text) 
-def second_part(message):
-    bot.reply_to(message , ts.tencent(message.text ,'en','ru'))  
-                         #Azerbaijani
-@bot.message_handler(func = lambda message: message.text and '」' in message.text)   
-def az_part(message):
-    chat_id = message.chat.id
-    if message.text == '「Azeri」':
-        bot.send_message(message.chat.id , "Type the word you want to translate. Before you type the word u want to translate,type 'Az' to make it translate the word you type to Azerbaijani.")
+    if call.message:
+        if call.data == "suggested":
+            bot.send_message(call.message.chat.id, "Please wait...")
+            sleep(3)
+            movie = Movie()
+            recommendations = movie.recommendations(movie_id=111)
+            for recommendation in recommendations:
+                bot.send_message(
+                    call.message.chat.id, "Film name - " + recommendation.title)
+                sleep(1)
+                bot.send_message(call.message.chat.id, "Overwiew - " +
+                                 recommendation.overview) 
 
-@bot.message_handler(func = lambda message: message.text and 'Az' in message.text) 
-def scns_part(message):
-    bot.reply_to(message , ts.google(message.text , 'en' , 'az'))  
-                         #Czech 
-@bot.message_handler(func = lambda message: message.text and '『' in message.text)   
-def cz_part(message):
-    chat_id = message.chat.id
-    if message.text == '『Czech』':
-        bot.send_message(message.chat.id , "Type the word you want to translate. Before you type the word u want to translate,type 'Cz' to make it translate the word you type to Czech language.")
+    if call.message:
+        if call.data == "popularr":
+            bot.send_message(call.message.chat.id , "Please wait...")
+            #movie = Movie()
 
-@bot.message_handler(func = lambda message: message.text and 'Cz' in message.text) 
-def czech_part(message):
-    bot.reply_to(message , ts.google(message.text , 'en' , 'cs') )
+            movie = Movie()
+            popular = movie.popular()
+            sleep(5)
+        
+            for p in popular:
+                bot.send_message(call.message.chat.id ,"Film name - " +  p.title)
+                sleep(1)
+                bot.send_message(call.message.chat.id ,"Overview - " + p.overview )
+                sleep(1)
 
+            bot.send_message(call.message.chat.id , "That's all for now😊")
+
+
+            
 @bot.message_handler(content_types = ['text'])
 def talkk (message):    
     if message.text == "Hello" or message.text == "hi" or message.text == "hey" or message.text == 'hey there' or message.text == 'hello there' or message.text == 'hello':
@@ -253,17 +297,13 @@ def talkk (message):
     elif message.text == "Tell me a joke" or message.text == 'Tell me joke' or message.text == 'Funny jokes' or message.text == 'funny jokes' or message.text == "tell me a joke" or message.text == "Tell me some funny jokes" or message.text == "Jokes" or message.text == 'jokes' or message.text == "Make some funny jokes" or message.text == "Funny joke" or message.text == "Make a funny joke" or message.text == "Make a joke" or message.text == "joke" or message.text == "Joke":
         bot.send_message(message.chat.id , pyjokes.get_joke() + random.choice(emoji))
     elif message.text == "Who created you?" or message.text == "Who is your creator?" or message.text == "Who created you" or message.text == "Who is your creator" or message.text == "who created you" or message.text == "Who's your creator?" or message.text == "Who's created you?" or message.text == "Who's your creator?" or message.text == "Who's your creator" or message.text == "Who's your founder?" or message.text == "who's your founder?" or message.text == "who's your founder" or message.text == "Who is your founder?" or message.text == "Who is your founder":
-        bot.send_message(message.chat.id , "My creator is Ilham. He's the god of this temple🔱")  
+        bot.send_message(message.chat.id , "My creator is Ilham. He's the god of this temple🔱")    
     else:
         bot.send_message(message.chat.id , random.choice(dont_get_it) )   
-        
-         
+          
 @bot.message_handler(content_types=['sticker'])
 def sticker_handler(message):
     bot.send_sticker(message.chat.id, STICKER_ID)
-
-
-
 
 def console_listener(messages):
     for message in messages:
@@ -272,7 +312,7 @@ def console_listener(messages):
             print('[Sender ID: ' + str(message.chat.id) + '] Text: ' + message.text)
         except:
             # Ignore errors at printing the messages
-            pass        
-
+            pass     
+           
 bot.set_update_listener(console_listener)
-bot.polling(timeout=15)
+bot.polling(none_stop=True)
