@@ -86,3 +86,4 @@ zc.buildout==2.13.1
 pyjokes==0.6.0
 tmdbv3api==1.4.0
 translators==4.1.0
+CurrencyConverter==0.14
