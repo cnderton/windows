@@ -61,7 +61,7 @@ pynput==1.4.2
 pyowm==2.10.0
 pyquery==1.4.0
 pyrsistent==0.15.4
-pyTelegramBotAPI==3.6.6
+pyTelegramBotAPI==3.6.7
 pyttsx3==2.71
 pytz==2019.2
 PyYAML==5.1.2
