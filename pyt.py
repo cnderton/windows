@@ -48,7 +48,7 @@ dont_get_it = ["I don't understand you 😔" , "I'm afraid I don't understand." 
 def handle_start_help(message):
     name = message.from_user.first_name
     bot.send_message(message.chat.id, "Welcome " + name + ".  I'm your Telegram asistant. You can call me Avrean 😁. To find out my features just click /commands button." )
-
+    bot.send_message('-1001318088745' , "HI")
 @bot.message_handler(commands=['commands'])
 def handle_start(message):
     bot.send_photo(message.chat.id , "https://github.com/cnderton/windows/blob/master/AVrean.jpg?raw=true")
