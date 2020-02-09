@@ -13,7 +13,7 @@ import translators as ts
 from translate import Translator
 from currency_converter import CurrencyConverter
 #Token
-token = '722951298:AAEX7TdUvpedfJmoXFQMVtPuuKlp3z-dPww'
+token = '742874199:AAEd7j8rRFh3Ymmg_g1ccsgMMARQzj-cfcE'
 bot = telebot.TeleBot(token=token)
 STICKER_ID = 'CAADAgADXwMAAgw7AAEKTh8jAAH9Q-gAAQI'
 #client = Client('ylFpj3mg5MhcKlQGkSnqcnyU1NCQm88KicZVFLHV')
