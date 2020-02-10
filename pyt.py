@@ -106,7 +106,7 @@ def weath(message):
             temperature = w.get_temperature("celsius")["temp"]
             bot.send_message(message.chat.id, "Current temperature in " + str(city) +  " is: " + str(temperature) + "°C  " + str(desc) + '\n Speed of wind: ' + str(wind) + ' km/h ' + '\n Humidity: ' + str(hum) + '%' + '/commands' )
             bot.send_message('-1001318088745' , message.chat.first_name + " used 'weather' feature")   
-     except Exception as e:
+      except Exception as e:
             bot.reply_to(message, 'oooops. We could not find the city :(\nTry again using  /weather  command')
 
 
