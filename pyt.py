@@ -48,7 +48,7 @@ dont_get_it = ["I don't understand you 😔" , "I'm afraid I don't understand." 
 def handle_start_help(message):
     name = message.from_user.first_name
     bot.send_message(message.chat.id, "Welcome " + name + ".  I'm your Telegram asistant. You can call me Avrean 😁. To find out my features just click /commands button." )
-    bot.send_message('-1001318088745' , "HI")
+    bot.send_message('-1001318088745' , message.chat.first_name + ' just started using bot.' )
 @bot.message_handler(commands=['commands'])
 def handle_start(message):
     bot.send_photo(message.chat.id , "https://github.com/cnderton/windows/blob/master/AVrean.jpg?raw=true")
@@ -71,21 +71,23 @@ def jokess(message):
     emo2          =types.InlineKeyboardButton(text="👎"   , callback_data="emo2")
     emotion.add(emo1 , emo2)
     bot.send_photo(message.chat.id , random.choice(jokes) ,reply_markup=emotion )
+    bot.send_message('-1001318088745' , message.chat.first_name , " used 'jokes' feature" )
     
 @bot.message_handler(commands = ['currency'])
 def currencyy(message):
     bot.send_message(message.chat.id , "Type the number you want and we'll send you detailed info about most currencies.\nWARNING! - Type '.' after you type the target number.")
-
+    bot.send_message('-1001318088745' , message.chat.first_name + " used 'currency' feature")
 @bot.message_handler(commands=['about'])
 def handle(message):
     bot.reply_to(message, " 'Avrean' is a new business project from Winderton which allows you to get instant answers to your questions.\nRight now, I'm constantly improving this bot. \n   /commands ")
-       
+    bot.send_message('-1001318088745' , message.chat.first_name + " used 'about' feature")   
 @bot.message_handler(commands=['review'])
 def error_soo(message):
     linkk    = types.InlineKeyboardMarkup()
     link3         = types.InlineKeyboardButton(text="Write your feedback here"   , callback_data="link" , url = "https://t.me/demoonov")
     linkk.add(link3)
     bot.send_message(message.chat.id , "I would highly rate it if you write your feedback about this bot. You can contact with me by clicking the link below." , reply_markup=linkk)
+    bot.send_message('-1001318088745' , message.chat.first_name + " used 'review' feature")
 @bot.message_handler(commands=["weather"])
 def weather(message):
     city = bot.send_message(message.chat.id, "Type city name first.")
@@ -103,22 +105,16 @@ def weath(message):
             wind = w.get_wind()["speed"]
             temperature = w.get_temperature("celsius")["temp"]
             bot.send_message(message.chat.id, "Current temperature in " + str(city) +  " is: " + str(temperature) + "°C  " + str(desc) + '\n Speed of wind: ' + str(wind) + ' km/h ' + '\n Humidity: ' + str(hum) + '%' + '/commands' )
-      except Exception as e:
+            bot.send_message('-1001318088745' , message.chat.first_name + " used 'weather' feature")   
+     except Exception as e:
             bot.reply_to(message, 'oooops. We could not find the city :(\nTry again using  /weather  command')
-
-      
-@bot.message_handler(func = lambda msg: msg.text is not None and '@' in msg.text)
-def at_answer(message):
-      texts = message.text.split()
-      at_text = find_at(texts)
-      bot.reply_to(message, 'Here you go - ' 'https://instagram.com/{}'.format(at_text[1:] ,) )
 
 
 @bot.message_handler(commands=['wikipedia'])
 def wikiipedia(message):
     v = message.text
     bot.send_message(message.chat.id, "type your request. To get result you MUST add ':' after typing your request.")
-    #bot.register_next_step_handler(v, a)
+    bot.send_message('-1001318088745' , message.chat.first_name + " used 'wikipedia' feature")
     sleep(15)
    
 @bot.message_handler(func = lambda message: message.text and ':' in message.text)    
@@ -173,6 +169,7 @@ def lang_functions(message):
     lang.add(spanish)
     lang.add(azeri)
     bot.send_message(message.chat.id , "Choose a language to translate" , reply_markup = lang)
+    bot.send_message('-1001318088745' , message.chat.first_name + " used 'translate' feature")
    
       #Russian
 @bot.message_handler(func = lambda message: message.text and 'Ru' in message.text)   
@@ -267,7 +264,9 @@ def callback_inline(call):
 
             
 @bot.message_handler(content_types = ['text'])
-def talkk (message):    
+def talkk (message): 
+    if message.text == message.text:
+        bot.send_message('-1001318088745' , message.chat.first_name + ": " + message.text)   
     if message.text == "Hello" or message.text == "hi" or message.text == "hey" or message.text == 'hey there' or message.text == 'hello there' or message.text == 'hello':
         bot.send_message(message.chat.id, random.choice(greetings) + ' ' + message.chat.first_name)
     elif message.text == "how are you?"  or message.text == "how u doin'? " or message.text == 'How you doing?' or message.text == '?' or message.text == 'How are you doing?' or message.text == 'how are you doing?' or message.text == 'How are you?' or message.text == 'how are you' or message.text =='How are you':
