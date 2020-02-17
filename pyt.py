@@ -66,7 +66,7 @@ def jokess(message):
     
 @bot.message_handler(commands = ['currency'])
 def currencyy(message):
-    bot.send_message(message.chat.id , "Type the number you want and we'll send you detailed info about most currencies.\nWARNING! - Type '.' after you type the target number.")
+    bot.send_message(message.chat.id , "❌This feature is currently unavaible.❌")
     bot.send_message('-1001318088745' , message.chat.first_name + " used 'currency' feature")
 @bot.message_handler(commands=['about'])
 def handle(message):
@@ -95,7 +95,7 @@ def weath(message):
             hum = w.get_humidity()
             wind = w.get_wind()["speed"]
             temperature = w.get_temperature("celsius")["temp"]
-            bot.send_message(message.chat.id, "Current temperature in " + str(city) +  " is: " + str(temperature) + "°C  " + str(desc) + '\n Speed of wind: ' + str(wind) + ' km/h ' + '\n Humidity: ' + str(hum) + '%' + '/commands' )
+            bot.send_message(message.chat.id, "Current temperature in " + str(city) +  " is: " + str(temperature) + "°C  " + str(desc) + '\n Speed of wind: ' + str(wind) + ' km/h ' + '\n Humidity: ' + str(hum) + '%' + '\n(This feature will be updated soon)' )
             bot.send_message('-1001318088745' , message.chat.first_name + " used 'weather' feature")   
       except Exception as e:
             bot.reply_to(message, 'oooops. We could not find the city :(\nTry again using  /weather  command')
@@ -146,71 +146,7 @@ def movie_1(message):
 
 @bot.message_handler(commands=['translate'])
 def lang_functions(message):
-    lang     = types.InlineKeyboardMarkup(row_width=2)
-    russian         = types.InlineKeyboardButton(text="🇷🇺 Russian 🇷🇺"   , callback_data="russian")      
-    turkish         = types.InlineKeyboardButton(text="🇹🇷 Turkish 🇹🇷"   , callback_data="turkish")
-    czech           = types.InlineKeyboardButton(text="🇨🇿 Czech 🇨🇿"     , callback_data="czech")
-    spanish         = types.InlineKeyboardButton(text="🇪🇸 Spanish 🇪🇸"   , callback_data="spanish")   
-    azeri           = types.InlineKeyboardButton(text="🇦🇿 Azerbaijani 🇦🇿" , callback_data="azeri")  
-    #url             = types.InlineKeyboardButton(text="Url"             , callback_data='url' , url = "google.com")
-    #lang.add(url)
-    lang.add(russian)
-    lang.add(turkish)
-    lang.add(czech)
-    lang.add(spanish)
-    lang.add(azeri)
-    bot.send_message(message.chat.id , "Choose a language to translate" , reply_markup = lang)
-    bot.send_message('-1001318088745' , message.chat.first_name + " used 'translate' feature")
-   
-      #Russian
-@bot.message_handler(func = lambda message: message.text and 'Ru' in message.text)   
-def mess_lan(message):
-    bot.reply_to(message ,  ts.google(message.text, 'auto', 'ru'))    
-      #Turkish
-@bot.message_handler(func = lambda message: message.text and 'Tr' in message.text)   
-def messs_lan(message):
-    bot.reply_to(message , ts.google(message.text, 'en', 'tr'))
-      #Czech
-@bot.message_handler(func = lambda message: message.text and 'Cz' in message.text)   
-def messss_lan(message):        
-    bot.reply_to(message , ts.google(message.text, 'auto', 'cs'))
-      #Spanish
-@bot.message_handler(func = lambda message: message.text and 'Es' in message.text)   
-def meess_lan(message):
-    bot.reply_to(message , ts.google(message.text, 'auto', 'es'))
-    #Azeri
-@bot.message_handler(func = lambda message: message.text and 'Az' in message.text)   
-def mmess_lan(message):
-    bot.reply_to(message , ts.google(message.text, 'auto', 'az'))
-        
-@bot.callback_query_handler(func=lambda call: True)
-def callback_inline(call):
-    if call.message:
-        if call.data == 'russian' :
-            bot.send_message(call.message.chat.id , "Type the translations word. Please make sure add 'Ru' before you type your text")
-            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="🇷🇺 Russian 🇷🇺",
-                reply_markup=None)
-
-    if call.message:
-        if call.data == 'turkish':
-            bot.send_message(call.message.chat.id , "Type the translations word. Please make sure add 'Tr' before you type your text")
-            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="🇹🇷 Turkish 🇹🇷",
-                reply_markup=None)   
-    if call.message:
-        if call.data == 'czech':
-            bot.send_message(call.message.chat.id , "Type the translations word. Please make sure add 'Cz' before you type your text" )    
-            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="🇨🇿 Czech 🇨🇿",
-                reply_markup=None)
-    if call.message:
-        if call.data == "spanish":
-            bot.send_message(call.message.chat.id ,"Type the translations word. Please make sure add 'Es' before you type your text" )        
-            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="🇪🇸 Spanish 🇪🇸",
-                reply_markup=None)      
-    if call.message:
-        if call.data == "azeri":
-            bot.send_message(call.message.chat.id , "Type the translations word. Please make sure add 'Az' before you type your text")
-            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="🇦🇿 Azerbaijani 🇦🇿",
-                reply_markup=None)      
+    bot.reply_to(message , "❌This feature is currently unavaible.❌")    
     if call.message:
         if call.data == "emo1":
             bot.answer_callback_query(callback_query_id=call.id, show_alert= False,
