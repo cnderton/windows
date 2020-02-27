@@ -66,7 +66,7 @@ def jokess(message):
     
 @bot.message_handler(commands = ['currency'])
 def currencyy(message):
-    bot.send_message(message.chat.id , "❌This feature is currently unavaible.❌")
+    bot.send_message(message.chat.id , "❌This feature is currently under development.❌")
     bot.send_message('-1001318088745' , message.chat.first_name + " used 'currency' feature")
 @bot.message_handler(commands=['about'])
 def handle(message):
@@ -146,7 +146,7 @@ def movie_1(message):
 
 @bot.message_handler(commands=['translate'])
 def lang_functions(message):
-    bot.reply_to(message , "❌This feature is currently unavaible.❌")    
+    bot.reply_to(message , "❌This feature is currently under development❌")    
     if call.message:
         if call.data == "emo1":
             bot.answer_callback_query(callback_query_id=call.id, show_alert= False,
