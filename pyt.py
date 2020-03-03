@@ -10,7 +10,6 @@ from telebot import types
 from urllib.request import urlopen as url_open
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 import json
-import pyperclip #new
 from google_trans import Translator#new
 from decimal import Decimal #new
 from dialogflow_lite.dialogflow import Dialogflow#new
@@ -330,10 +329,10 @@ def callback_inline(call):
                          bot.send_chat_action(call.message.chat.id, 'typing')
                          j = message.text[:-3]
                          g = c.convert('RUB' , 'USD' , Decimal(j))
-                         f = flaera = float(g)
-                         pyperclip.copy(f)
+                         f = flaera = str(g)
+                         #pyperclip.copy(f)
                   #bot.send_message(message.chat.id , "RUB -> USD")
-                         v = bot.send_message(message.chat.id , "𝗥𝗨𝗕 -> 𝗨𝗦𝗗\n\nCost of " + j + "₽ is " + pyperclip.paste() +"$"  ) 
+                         v = bot.send_message(message.chat.id , "𝗥𝗨𝗕 -> 𝗨𝗦𝗗\n\nCost of " + j + "₽ is " + f +"$"  ) 
 
     if call.message:
         if call.data == "tr_usdd":
@@ -343,9 +342,9 @@ def callback_inline(call):
                    bot.send_chat_action(call.message.chat.id, 'typing')
                    p = message.text[:-3]
                    d = c.convert('TRY' , 'USD' , Decimal(p))
-                   v = float(d)
-                   pyperclip.copy(v)
-                   bot.send_message(message.chat.id , "𝗧𝗥𝗬 -> 𝗨𝗦𝗗\n\nCost of " + message.text[:-3] + "₺ is " + pyperclip.paste()[:-7]  + "$"  )  
+                   v = str(d)
+                   #pyperclip.copy(v)
+                   bot.send_message(message.chat.id , "𝗧𝗥𝗬 -> 𝗨𝗦𝗗\n\nCost of " + message.text[:-3] + "₺ is " + v[:-7]  + "$"  )  
   
   
     if call.message:
@@ -356,9 +355,9 @@ def callback_inline(call):
                 bot.send_chat_action(call.message.chat.id, 'typing')
                 t = message.text[:-3]
                 t = c.convert('USD' , 'RUB' , Decimal(t))
-                s = float(t)
-                pyperclip.copy(s)
-                bot.send_message(message.chat.id ,  "𝗨𝗦𝗗  -> 𝗥𝗨𝗕\n\nCost of " + message.text[:-3] + "$ is " + pyperclip.paste()[:-7] + "₽")
+                s = str(t)
+                #pyperclip.copy(s)
+                bot.send_message(message.chat.id ,  "𝗨𝗦𝗗  -> 𝗥𝗨𝗕\n\nCost of " + message.text[:-3] + "$ is " + s[:-7] + "₽")
    
     
    
@@ -370,9 +369,8 @@ def callback_inline(call):
                 bot.send_chat_action(call.message.chat.id, 'typing')
                 r = message.text[:-2]
                 n = c.convert('USD' , 'TRY' , Decimal(r))
-                h = float(n)
-                pyperclip.copy(h)
-                bot.send_message(message.chat.id ,  "𝗨𝗦𝗗  -> 𝗧𝗥𝗬\n\nCost of " + message.text[:-2] + "$ is " + pyperclip.paste()[:-7] + "₺")
+                h = str(n)
+                bot.send_message(message.chat.id ,  "𝗨𝗦𝗗  -> 𝗧𝗥𝗬\n\nCost of " + message.text[:-2] + "$ is " + h[:-7] + "₺")
    
    
     if call.message:
@@ -383,9 +381,8 @@ def callback_inline(call):
                 bot.send_chat_action(call.message.chat.id, 'typing') 
                 g = message.text[:-2]
                 a = c.convert('TRY' , 'RUB' , Decimal(g))
-                k = float(a)
-                pyperclip.copy(k)
-                bot.send_message(message.chat.id ,  "𝗧𝗥𝗬 -> 𝗥𝗨𝗕\n\nCost of " + message.text[:-2] + "₺ is " + pyperclip.paste()[:-7] + "₽")
+                k = str(a)
+                bot.send_message(message.chat.id ,  "𝗧𝗥𝗬 -> 𝗥𝗨𝗕\n\nCost of " + message.text[:-2] + "₺ is " + k[:-7] + "₽")
 
    
    
@@ -397,9 +394,8 @@ def callback_inline(call):
                 bot.send_chat_action(call.message.chat.id, 'typing') 
                 y = message.text[:-2]
                 e = c.convert('RUB' , 'TRY' , Decimal(y))
-                x = float(e)
-                pyperclip.copy(x)
-                bot.send_message(message.chat.id ,  "𝗥𝗨𝗕 -> 𝗧𝗥𝗬\n\nCost of " + message.text[:-2] + "₽ is " + pyperclip.paste()[:-7] + "₺") 
+                x = str(e)
+                bot.send_message(message.chat.id ,  "𝗥𝗨𝗕 -> 𝗧𝗥𝗬\n\nCost of " + message.text[:-2] + "₽ is " + x[:-7] + "₺") 
 
    
     if call.message:
@@ -410,9 +406,8 @@ def callback_inline(call):
                 bot.send_chat_action(call.message.chat.id, 'typing') 
                 q = message.text[:-3]
                 b = c.convert('EUR' , 'RUB' , Decimal(q))
-                z = float(b)
-                pyperclip.copy(z)
-                bot.send_message(message.chat.id ,  "𝗘𝗨𝗥 -> 𝗥𝗨𝗕\n\nCost of " + message.text[:-3] + "€ is " + pyperclip.paste() + "₽")
+                z = str(b)
+                bot.send_message(message.chat.id ,  "𝗘𝗨𝗥 -> 𝗥𝗨𝗕\n\nCost of " + message.text[:-3] + "€ is " + z + "₽")
 
     if call.message:
         if call.data == "euro_usdd":
@@ -422,9 +417,8 @@ def callback_inline(call):
                 bot.send_chat_action(call.message.chat.id, 'typing') 
                 q = message.text[:-2]
                 b = c.convert('EUR' , 'USD' , Decimal(q))
-                z = float(b)
-                pyperclip.copy(z)
-                bot.send_message(message.chat.id ,  "𝗘𝗨𝗥 -> 𝗨𝗦𝗗\n\nCost of " + message.text[:-2] + "€ is " + pyperclip.paste() + "₺")
+                z = str(b)
+                bot.send_message(message.chat.id ,  "𝗘𝗨𝗥 -> 𝗨𝗦𝗗\n\nCost of " + message.text[:-2] + "€ is " + z + "₺")
 
     if call.message:
         if call.data == "euro_trr":
@@ -434,9 +428,8 @@ def callback_inline(call):
                 bot.send_chat_action(call.message.chat.id, 'typing') 
                 q = message.text[:-3]
                 b = c.convert('EUR' , 'RUB' , Decimal(q))
-                z = float(b)
-                pyperclip.copy(z)
-                bot.send_message(message.chat.id ,  "𝗘𝗨𝗥 -> 𝗨𝗦𝗗\n\nCost of " + message.text[:-3] + "€ is " + pyperclip.paste() + "$") 
+                z = str(b)
+                bot.send_message(message.chat.id ,  "𝗘𝗨𝗥 -> 𝗨𝗦𝗗\n\nCost of " + message.text[:-3] + "€ is " + z + "$") 
 
     if call.message:
         if call.data == "talkk":
