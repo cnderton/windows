@@ -332,7 +332,7 @@ def callback_inline(call):
                          f = flaera = str(g)
                          #pyperclip.copy(f)
                   #bot.send_message(message.chat.id , "RUB -> USD")
-                         v = bot.send_message(message.chat.id , "𝗥𝗨𝗕 -> 𝗨𝗦𝗗\n\nCost of " + j[:-7] + "₽ is " + f +"$"  ) 
+                         v = bot.send_message(message.chat.id , "𝗥𝗨𝗕 -> 𝗨𝗦𝗗\n\nCost of " + j + "₽ is " + f[:-7] +"$"  ) 
 
     if call.message:
         if call.data == "tr_usdd":
