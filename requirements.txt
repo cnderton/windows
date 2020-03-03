@@ -91,3 +91,4 @@ CurrencyConverter==0.14
 forex-python==1.5
 pyperclip == 1.7.0
 dialogflow-lite==0.0.6
+google-trans==2.4.0
