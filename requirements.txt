@@ -88,3 +88,6 @@ tmdbv3api==1.5.0
 translate==3.5.0
 translators==4.2.2
 CurrencyConverter==0.14
+forex-python==1.5
+pyperclip == 1.7.0
+dialogflow-lite==0.0.6
