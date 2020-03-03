@@ -143,7 +143,7 @@ def talk_me(message):
     talkkk   = types.InlineKeyboardMarkup()
     talkk           =types.InlineKeyboardButton(text="Talk" , callback_data="talkk")
     talkkk.add(talkk)
-    bot.reply_to(message , "Sure,let's talk:). Click 'talk' to start.\n⚠️You must type 'hey' everytime you send new messages. It calls AI.⚠️ " , reply_markup=talkkk) 
+    bot.reply_to(message , "Sure,let's talk:). Click 'talk' to start.\n⚠️You must type 'hey' for the first time when you send new message. It calls AI.⚠️ " , reply_markup=talkkk) 
 
 @bot.message_handler(commands=["movie"])
 def movie_1(message):
