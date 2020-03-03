@@ -2,6 +2,7 @@
 import telebot
 import wikipedia
 import pyowm
+from forex_python.converter import CurrencyRates #new
 import random
 from tmdbv3api import Movie, TMDb
 from time import sleep
@@ -9,9 +10,12 @@ from telebot import types
 from urllib.request import urlopen as url_open
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 import json
-import translators as ts
-from translate import Translator
-from currency_converter import CurrencyConverter
+import pyperclip #new
+from google_trans import Translator#new
+from decimal import Decimal #new
+from dialogflow_lite.dialogflow import Dialogflow#new
+
+
 #Token
 token = '742874199:AAEd7j8rRFh3Ymmg_g1ccsgMMARQzj-cfcE'
 bot = telebot.TeleBot(token=token)
@@ -19,6 +23,10 @@ STICKER_ID = 'CAADAgADXwMAAgw7AAEKTh8jAAH9Q-gAAQI'
 #client = Client('ylFpj3mg5MhcKlQGkSnqcnyU1NCQm88KicZVFLHV')
 url = 'https://api.nasa.gov/planetary/apod?' # I don't get how url queries work, someone help
 API_KEY = 'api_key=ylFpj3mg5MhcKlQGkSnqcnyU1NCQm88KicZVFLHV' #own API key, please register for your own at NASA Open APIs
+client_access_token = '7f9559e9436744a9bef9a562551c16ff'
+dialogflow = Dialogflow(client_access_token=client_access_token)
+translator = Translator()
+c = CurrencyRates()
 tmdb = TMDb()
 tmdb.api_key = 'ee01893e3d8f4d2026795ad38b8bb5fe'
 tmdb.language = 'en'
@@ -33,26 +41,31 @@ def find_at(msg):
 #a = wikipedia.page(message.text) 
 
 #AI
-greetings = ["Hello😃", "Hey there 😃"]
-how_are_you = ["I'm feeling positively tip top thanks.😎", "Feeling like a lean,mean,asisting ,machine!✌", "pretty good ツ",  "I'm doing very well,thank you." , "Not bad ツ"]
-wcyd = ["---Here are some stuff I can do -- \n ●/about - 𝑴𝒐𝒓𝒆 𝒂𝒃𝒐𝒖𝒕 𝒖𝒔.\n--------------------------------------------------------\n●/weather - 𝑭𝒊𝒏𝒅 𝒐𝒖𝒕 𝒄𝒖𝒓𝒓𝒆𝒏𝒕 𝒕𝒆𝒎𝒑𝒆𝒓𝒂𝒕𝒖𝒓𝒆 𝒊𝒏 𝒚𝒐𝒖𝒓 𝒓𝒆𝒈𝒊𝒐𝒏\n--------------------------------------------------------\n●/review - 𝑺𝒉𝒂𝒓𝒆 𝒚𝒐𝒖𝒓 𝒏𝒆𝒘 𝒊𝒅𝒆𝒂𝒔 𝒂𝒏𝒅 𝒓𝒆𝒗𝒊𝒆𝒘𝒔 𝒘𝒊𝒕𝒉 𝒎𝒆.\n--------------------------------------------------------\n●/wikipedia - 𝑮𝒆𝒕 𝒏𝒆𝒆𝒅𝒆𝒅 𝒊𝒏𝒇𝒐𝒓𝒎𝒂𝒕𝒊𝒐𝒏 𝒇𝒓𝒐𝒎 𝑾𝒊𝒌𝒊𝒑𝒆𝒅𝒊𝒂 𝒘𝒊𝒕𝒉𝒐𝒖𝒕 𝒍𝒆𝒂𝒗𝒊𝒏𝒈 𝒕𝒆𝒍𝒆𝒈𝒓𝒂𝒎.\n--------------------------------------------------------\n●/contact - 𝑪𝒐𝒏𝒕𝒂𝒄𝒕 𝒘𝒊𝒕𝒉 𝒎𝒆\n--------------------------------------------------------\n●/talk - 𝑯𝒂𝒗𝒆 𝒂 𝒕𝒂𝒍𝒌 𝒘𝒊𝒕𝒉 𝑨𝒗𝒓𝒆𝒂𝒏.\n--------------------------------------------------------\n●/astro - 𝑰𝒏𝒕𝒆𝒓𝒆𝒔𝒕𝒊𝒏𝒈 𝒇𝒂𝒄𝒕𝒔 𝒂𝒃𝒐𝒖𝒕 𝒂𝒔𝒕𝒓𝒐𝒏𝒐𝒎𝒚.\n--------------------------------------------------------\n●/jokes - 𝑭𝒖𝒏𝒏𝒚 𝒋𝒐𝒌𝒆𝒔\n--------------------------------------------------------\n●/movie - 𝑮𝒆𝒕 𝒔𝒖𝒈𝒈𝒆𝒔𝒕𝒆𝒅 & 𝒑𝒐𝒑𝒖𝒍𝒂𝒓 𝒎𝒐𝒗𝒊𝒆𝒔 𝒏𝒂𝒎𝒆 𝒂𝒏𝒅 𝒐𝒗𝒆𝒓𝒗𝒊𝒆𝒘𝒔.\n--------------------------------------------------------\n●/translate - 𝑻𝒓𝒂𝒏𝒔𝒍𝒂𝒕𝒆 𝒘𝒐𝒓𝒅𝒔 & 𝒔𝒆𝒏𝒕𝒆𝒏𝒄𝒆𝒔 𝒇𝒓𝒐𝒎 𝑬𝒏𝒈𝒍𝒊𝒔𝒉 𝒕𝒐 𝒐𝒕𝒉𝒆𝒓 𝒍𝒂𝒏𝒈𝒖𝒂𝒈𝒆𝒔.\n--------------------------------------------------------\n●/currency - 𝑮𝒆𝒕 𝒇𝒓𝒆𝒆 𝒍𝒊𝒗𝒆 𝒄𝒖𝒓𝒓𝒆𝒏𝒄𝒚 𝒓𝒂𝒕𝒆𝒔 𝒖𝒔𝒊𝒏𝒈 𝒕𝒉𝒆 𝒂𝒄𝒄𝒖𝒓𝒂𝒕𝒆 𝒅𝒂𝒕𝒂.\n--------------------------------------------------------"]
-pleasure = ["My pleasure!" , "That's what I'm here for😃" , "Always a pleasure 😃" , "You're welcome 😃" , "That makes me so happy! You're most welcome ☺" , "You're certainly welcome indeed.😊"]
-beauty = ["Oh wow. You can't tell but I'm totally blushing right now.😘" , 'Thanks! I try just be my regular helpful self 😎' , " Stop it,you'll make me blush😘" , 'Oh wow. If I could blush I definitely would 😜']
-love = ['I got another one... ;)']
-astronomy = ['If you want to get some exciting astrnomical facts just click this >>> /astro <<<']
-lv2 = ['He is my love ♥' , 'He is my founder.']
-emoji = ["😂",'🤣','😅','😆']
-jokes = ["https://raw.githubusercontent.com/cnderton/windows/master/Screenshot_20200116-213702_Instagram%20(2).jpg" , "https://ruinmyweek.com/wp-content/uploads/2019/05/21-damn-funny-memes-everyone-should-see-this-morning-16.jpg" , "https://preview.redd.it/53o0u089qr941.jpg?width=640&height=756&crop=smart&auto=webp&s=009ce8eb5c1eda639b1869067f1959ccae826d76" , "https://preview.redd.it/wh63r3wiqka41.jpg?width=640&crop=smart&auto=webp&s=dff976e7bbd522004cddcafb7b9583346cd74f58" , "https://preview.redd.it/p7lynnvlt4b41.jpg?width=640&crop=smart&auto=webp&s=8e19418b580d54ad0ce728464a16bcfa6e70e2ad" , "https://i.redd.it/45ib7na1i5b41.jpg" , "https://preview.redd.it/84f3z7w0k4b41.jpg?width=640&crop=smart&auto=webp&s=e01c4a77f9b3d17aa729d7fc1e94b6f01020818a" , "https://preview.redd.it/yt1si5kmwza41.jpg?width=640&crop=smart&auto=webp&s=9d8ea1762efdb854381542cb932d8f51eb8dadf9" , "https://preview.redd.it/6p1g6wtry8941.jpg?width=640&crop=smart&auto=webp&s=72e44928e2274527a18b71ee540dbb75f3c52ac3" , "https://preview.redd.it/4906dkbaoya41.jpg?width=640&crop=smart&auto=webp&s=0708b95fafb8acc225078f09a11626f3cdc9d8f6" , "https://preview.redd.it/80avvadxgga41.jpg?width=640&crop=smart&auto=webp&s=6dda4d0d8383f7ccaa2d16b5c7cb834f3ec49ca3" , "https://preview.redd.it/29rtu3f6ow941.jpg?width=640&crop=smart&auto=webp&s=20caa5b383cb0fcaa912c5b29e32038f6bcbd874" , "https://preview.redd.it/zmz1nsxv5l941.jpg?width=640&crop=smart&auto=webp&s=bf698faeebc41cf910a4a9298f811c471555bb7d" , "https://i.redd.it/78luedbauta41.png" , "https://i.redd.it/3ghlucwbwu241.jpg" , "https://preview.redd.it/o3vkuwmnp8241.jpg?width=640&crop=smart&auto=webp&s=b5dc842ce27833bffe798c56460fd5433683b538" , "https://i.redd.it/gjp7s00du8w31.png" , "https://preview.redd.it/yvicqmymgdr31.jpg?width=640&crop=smart&auto=webp&s=52a9041f88059775c804d3e77d1129ce64944a10"]
+jokes = ["https://raw.githubusercontent.com/cnderton/windows/master/Screenshot_20200116-213702_Instagram%20(2).jpg" , "https://ruinmyweek.com/wp-content/uploads/2019/05/21-damn-funny-memes-everyone-should-see-this-morning-16.jpg" , "https://preview.redd.it/53o0u089qr941.jpg?width=640&height=756&crop=smart&auto=webp&s=009ce8eb5c1eda639b1869067f1959ccae826d76" , "https://preview.redd.it/wh63r3wiqka41.jpg?width=640&crop=smart&auto=webp&s=dff976e7bbd522004cddcafb7b9583346cd74f58" , "https://preview.redd.it/p7lynnvlt4b41.jpg?width=640&crop=smart&auto=webp&s=8e19418b580d54ad0ce728464a16bcfa6e70e2ad" , "https://i.redd.it/45ib7na1i5b41.jpg" , "https://preview.redd.it/84f3z7w0k4b41.jpg?width=640&crop=smart&auto=webp&s=e01c4a77f9b3d17aa729d7fc1e94b6f01020818a" , "https://preview.redd.it/yt1si5kmwza41.jpg?width=640&crop=smart&auto=webp&s=9d8ea1762efdb854381542cb932d8f51eb8dadf9" , "https://preview.redd.it/6p1g6wtry8941.jpg?width=640&crop=smart&auto=webp&s=72e44928e2274527a18b71ee540dbb75f3c52ac3" , "https://preview.redd.it/4906dkbaoya41.jpg?width=640&crop=smart&auto=webp&s=0708b95fafb8acc225078f09a11626f3cdc9d8f6" , "https://preview.redd.it/80avvadxgga41.jpg?width=640&crop=smart&auto=webp&s=6dda4d0d8383f7ccaa2d16b5c7cb834f3ec49ca3" , "https://preview.redd.it/29rtu3f6ow941.jpg?width=640&crop=smart&auto=webp&s=20caa5b383cb0fcaa912c5b29e32038f6bcbd874" , "https://preview.redd.it/zmz1nsxv5l941.jpg?width=640&crop=smart&auto=webp&s=bf698faeebc41cf910a4a9298f811c471555bb7d" , "https://i.redd.it/78luedbauta41.png" , "https://i.redd.it/3ghlucwbwu241.jpg" , "https://preview.redd.it/o3vkuwmnp8241.jpg?width=640&crop=smart&auto=webp&s=b5dc842ce27833bffe798c56460fd5433683b538" , "https://i.redd.it/gjp7s00du8w31.png" , "https://preview.redd.it/yvicqmymgdr31.jpg?width=640&crop=smart&auto=webp&s=52a9041f88059775c804d3e77d1129ce64944a10" , 
+"https://i.redd.it/j4645sg45gk41.jpg" , "https://i.redd.it/xw54jno4f9k41.jpg" , "https://i.redd.it/glqtaopw2gk41.jpg" , "https://i.redd.it/46h42h7esfk41.jpg" , "https://i.redd.it/lclm4yjhyfk41.jpg" , "https://i.redd.it/0iprrtim2ak41.jpg" , "https://i.redd.it/v0rix24jpfk41.jpg" , "https://i.redd.it/uz3d56z1gfk41.png" , "https://i.redd.it/oek28q7wlek41.jpg" , "https://i.redd.it/8jjgsbb1dek41.jpg" , "https://i.redd.it/0m9m7gbalfk41.jpg" , "https://i.redd.it/n9d5h3b9zek41.jpg" , "https://i.redd.it/9fjnd32uyak41.jpg" , "https://i.redd.it/4pqqx042eck41.jpg" , "https://i.redd.it/y7mpsliiybk41.jpg" , "https://i.redd.it/9eqndz6ykfk41.jpg" , "https://i.redd.it/gkjx9uo4sbk41.jpg" , "https://i.redd.it/utv3415trfk41.png" , 
+"https://i.redd.it/3pzu0srceek41.jpg" , "https://i.redd.it/y3ru3pz06bk41.jpg" , "https://i.redd.it/2ob4rwe2wbk41.jpg" , "https://i.redd.it/5skmfmbmoek41.jpg" , "https://i.redd.it/pv5k00j5oek41.jpg" , "https://i.redd.it/2q08os415fk41.jpg" , "https://i.redd.it/4g7iw88rtbk41.jpg" , "https://i.redd.it/wswr2wsbkek41.jpg" , "https://i.redd.it/0klm4g73xek41.jpg" , "https://i.redd.it/0v4c5z5gxdk41.png" , "https://preview.redd.it/yrtq8lxkzek41.jpg?width=640&crop=smart&auto=webp&s=0c7aabc8bbbf360b8caf9ac91b4f9e35efecd8ed" , "https://i.redd.it/7qgolmwarfk41.jpg" , "https://raw.githubusercontent.com/cnderton/windows/master/funny.jpg"]
 dont_get_it = ["I don't understand you 😔" , "I'm afraid I don't understand." , "Sorry,I don't understand." , "I don't understand."]
+
+
 @bot.message_handler(commands=['start'])
 def handle_start_help(message):
     name = message.from_user.first_name
-    bot.send_message(message.chat.id, "Welcome " + name + ".  I'm your Telegram asistant. You can call me Avrean 😁. To find out my features just click /commands button." )
+    bot.send_message(message.chat.id, "Welcome " + name + ".  I'm your Telegram asistant. You can call me Avrean😊.To find out my features just click /commands button." )
     bot.send_message('-1001318088745' , message.chat.first_name + ' just started using bot.' )
 @bot.message_handler(commands=['commands'])
 def handle_start(message):
     bot.send_photo(message.chat.id , "https://github.com/cnderton/windows/blob/master/AVrean.jpg?raw=true")
-    bot.send_message(message.chat.id , "🅐🅥🅡🅔🅐🅝  🅕🅔🅐🅣🅤🅡🅔🅢\n●/about - 𝑴𝒐𝒓𝒆 𝒂𝒃𝒐𝒖𝒕 𝒖𝒔.\n--------------------------------------------------------\n●/weather - 𝑭𝒊𝒏𝒅 𝒐𝒖𝒕 𝒄𝒖𝒓𝒓𝒆𝒏𝒕 𝒕𝒆𝒎𝒑𝒆𝒓𝒂𝒕𝒖𝒓𝒆 𝒊𝒏 𝒚𝒐𝒖𝒓 𝒓𝒆𝒈𝒊𝒐𝒏\n--------------------------------------------------------\n●/review - 𝑺𝒉𝒂𝒓𝒆 𝒚𝒐𝒖𝒓 𝒏𝒆𝒘 𝒊𝒅𝒆𝒂𝒔 𝒂𝒏𝒅 𝒓𝒆𝒗𝒊𝒆𝒘𝒔 𝒘𝒊𝒕𝒉 𝒎𝒆.\n--------------------------------------------------------\n●/wikipedia - 𝑮𝒆𝒕 𝒏𝒆𝒆𝒅𝒆𝒅 𝒊𝒏𝒇𝒐𝒓𝒎𝒂𝒕𝒊𝒐𝒏 𝒇𝒓𝒐𝒎 𝑾𝒊𝒌𝒊𝒑𝒆𝒅𝒊𝒂 𝒘𝒊𝒕𝒉𝒐𝒖𝒕 𝒍𝒆𝒂𝒗𝒊𝒏𝒈 𝒕𝒆𝒍𝒆𝒈𝒓𝒂𝒎.\n--------------------------------------------------------\n●/contact - 𝑪𝒐𝒏𝒕𝒂𝒄𝒕 𝒘𝒊𝒕𝒉 𝒎𝒆\n--------------------------------------------------------\n●/talk - 𝑯𝒂𝒗𝒆 𝒂 𝒕𝒂𝒍𝒌 𝒘𝒊𝒕𝒉 𝑨𝒗𝒓𝒆𝒂𝒏.\n--------------------------------------------------------\n●/astro - 𝑰𝒏𝒕𝒆𝒓𝒆𝒔𝒕𝒊𝒏𝒈 𝒇𝒂𝒄𝒕𝒔 𝒂𝒃𝒐𝒖𝒕 𝒂𝒔𝒕𝒓𝒐𝒏𝒐𝒎𝒚.\n--------------------------------------------------------\n●/jokes - 𝑭𝒖𝒏𝒏𝒚 𝒋𝒐𝒌𝒆𝒔\n--------------------------------------------------------\n●/movie - 𝑮𝒆𝒕 𝒔𝒖𝒈𝒈𝒆𝒔𝒕𝒆𝒅 & 𝒑𝒐𝒑𝒖𝒍𝒂𝒓 𝒎𝒐𝒗𝒊𝒆𝒔 𝒏𝒂𝒎𝒆 𝒂𝒏𝒅 𝒐𝒗𝒆𝒓𝒗𝒊𝒆𝒘𝒔.\n--------------------------------------------------------\n●/translate - 𝑻𝒓𝒂𝒏𝒔𝒍𝒂𝒕𝒆 𝒘𝒐𝒓𝒅𝒔 & 𝒔𝒆𝒏𝒕𝒆𝒏𝒄𝒆𝒔 𝒇𝒓𝒐𝒎 𝑬𝒏𝒈𝒍𝒊𝒔𝒉 𝒕𝒐 𝒐𝒕𝒉𝒆𝒓 𝒍𝒂𝒏𝒈𝒖𝒂𝒈𝒆𝒔.\n--------------------------------------------------------\n●/currency - 𝑮𝒆𝒕 𝒇𝒓𝒆𝒆 𝒍𝒊𝒗𝒆 𝒄𝒖𝒓𝒓𝒆𝒏𝒄𝒚 𝒓𝒂𝒕𝒆𝒔 𝒖𝒔𝒊𝒏𝒈 𝒕𝒉𝒆 𝒂𝒄𝒄𝒖𝒓𝒂𝒕𝒆 𝒅𝒂𝒕𝒂.\n--------------------------------------------------------")
+    bot.send_message(message.chat.id , "🅐🅥🅡🅔🅐🅝  🅕🅔🅐🅣🅤🅡🅔🅢\n●/about - More about us\n--------------------------------------------------------\n●/weather - Find out current temperature in your region\n--------------------------------------------------------\n●/review - Share your ideas and experience\n--------------------------------------------------------\n●/wikipedia - Get needed information from Wikipedia without leaving Telegram\n--------------------------------------------------------\n●/contact - Contact with the developer\n--------------------------------------------------------\n●/talk - Have a talk with Avrean\n--------------------------------------------------------\n●/jokes - Funny jokes:)\n--------------------------------------------------------\n●/movie - Get suggested & popular movies and overviews\n--------------------------------------------------------\n●/translate - Translate words & sentences from English to other languages.\n--------------------------------------------------------\n●/currency - Get free live currency rates & count currrencies using the accurate data\n--------------------------------------------------------")
+
+@bot.message_handler(commands=['currency'])
+def start_of_currency(message):
+    main_cy     = types.InlineKeyboardMarkup()
+    live_currency = types.InlineKeyboardButton(text="Currency Rates"  , callback_data="live_currency")
+    count_currency = types.InlineKeyboardButton(text="Count Currencies" , callback_data="count_currency")
+    main_cy.add(live_currency , count_currency)
+    bot.send_message(message.chat.id , "Make a choice" , reply_markup=main_cy)
+    bot.send_message('-1001318088745' , message.chat.first_name + " used 'currency' feature")
+
 
 @bot.message_handler(commands = ['jokes'])
 def jokess(message):
@@ -63,14 +76,10 @@ def jokess(message):
     emotion.add(emo1 , emo2)
     bot.send_photo(message.chat.id , random.choice(jokes) ,reply_markup=emotion )
     bot.send_message('-1001318088745' , message.chat.first_name , " used 'jokes' feature" )
-    
-@bot.message_handler(commands = ['currency'])
-def currencyy(message):
-    bot.send_message(message.chat.id , "❌This feature is currently under development.❌")
-    bot.send_message('-1001318088745' , message.chat.first_name + " used 'currency' feature")
+     
 @bot.message_handler(commands=['about'])
 def handle(message):
-    bot.reply_to(message, " 'Avrean' is a new business project from Winderton which allows you to get instant answers to your questions.\nRight now, I'm constantly improving this bot. \n   /commands ")
+    bot.send_message(message.chat.id , " Meet the multifucntional bot 'Avrean' that can be used on telegram as your assistant. Bot gets smarter with every update. It lets you do some basic operations without leaving telegram app. Click /commands to see features. ")
     bot.send_message('-1001318088745' , message.chat.first_name + " used 'about' feature")   
 @bot.message_handler(commands=['review'])
 def error_soo(message):
@@ -95,7 +104,7 @@ def weath(message):
             hum = w.get_humidity()
             wind = w.get_wind()["speed"]
             temperature = w.get_temperature("celsius")["temp"]
-            bot.send_message(message.chat.id, "Current temperature in " + str(city) +  " is: " + str(temperature) + "°C  " + str(desc) + '\n Speed of wind: ' + str(wind) + ' km/h ' + '\n Humidity: ' + str(hum) + '%' + '\n(This feature will be updated soon)' )
+            bot.send_message(message.chat.id, "Temperature in " + str(city) +"\n\n" + str(temperature) + "°C  " + str(desc) + '🌡\nSpeed of wind: ' + str(wind) + ' km/h 💨' + '\nHumidity: ' + str(hum) + '% 💧')
             bot.send_message('-1001318088745' , message.chat.first_name + " used 'weather' feature")   
       except Exception as e:
             bot.reply_to(message, 'oooops. We could not find the city :(\nTry again using  /weather  command')
@@ -108,11 +117,12 @@ def wikiipedia(message):
     bot.send_message('-1001318088745' , message.chat.first_name + " used 'wikipedia' feature")
     sleep(15)
    
-@bot.message_handler(func = lambda message: message.text and ':' in message.text)    
+@bot.message_handler(func = lambda message: message.text and 'wiki' in message.text)    
 def echo_all(message):
     try:
-        bot.send_message(message.chat.id , 'Processing...')
-        bot.send_message(message.chat.id, wikipedia.summary(message.text) )
+        bot.send_chat_action(message.chat.id, 'typing')
+        g = message.text[:-4]
+        bot.send_message(message.chat.id, wikipedia.summary(g) )
         a = wikipedia.page(message.text) 
         bot.send_message(message.chat.id ,a.url )
         sleep(1)
@@ -120,9 +130,7 @@ def echo_all(message):
     except Exception:
         bot.reply_to(message , "Oops,we couldn't find any results :(")
 
-def Turkish_language(message):
-    if "Tr" in message.text:
-        bot.reply_to(message , ts.google(message.text , 'auto', 'tr') )  
+
 
 @bot.message_handler(commands=['contact'])
 def errorr_soo(message):
@@ -133,8 +141,10 @@ def errorr_soo(message):
 
 @bot.message_handler(commands=['talk'])
 def talk_me(message):
-    bot.reply_to(message , 'Talk to me 😁') 
-
+    talkkk   = types.InlineKeyboardMarkup()
+    talkk           =types.InlineKeyboardButton(text="Talk" , callback_data="talkk")
+    talkkk.add(talkk)
+    bot.reply_to(message , "Sure,let's talk:). Click 'talk' to start.\n⚠️You must type 'hey' everytime you send new messages. It calls AI.⚠️ " , reply_markup=talkkk) 
 
 @bot.message_handler(commands=["movie"])
 def movie_1(message):
@@ -143,10 +153,53 @@ def movie_1(message):
     popularr  = types.InlineKeyboardButton(text="Popular movies"      , callback_data="popularr")
     keyboard.add(suggested , popularr)
     bot.send_message(message.chat.id, "Choose an action", reply_markup=keyboard)
+   
 
 @bot.message_handler(commands=['translate'])
 def lang_functions(message):
-    bot.reply_to(message , "❌This feature is currently under development❌")    
+    lang     = types.InlineKeyboardMarkup(row_width=2)
+    russian         = types.InlineKeyboardButton(text="🇷🇺 Russian 🇷🇺"   , callback_data="russian")      
+    turkish         = types.InlineKeyboardButton(text="🇹🇷 Turkish 🇹🇷"   , callback_data="turkish")
+    czech           = types.InlineKeyboardButton(text="🇨🇿 Czech 🇨🇿"     , callback_data="czech")
+    spanish         = types.InlineKeyboardButton(text="🇪🇸 Spanish 🇪🇸"   , callback_data="spanish")   
+    azeri           = types.InlineKeyboardButton(text="🇦🇿 Azerbaijani 🇦🇿" , callback_data="azeri")  
+    #url             = types.InlineKeyboardButton(text="Url"             , callback_data='url' , url = "google.com")
+    #lang.add(url)
+    lang.add(russian , turkish , czech , spanish)
+    #lang.add(azeri)
+    bot.send_message(message.chat.id , "Choose a language to translate" , reply_markup = lang)
+    bot.send_message('-1001318088745' , message.chat.first_name + " used 'translate' feature")
+
+      #Russian
+@bot.message_handler(func = lambda message: message.text and 'Ru' in message.text)   
+def mess_lan(message):
+    a = translator.translate(message.text ,  src='en', dest='ru').text 
+    bot.reply_to(message ,  a[:-2] )    
+      #Turkish
+@bot.message_handler(func = lambda message: message.text and 'Tr' in message.text )   
+def messs_lan(message):
+    a = translator.translate(message.text , src='en', dest='tr').text 
+    bot.reply_to(message , a[:-2] )
+
+      #Czech
+@bot.message_handler(func = lambda message: message.text and 'Cz' in message.text)   
+def messss_lan(message):  
+    a = translator.translate(message.text , src='en', dest='cs').text      
+    bot.reply_to(message , a[:-2] )
+
+
+      #Spanish
+@bot.message_handler(func = lambda message: message.text and 'Es' in message.text)   
+def meess_lan(message):
+    a = translator.translate(message.text , src='en', dest='es').text 
+    bot.reply_to(message , a[:-2])
+
+        
+            
+   
+
+@bot.callback_query_handler(func=lambda call: True)
+def callback_inline(call):    
     if call.message:
         if call.data == "emo1":
             bot.answer_callback_query(callback_query_id=call.id, show_alert= False,
@@ -188,48 +241,240 @@ def lang_functions(message):
 
             bot.send_message(call.message.chat.id , "That's all for now😊")
 
+ 
+  
+    if call.message:
+        if call.data == "live_currency":
+                bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Your Choice: Currency Rates",
+                reply_markup=None)
+                currency     = types.InlineKeyboardMarkup()
+                usd_rub        = types.InlineKeyboardButton(text="USD -> RUB"   , callback_data="usd_rub" )
+                rub_usd        =types.InlineKeyboardButton(text="RUB -> USD"   , callback_data="rub_usd")
+                tr_usd         =types.InlineKeyboardButton(text="TRY -> USD"   , callback_data="tr_usd")
+                usd_tr         = types.InlineKeyboardButton(text="USD -> TRY"  , callback_data="usd_tr")
+                tr_rub      =types.InlineKeyboardButton(text="TRY -> RUB"   , callback_data="tr_rub")
+                rub_tr      =types.InlineKeyboardButton(text ="RUB -> TRY"  , callback_data="rub_tr")
+                euro_rub        =types.InlineKeyboardButton(text="EUR -> RUB"   , callback_data="euro_rub")
+                euro_usd        =types.InlineKeyboardButton(text="EUR -> USD"   , callback_data="euro_usd")
+                euro_tr        =types.InlineKeyboardButton(text="EUR -> TRY"   , callback_data="euro_tr")
 
+                currency.add(usd_rub , rub_usd , tr_usd , usd_tr , rub_tr , tr_rub , rub_tr , euro_tr , euro_usd , euro_rub)
+                bot.send_message(call.message.chat.id, "Choose one", reply_markup=currency)
+
+    if call.message:
+        if call.data == "count_currency":
+                bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Your Choice: Count currency",
+                reply_markup=None)
+                currencyy     = types.InlineKeyboardMarkup()
+                usd_rubb        = types.InlineKeyboardButton(text="USD -> RUB"   , callback_data="usd_rubb" )
+                rub_usdd        =types.InlineKeyboardButton(text="RUB -> USD"   , callback_data="rub_usdd")
+                tr_usdd         =types.InlineKeyboardButton(text="TRY -> USD"   , callback_data="tr_usdd")
+                usd_trr         = types.InlineKeyboardButton(text="USD -> TRY"  , callback_data="usd_trr")
+                tr_rubb     =types.InlineKeyboardButton(text="TRY -> RUB"   , callback_data="tr_rubb")
+                rubb_try      =types.InlineKeyboardButton(text ="RUB -> TRY"  , callback_data="rubb_try")
+                euro_rub        =types.InlineKeyboardButton(text="EUR -> RUB"   , callback_data="euro_rubb")
+                euro_usdd       =types.InlineKeyboardButton(text="EUR -> USD"   , callback_data="euro_usdd")
+                euro_trr        =types.InlineKeyboardButton(text="EUR -> TRY"   , callback_data="euro_trr")
+                #talkk           =types.InlineKeyboardButton(text="Talk" , callback_data="talkk")
+
+                currencyy.add(usd_rubb , rub_usdd , tr_usdd , usd_trr , tr_rubb , rubb_try , euro_trr , euro_usdd , euro_rub )
+                bot.send_message(call.message.chat.id, "Choose one", reply_markup=currencyy)
+    # I N L I N E ends here                       
+
+           
+    #  R A T E starts here
+    if call.message:
+        if call.data == "usd_rub":
+            bot.send_message(call.message.chat.id , "USD -> RUB\n\nCost of 1$ is " + str( c.get_rate('USD', 'RUB') ) + "₽")
+
+    if call.message:
+        if call.data == "rub_usd":
+            bot.send_message(call.message.chat.id , "RUB -> USD\n\nCost of 1₽ is " + str(c.get_rate('RUB', 'USD') )+ "$")
+
+    if call.message:
+        if call.data == "tr_usd":
+            bot.send_message(call.message.chat.id , "TRY -> USD\n\nCost of 1₺ is " + str(c.get_rate('TRY', 'USD') )+ "$")        
+                                                       
+    if call.message:
+        if call.data == "usd_tr":
+            bot.send_message(call.message.chat.id , "USD -> TRY\n\nCost of 1$ is " + str(c.get_rate('USD', 'TRY') )+"₺")
+
+    if call.message:
+        if call.data == "rub_tr":
+            bot.send_message(call.message.chat.id , "RUB -> TRY\n\nCost of 1₽ is " + str(c.get_rate('RUB', 'TRY') )+"₺") 
+
+    if call.message:
+        if call.data == "tr_rub":
+            bot.send_message(call.message.chat.id , "TRY -> RUB\n\nCost of 1₺ is " + str(c.get_rate('TRY', 'RUB') )+"₽" ) 
+
+    if call.message:
+        if call.data == "euro_tr":
+            bot.send_message(call.message.chat.id , "EUR -> TRY\n\nCost of 1€ is " + str(c.get_rate('EUR', 'TRY') )+"₺" )
+
+    if call.message:
+        if call.data == "euro_usd":
+            bot.send_message(call.message.chat.id , "EUR -> USD\n\nCost of 1€ is " + str(c.get_rate('EUR', 'USD') )+"$" )    
+
+    if call.message:
+        if call.data == "euro_rub":
+            bot.send_message(call.message.chat.id , "EUR -> RUB\n\nCost of 1€ is " + str(c.get_rate('EUR', 'RUB') )+"₽" )          
+
+       
+   
+    # R A T E ends here
+    if call.message:
+        if call.data == "rub_usdd":
+            bot.send_message(call.message.chat.id , "Type amount and then type 'rub' to confirm.")
+            @bot.message_handler(func = lambda message: 'rub' in message.text)  
+            def usd_rrub(message):
+                         bot.send_chat_action(call.message.chat.id, 'typing')
+                         j = message.text[:-3]
+                         g = c.convert('RUB' , 'USD' , Decimal(j))
+                         f = flaera = float(g)
+                         pyperclip.copy(f)
+                  #bot.send_message(message.chat.id , "RUB -> USD")
+                         v = bot.send_message(message.chat.id , "𝗥𝗨𝗕 -> 𝗨𝗦𝗗\n\nCost of " + j + "₽ is " + pyperclip.paste() +"$"  ) 
+
+    if call.message:
+        if call.data == "tr_usdd":
+            bot.send_message(call.message.chat.id , "Type amunt and then type 'try'")
+            @bot.message_handler(func = lambda message: 'try' in message.text)  
+            def trrr_usd(message):
+                   bot.send_chat_action(call.message.chat.id, 'typing')
+                   p = message.text[:-3]
+                   d = c.convert('TRY' , 'USD' , Decimal(p))
+                   v = float(d)
+                   pyperclip.copy(v)
+                   bot.send_message(message.chat.id , "𝗧𝗥𝗬 -> 𝗨𝗦𝗗\n\nCost of " + message.text[:-3] + "₺ is " + pyperclip.paste()[:-7]  + "$"  )  
+  
+  
+    if call.message:
+        if call.data == "usd_rubb":
+            bot.send_message(call.message.chat.id , "Type amunt and then type 'usd' to confirm.")
+            @bot.message_handler(func = lambda message: 'usd' in message.text)   
+            def usd_rrrub(message):
+                bot.send_chat_action(call.message.chat.id, 'typing')
+                t = message.text[:-3]
+                t = c.convert('USD' , 'RUB' , Decimal(t))
+                s = float(t)
+                pyperclip.copy(s)
+                bot.send_message(message.chat.id ,  "𝗨𝗦𝗗  -> 𝗥𝗨𝗕\n\nCost of " + message.text[:-3] + "$ is " + pyperclip.paste()[:-7] + "₽")
+   
+    
+   
+    if call.message:
+        if call.data == "usd_trr":
+            bot.send_message(call.message.chat.id , "Type amount and then type 'us' to confirm.")
+            @bot.message_handler(func = lambda message: 'us' in message.text)  
+            def usdtrfr(message):
+                bot.send_chat_action(call.message.chat.id, 'typing')
+                r = message.text[:-2]
+                n = c.convert('USD' , 'TRY' , Decimal(r))
+                h = float(n)
+                pyperclip.copy(h)
+                bot.send_message(message.chat.id ,  "𝗨𝗦𝗗  -> 𝗧𝗥𝗬\n\nCost of " + message.text[:-2] + "$ is " + pyperclip.paste()[:-7] + "₺")
+   
+   
+    if call.message:
+        if call.data == "tr_rubb":
+            bot.send_message(call.message.chat.id , "Type amount and then type 'tr' to confirm.")
+            @bot.message_handler(func = lambda message: 'tr' in message.text)
+            def trrubbbb(message):
+                bot.send_chat_action(call.message.chat.id, 'typing') 
+                g = message.text[:-2]
+                a = c.convert('TRY' , 'RUB' , Decimal(g))
+                k = float(a)
+                pyperclip.copy(k)
+                bot.send_message(message.chat.id ,  "𝗧𝗥𝗬 -> 𝗥𝗨𝗕\n\nCost of " + message.text[:-2] + "₺ is " + pyperclip.paste()[:-7] + "₽")
+
+   
+   
+    if call.message:
+        if call.data == "rubb_try":
+            bot.send_message(call.message.chat.id , "Type amount and then type 'ru' to confirm.")
+            @bot.message_handler(func = lambda message: 'ru' in message.text)
+            def rubbtrr(message):
+                bot.send_chat_action(call.message.chat.id, 'typing') 
+                y = message.text[:-2]
+                e = c.convert('RUB' , 'TRY' , Decimal(y))
+                x = float(e)
+                pyperclip.copy(x)
+                bot.send_message(message.chat.id ,  "𝗥𝗨𝗕 -> 𝗧𝗥𝗬\n\nCost of " + message.text[:-2] + "₽ is " + pyperclip.paste()[:-7] + "₺") 
+
+   
+    if call.message:
+        if call.data == "euro_rubb":
+            bot.send_message(call.message.chat.id , "Type amount and then type 'eur' to confirm.")
+            @bot.message_handler(func = lambda message: 'eur' in message.text)
+            def eurorubb(message):
+                bot.send_chat_action(call.message.chat.id, 'typing') 
+                q = message.text[:-3]
+                b = c.convert('EUR' , 'RUB' , Decimal(q))
+                z = float(b)
+                pyperclip.copy(z)
+                bot.send_message(message.chat.id ,  "𝗘𝗨𝗥 -> 𝗥𝗨𝗕\n\nCost of " + message.text[:-3] + "€ is " + pyperclip.paste() + "₽")
+
+    if call.message:
+        if call.data == "euro_usdd":
+            bot.send_message(call.message.chat.id , "Type amount and then type 'eu' to confirm.")
+            @bot.message_handler(func = lambda message: 'eu' in message.text)
+            def eurousdddd(message):
+                bot.send_chat_action(call.message.chat.id, 'typing') 
+                q = message.text[:-2]
+                b = c.convert('EUR' , 'USD' , Decimal(q))
+                z = float(b)
+                pyperclip.copy(z)
+                bot.send_message(message.chat.id ,  "𝗘𝗨𝗥 -> 𝗨𝗦𝗗\n\nCost of " + message.text[:-2] + "€ is " + pyperclip.paste() + "₺")
+
+    if call.message:
+        if call.data == "euro_trr":
+            bot.send_message(call.message.chat.id , "Type amount and then type 'exc' to confirm.")
+            @bot.message_handler(func = lambda message: 'exc' in message.text)
+            def eurousdddd(message):
+                bot.send_chat_action(call.message.chat.id, 'typing') 
+                q = message.text[:-3]
+                b = c.convert('EUR' , 'RUB' , Decimal(q))
+                z = float(b)
+                pyperclip.copy(z)
+                bot.send_message(message.chat.id ,  "𝗘𝗨𝗥 -> 𝗨𝗦𝗗\n\nCost of " + message.text[:-3] + "€ is " + pyperclip.paste() + "$") 
+
+    if call.message:
+        if call.data == "talkk":
+            bot.send_message(call.message.chat.id , "Hi:)")
+            @bot.message_handler(func = lambda message: 'hey' or 'Hey' or 'HEY' in message.text)
+            def msg (message):        
+             bot.send_chat_action(message.chat.id, 'typing')
+             #response = dialogflow.text_request(message.text) 
+             bot.send_message(message.chat.id , dialogflow.text_request(message.text) )
             
-@bot.message_handler(content_types = ['text'])
-def talkk (message): 
-    if message.text == message.text:
-        bot.send_message('-1001318088745' , message.chat.first_name + ": " + message.text)   
-    if message.text == "Hello" or message.text == "hi" or message.text == "hey" or message.text == 'hey there' or message.text == 'hello there' or message.text == 'hello':
-        bot.send_message(message.chat.id, random.choice(greetings) + ' ' + message.chat.first_name)
-    elif message.text == "how are you?"  or message.text == "how u doin'? " or message.text == 'How you doing?' or message.text == '?' or message.text == 'How are you doing?' or message.text == 'how are you doing?' or message.text == 'How are you?' or message.text == 'how are you' or message.text =='How are you':
-        bot.send_message(message.chat.id, random.choice(how_are_you))
-    elif message.text == 'What can you do?' or message.text == 'what can you do?' or message.text == 'What are your functions?' or message.text == 'what can u do' or message.text == 'what can you do':   
-        bot.send_message(message.chat.id , random.choice(wcyd) )
-    elif message.text == 'tell me the weather' or message.text == "What's the weather like today?" or message.text == "What's the weather like?"  or message.text == "what's the weather like ?" or message.text == 'whats the weather like?' or message.text == 'weather' or message.text == 'Tell me the weather' or message.text == 'weather' :
-        bot.send_message(message.chat.id , " If you want to know the weather use the '/weather' command 🌥 ")    
-    elif message.text == 'thank you' or message.text == 'Thanks' or message.text == 'Thank you':
-        bot.send_message(message.chat.id , random.choice(pleasure))
-    elif message.text == 'you are beautiful' or message.text == 'You are beautiful' or  message.text == "you are cute" or message.text == 'You are cute' or message.text == 'You are extremely lovely' or message.text == 'You are lovely' or message.text == 'Oh beauty':
-        bot.send_message == (message.chat.id , random.choice(beauty))
-    elif message.text == 'I love you'or message.text == 'love you' or message.text == 'i love you':
-        bot.send_message(message.chat.id ,random.choice(love) )
-    elif message.text == 'Where do you live?' or message.text == 'Where are you living?' or message.text == "Where are you from?" or message.text == "Where are you from" or message.text == "where are you from" or message.text == "where are you from?":
-        bot.send_message(message.chat.id , "I live in cloud,but I like to think that home is where the questions are😊")     
-    elif message.text == 'Facts about astronomy' or message.text == 'Interesting facts' or message.text == 'Astronomy facts' or message.text == 'Astronomy' or message.text == 'Information about astronomy' or message.text == 'Astronomicial facts' or message.text == "Give me some interesting astronomicial facts":
-        bot.send_message(message.chat.id , random.choice(astronomy))
-    elif message.text == 'Do you have a boyfriend?' or message.text == 'Do you have a girlfriend?' or message.text == 'Are you alone?' or message.text == 'Do you have boyfriend?' or message.text == 'Do you have girlfriend?':
-        bot.send_message(message.chat.id , "The only thing Im really feeling a strong connection to the wi-fi!")    
-    elif message.text == "Great" or message.text == 'Cool':
-        bot.send_message(message.chat.id , 'Thanks')    
-    elif message.text == "Who is ilham?" or message.text == "Who is Ilham?":
-        bot.send_message(message.chat.id , 'He is founder of Avrean.')    
-    elif message.text == "Who are you?" or message.text == "who are you?" or message.text == "Who are you" or message.text == "who are you" or message.text == "What's your name?" or message.text == "What's your name" or message.text == "what's your name?" or message.text == "what's your name":
-        bot.send_message(message.chat.id , "I'm Avrean 😊")
-    elif message.text == "Tell me a joke" or message.text == 'Tell me joke' or message.text == 'Funny jokes' or message.text == 'funny jokes' or message.text == "tell me a joke" or message.text == "Tell me some funny jokes" or message.text == "Jokes" or message.text == 'jokes' or message.text == "Make some funny jokes" or message.text == "Funny joke" or message.text == "Make a funny joke" or message.text == "Make a joke" or message.text == "joke" or message.text == "Joke":
-        bot.send_message(message.chat.id , pyjokes.get_joke() + random.choice(emoji))
-    elif message.text == "Who created you?" or message.text == "Who is your creator?" or message.text == "Who created you" or message.text == "Who is your creator" or message.text == "who created you" or message.text == "Who's your creator?" or message.text == "Who's created you?" or message.text == "Who's your creator?" or message.text == "Who's your creator" or message.text == "Who's your founder?" or message.text == "who's your founder?" or message.text == "who's your founder" or message.text == "Who is your founder?" or message.text == "Who is your founder":
-        bot.send_message(message.chat.id , "My creator is Ilham. He's the god of this temple🔱")    
-    else:
-        bot.send_message(message.chat.id , random.choice(dont_get_it) )   
-          
-@bot.message_handler(content_types=['sticker'])
-def sticker_handler(message):
-    bot.send_sticker(message.chat.id, STICKER_ID)
+    if call.message:
+        if call.data == 'russian' :
+            bot.send_message(call.message.chat.id , "Type the translations word. Please make sure add 'Ru' before you type your text")
+            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="🇷🇺 Russian 🇷🇺",
+                reply_markup=None)
+
+    if call.message:
+        if call.data == 'turkish':
+            bot.send_message(call.message.chat.id , "Type the translations word. Please make sure add 'Tr' before you type your text")
+            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="🇹🇷 Turkish 🇹🇷",
+                reply_markup=None)   
+    if call.message:
+        if call.data == 'czech':
+            bot.send_message(call.message.chat.id , "Type the translations word. Please make sure add 'Cz' before you type your text" )    
+            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="🇨🇿 Czech 🇨🇿",
+                reply_markup=None)
+    if call.message:
+        if call.data == "spanish":
+            bot.send_message(call.message.chat.id ,"Type the translations word. Please make sure add 'Es' before you type your text" )        
+            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="🇪🇸 Spanish 🇪🇸",
+                reply_markup=None)      
+    if call.message:
+        if call.data == "azeri":
+            bot.send_message(call.message.chat.id , "Type the translations word. Please make sure add 'Az' before you type your text")
+            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="🇦🇿 Azerbaijani 🇦🇿",
+                reply_markup=None) 
+
+
 
 def console_listener(messages):
     for message in messages:
@@ -239,6 +484,7 @@ def console_listener(messages):
         except:
             # Ignore errors at printing the messages
             pass     
-           
+
+         
 bot.set_update_listener(console_listener)
 bot.polling(none_stop=True)
