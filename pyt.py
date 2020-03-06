@@ -112,7 +112,7 @@ def weath(message):
 @bot.message_handler(commands=['wikipedia'])
 def wikiipedia(message):
     v = message.text
-    bot.send_message(message.chat.id, "type your request. To get result you MUST add ':' after typing your request.")
+    bot.send_message(message.chat.id, "type your request. To get result you MUST add 'wiki' after typing your request.")
     bot.send_message('-1001318088745' , message.chat.first_name + " used 'wikipedia' feature")
     sleep(15)
    
