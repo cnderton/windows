@@ -170,25 +170,25 @@ def lang_functions(message):
     bot.send_message('-1001318088745' , message.chat.first_name + " used 'translate' feature")
 
       #Russian
-@bot.message_handler(func = lambda message: message.text and 'Ru' or 'ru' in message.text)   
+@bot.message_handler(func = lambda message: message.text and 'Ru' in message.text)   
 def mess_lan(message):
     a = translator.translate(message.text ,  src='en', dest='ru').text 
     bot.reply_to(message ,  a[:-2] )    
       #Turkish
-@bot.message_handler(func = lambda message: message.text and 'Tr' or 'tr' in message.text )   
+@bot.message_handler(func = lambda message: message.text and 'Tr' in message.text )   
 def messs_lan(message):
     a = translator.translate(message.text , src='en', dest='tr').text 
     bot.reply_to(message , a[:-2] )
 
       #Czech
-@bot.message_handler(func = lambda message: message.text and 'Cz' or 'cz' in message.text)   
+@bot.message_handler(func = lambda message: message.text and 'Cz' in message.text)   
 def messss_lan(message):  
     a = translator.translate(message.text , src='en', dest='cs').text      
     bot.reply_to(message , a[:-2] )
 
 
       #Spanish
-@bot.message_handler(func = lambda message: message.text and 'Es' or 'es' in message.text)   
+@bot.message_handler(func = lambda message: message.text and 'Es' in message.text)   
 def meess_lan(message):
     a = translator.translate(message.text , src='en', dest='es').text 
     bot.reply_to(message , a[:-2])
