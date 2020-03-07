@@ -16,7 +16,7 @@ from dialogflow_lite.dialogflow import Dialogflow#new
 
 
 #Token
-token = '742874199:AAEd7j8rRFh3Ymmg_g1ccsgMMARQzj-cfcE'
+token = "742874199:AAEd7j8rRFh3Ymmg_g1ccsgMMARQzj-cfcE"
 bot = telebot.TeleBot(token=token)
 STICKER_ID = 'CAADAgADXwMAAgw7AAEKTh8jAAH9Q-gAAQI'
 #client = Client('ylFpj3mg5MhcKlQGkSnqcnyU1NCQm88KicZVFLHV')
@@ -280,6 +280,14 @@ def callback_inline(call):
                 bot.send_message(call.message.chat.id, "Choose one", reply_markup=currencyy)
     # I N L I N E ends here                       
 
+    if call.message:
+        if call.data == "talkk":
+            bot.send_message(call.message.chat.id , "Hi:)")
+            @bot.message_handler(func = lambda message: 'hey' or 'Hey' or 'HEY' in message.text)
+            def msg (message):        
+             bot.send_chat_action(message.chat.id, 'typing')
+             #response = dialogflow.text_request(message.text) 
+             bot.send_message(message.chat.id , dialogflow.text_request(message.text) )
            
     #  R A T E starts here
     if call.message:
@@ -431,14 +439,7 @@ def callback_inline(call):
                 z = str(b)
                 bot.send_message(message.chat.id ,  "𝗘𝗨𝗥 -> 𝗨𝗦𝗗\n\nCost of " + message.text[:-3] + "€ is " + z + "$") 
 
-    if call.message:
-        if call.data == "talkk":
-            bot.send_message(call.message.chat.id , "Hi:)")
-            @bot.message_handler(func = lambda message: 'hey' or 'Hey' or 'HEY' in message.text)
-            def msg (message):        
-             bot.send_chat_action(message.chat.id, 'typing')
-             #response = dialogflow.text_request(message.text) 
-             bot.send_message(message.chat.id , dialogflow.text_request(message.text) )
+
             
     if call.message:
         if call.data == 'russian' :
