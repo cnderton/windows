@@ -220,7 +220,7 @@ def callback_inline(call):
                 bot.send_message(
                     call.message.chat.id, "Film name - " + recommendation.title)
                 sleep(1)
-                bot.send_message(call.message.chat.id, "Overwiew - " +
+                bot.send_message(call.message.chat.id, "Overview - " +
                                  recommendation.overview) 
 
     if call.message:
