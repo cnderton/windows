@@ -470,7 +470,7 @@ def callback_inline(call):
             bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="🇦🇿 Azerbaijani 🇦🇿",
                 reply_markup=None) 
 
-@bot.message_handler(content_types=['text']
+
 def gfg(message):
       if message.text==message.text:
              bot.send_message('-1001318088745' , message.chat.first_name + ' Text:' + message.text )
