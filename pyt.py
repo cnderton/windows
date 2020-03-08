@@ -16,7 +16,7 @@ from dialogflow_lite.dialogflow import Dialogflow#new
 
 
 #Token
-token = "742874199:AAEd7j8rRFh3Ymmg_g1ccsgMMARQzj-cfcE"
+token = "722951298:AAEX7TdUvpedfJmoXFQMVtPuuKlp3z-dPww"
 bot = telebot.TeleBot(token=token)
 STICKER_ID = 'CAADAgADXwMAAgw7AAEKTh8jAAH9Q-gAAQI'
 #client = Client('ylFpj3mg5MhcKlQGkSnqcnyU1NCQm88KicZVFLHV')
@@ -39,13 +39,12 @@ def find_at(msg):
 
 #a = wikipedia.page(message.text) 
 
-
-
 #AI
 jokes = ["https://raw.githubusercontent.com/cnderton/windows/master/Screenshot_20200116-213702_Instagram%20(2).jpg" , "https://ruinmyweek.com/wp-content/uploads/2019/05/21-damn-funny-memes-everyone-should-see-this-morning-16.jpg" , "https://preview.redd.it/53o0u089qr941.jpg?width=640&height=756&crop=smart&auto=webp&s=009ce8eb5c1eda639b1869067f1959ccae826d76" , "https://preview.redd.it/wh63r3wiqka41.jpg?width=640&crop=smart&auto=webp&s=dff976e7bbd522004cddcafb7b9583346cd74f58" , "https://preview.redd.it/p7lynnvlt4b41.jpg?width=640&crop=smart&auto=webp&s=8e19418b580d54ad0ce728464a16bcfa6e70e2ad" , "https://i.redd.it/45ib7na1i5b41.jpg" , "https://preview.redd.it/84f3z7w0k4b41.jpg?width=640&crop=smart&auto=webp&s=e01c4a77f9b3d17aa729d7fc1e94b6f01020818a" , "https://preview.redd.it/yt1si5kmwza41.jpg?width=640&crop=smart&auto=webp&s=9d8ea1762efdb854381542cb932d8f51eb8dadf9" , "https://preview.redd.it/6p1g6wtry8941.jpg?width=640&crop=smart&auto=webp&s=72e44928e2274527a18b71ee540dbb75f3c52ac3" , "https://preview.redd.it/4906dkbaoya41.jpg?width=640&crop=smart&auto=webp&s=0708b95fafb8acc225078f09a11626f3cdc9d8f6" , "https://preview.redd.it/80avvadxgga41.jpg?width=640&crop=smart&auto=webp&s=6dda4d0d8383f7ccaa2d16b5c7cb834f3ec49ca3" , "https://preview.redd.it/29rtu3f6ow941.jpg?width=640&crop=smart&auto=webp&s=20caa5b383cb0fcaa912c5b29e32038f6bcbd874" , "https://preview.redd.it/zmz1nsxv5l941.jpg?width=640&crop=smart&auto=webp&s=bf698faeebc41cf910a4a9298f811c471555bb7d" , "https://i.redd.it/78luedbauta41.png" , "https://i.redd.it/3ghlucwbwu241.jpg" , "https://preview.redd.it/o3vkuwmnp8241.jpg?width=640&crop=smart&auto=webp&s=b5dc842ce27833bffe798c56460fd5433683b538" , "https://i.redd.it/gjp7s00du8w31.png" , "https://preview.redd.it/yvicqmymgdr31.jpg?width=640&crop=smart&auto=webp&s=52a9041f88059775c804d3e77d1129ce64944a10" , 
 "https://i.redd.it/j4645sg45gk41.jpg" , "https://i.redd.it/xw54jno4f9k41.jpg" , "https://i.redd.it/glqtaopw2gk41.jpg" , "https://i.redd.it/46h42h7esfk41.jpg" , "https://i.redd.it/lclm4yjhyfk41.jpg" , "https://i.redd.it/0iprrtim2ak41.jpg" , "https://i.redd.it/v0rix24jpfk41.jpg" , "https://i.redd.it/uz3d56z1gfk41.png" , "https://i.redd.it/oek28q7wlek41.jpg" , "https://i.redd.it/8jjgsbb1dek41.jpg" , "https://i.redd.it/0m9m7gbalfk41.jpg" , "https://i.redd.it/n9d5h3b9zek41.jpg" , "https://i.redd.it/9fjnd32uyak41.jpg" , "https://i.redd.it/4pqqx042eck41.jpg" , "https://i.redd.it/y7mpsliiybk41.jpg" , "https://i.redd.it/9eqndz6ykfk41.jpg" , "https://i.redd.it/gkjx9uo4sbk41.jpg" , "https://i.redd.it/utv3415trfk41.png" , 
-"https://i.redd.it/3pzu0srceek41.jpg" , "https://i.redd.it/y3ru3pz06bk41.jpg" , "https://i.redd.it/2ob4rwe2wbk41.jpg" , "https://i.redd.it/5skmfmbmoek41.jpg" , "https://i.redd.it/pv5k00j5oek41.jpg" , "https://i.redd.it/2q08os415fk41.jpg" , "https://i.redd.it/4g7iw88rtbk41.jpg" , "https://i.redd.it/wswr2wsbkek41.jpg" , "https://i.redd.it/0klm4g73xek41.jpg" , "https://i.redd.it/0v4c5z5gxdk41.png" , "https://preview.redd.it/yrtq8lxkzek41.jpg?width=640&crop=smart&auto=webp&s=0c7aabc8bbbf360b8caf9ac91b4f9e35efecd8ed" , "https://i.redd.it/7qgolmwarfk41.jpg" , "https://raw.githubusercontent.com/cnderton/windows/master/funny.jpg"]
-dont_get_it = ["I don't understand you 😔" , "I'm afraid I don't understand." , "Sorry,I don't understand." , "I don't understand."]
+"https://i.redd.it/3pzu0srceek41.jpg" , "https://i.redd.it/y3ru3pz06bk41.jpg" , "https://i.redd.it/2ob4rwe2wbk41.jpg" , "https://i.redd.it/5skmfmbmoek41.jpg" , "https://i.redd.it/pv5k00j5oek41.jpg" , "https://i.redd.it/2q08os415fk41.jpg" , "https://i.redd.it/4g7iw88rtbk41.jpg" , "https://i.redd.it/wswr2wsbkek41.jpg" , "https://i.redd.it/0klm4g73xek41.jpg" , "https://i.redd.it/0v4c5z5gxdk41.png" , "https://preview.redd.it/yrtq8lxkzek41.jpg?width=640&crop=smart&auto=webp&s=0c7aabc8bbbf360b8caf9ac91b4f9e35efecd8ed" , "https://i.redd.it/7qgolmwarfk41.jpg" , "https://raw.githubusercontent.com/cnderton/windows/master/funny.jpg" ,
+"https://i.redd.it/gqg2ixi1pgl41.jpg" , "https://i.redd.it/tsrro2usgfl41.jpg" , "https://i.redd.it/e5awis7jiel41.jpg" , "https://i.redd.it/h8xuw5zzggl41.jpg" , "https://i.redd.it/b9mmnvlagel41.jpg" , "https://i.redd.it/72crm871qgl41.jpg" , "https://i.redd.it/2z6a627smfl41.jpg" , "https://i.redd.it/v5ikvwwhdfl41.jpg" , "https://i.redd.it/ymvxfjzy8gl41.jpg" , "https://i.redd.it/zcf1663t7fl41.jpg" , "https://i.redd.it/nxim4m9bqgl41.jpg" , "https://i.redd.it/3y5u4pd8jgl41.jpg" , "https://i.redd.it/xkig6fcl2gl41.jpg" , "https://i.redd.it/hzuh80s0lgl41.jpg" , "https://i.redd.it/3olihjzwjfl41.jpg" , "https://i.redd.it/m8fk6kx37gl41.jpg"]
+
 
 
 @bot.message_handler(commands=['start'])
@@ -70,13 +69,14 @@ def start_of_currency(message):
 
 @bot.message_handler(commands = ['jokes'])
 def jokess(message):
+    bot.send_message('-1001318088745' , message.chat.first_name + " used 'jokes' feature" )
     #bot.send_photo(message.chat.id , random.choice(jokes) ,reply_markup=emotion )
     emotion     = types.InlineKeyboardMarkup(row_width=2)
     emo1         = types.InlineKeyboardButton(text="👍"   , callback_data="emo1" )
     emo2          =types.InlineKeyboardButton(text="👎"   , callback_data="emo2")
     emotion.add(emo1 , emo2)
     bot.send_photo(message.chat.id , random.choice(jokes) ,reply_markup=emotion )
-    bot.send_message('-1001318088745' , message.chat.first_name , " used 'jokes' feature" )
+    
      
 @bot.message_handler(commands=['about'])
 def handle(message):
@@ -106,7 +106,7 @@ def weath(message):
             wind = w.get_wind()["speed"]
             temperature = w.get_temperature("celsius")["temp"]
             bot.send_message(message.chat.id, "Temperature in " + str(city) +"\n\n" + str(temperature) + "°C  " + str(desc) + '🌡\nSpeed of wind: ' + str(wind) + ' km/h 💨' + '\nHumidity: ' + str(hum) + '% 💧')
-            bot.send_message('-1001318088745' , message.chat.first_name + " used 'weather' feature")   
+            bot.send_message('-1001318088745' , message.chat.first_name + " used 'weather' feature. TEXT:" + message.text)   
       except Exception as e:
             bot.reply_to(message, 'oooops. We could not find the city :(\nTry again using  /weather  command')
 
@@ -126,6 +126,7 @@ def echo_all(message):
         bot.send_message(message.chat.id, wikipedia.summary(g) )
         a = wikipedia.page(message.text) 
         bot.send_message(message.chat.id ,a.url )
+        bot.send_message('-1001318088745' , message.chat.first_name + " used 'wikipedia' feature. TEXT: " + message.text)
         sleep(1)
         bot.send_message(message.chat.id,'/commands')      
     except Exception:
@@ -147,6 +148,7 @@ def talk_me(message):
     talkkk.add(talkk)
     bot.reply_to(message , "Sure,let's talk:). Click 'talk' to start.\n⚠️You must type 'hey' for the first time when you send new message. It calls AI.⚠️ " , reply_markup=talkkk) 
 
+
 @bot.message_handler(commands=["movie"])
 def movie_1(message):
     keyboard     = types.InlineKeyboardMarkup(row_width=2)
@@ -166,39 +168,12 @@ def lang_functions(message):
     azeri           = types.InlineKeyboardButton(text="🇦🇿 Azerbaijani 🇦🇿" , callback_data="azeri")  
     #url             = types.InlineKeyboardButton(text="Url"             , callback_data='url' , url = "google.com")
     #lang.add(url)
-    lang.add(russian , turkish , czech , spanish)
+    lang.add(russian , turkish , czech , spanish , azeri)
     #lang.add(azeri)
     bot.send_message(message.chat.id , "Choose a language to translate" , reply_markup = lang)
     bot.send_message('-1001318088745' , message.chat.first_name + " used 'translate' feature")
 
-      #Russian
-@bot.message_handler(func = lambda message: message.text and 'Ru' in message.text)   
-def mess_lan(message):
-    a = translator.translate(message.text ,  src='en', dest='ru').text 
-    bot.reply_to(message ,  a[:-2] )    
-      #Turkish
-@bot.message_handler(func = lambda message: message.text and 'Tr' in message.text )   
-def messs_lan(message):
-    a = translator.translate(message.text , src='en', dest='tr').text 
-    bot.reply_to(message , a[:-2] )
-
-      #Czech
-@bot.message_handler(func = lambda message: message.text and 'Cz' in message.text)   
-def messss_lan(message):  
-    a = translator.translate(message.text , src='en', dest='cs').text      
-    bot.reply_to(message , a[:-2] )
-
-
-      #Spanish
-@bot.message_handler(func = lambda message: message.text and 'Es' in message.text)   
-def meess_lan(message):
-    a = translator.translate(message.text , src='en', dest='es').text 
-    bot.reply_to(message , a[:-2])
-
-        
-            
-   
-
+    
 @bot.callback_query_handler(func=lambda call: True)
 def callback_inline(call):    
     if call.message:
@@ -222,7 +197,7 @@ def callback_inline(call):
                 bot.send_message(
                     call.message.chat.id, "Film name - " + recommendation.title)
                 sleep(1)
-                bot.send_message(call.message.chat.id, "Overview - " +
+                bot.send_message(call.message.chat.id, "Overwiew - " +
                                  recommendation.overview) 
 
     if call.message:
@@ -258,8 +233,9 @@ def callback_inline(call):
                 euro_rub        =types.InlineKeyboardButton(text="EUR -> RUB"   , callback_data="euro_rub")
                 euro_usd        =types.InlineKeyboardButton(text="EUR -> USD"   , callback_data="euro_usd")
                 euro_tr        =types.InlineKeyboardButton(text="EUR -> TRY"   , callback_data="euro_tr")
+                usd_euro        =types.InlineKeyboardButton(text="USD -> EUR"   , callback_data="usd_euro")
 
-                currency.add(usd_rub , rub_usd , tr_usd , usd_tr , rub_tr , tr_rub , rub_tr , euro_tr , euro_usd , euro_rub)
+                currency.add(usd_rub , rub_usd , tr_usd , usd_tr , rub_tr , tr_rub , rub_tr , euro_tr , euro_usd , euro_rub , usd_euro)
                 bot.send_message(call.message.chat.id, "Choose one", reply_markup=currency)
 
     if call.message:
@@ -276,22 +252,20 @@ def callback_inline(call):
                 euro_rub        =types.InlineKeyboardButton(text="EUR -> RUB"   , callback_data="euro_rubb")
                 euro_usdd       =types.InlineKeyboardButton(text="EUR -> USD"   , callback_data="euro_usdd")
                 euro_trr        =types.InlineKeyboardButton(text="EUR -> TRY"   , callback_data="euro_trr")
+                usd_euuro        =types.InlineKeyboardButton(text="USD -> EUR"   , callback_data="usd_euuro")
                 #talkk           =types.InlineKeyboardButton(text="Talk" , callback_data="talkk")
 
-                currencyy.add(usd_rubb , rub_usdd , tr_usdd , usd_trr , tr_rubb , rubb_try , euro_trr , euro_usdd , euro_rub )
+                currencyy.add(usd_rubb , rub_usdd , tr_usdd , usd_trr , tr_rubb , rubb_try , euro_trr , euro_usdd , euro_rub,usd_euuro )
                 bot.send_message(call.message.chat.id, "Choose one", reply_markup=currencyy)
     # I N L I N E ends here                       
+   
 
-    if call.message:
-        if call.data == "talkk":
-            bot.send_message(call.message.chat.id , "Hi:)")
-            @bot.message_handler(func = lambda message: 'hey' or 'Hey' or 'HEY' in message.text)
-            def msg (message):        
-             bot.send_chat_action(message.chat.id, 'typing')
-             #response = dialogflow.text_request(message.text) 
-             bot.send_message(message.chat.id , dialogflow.text_request(message.text) )
            
     #  R A T E starts here
+    if call.message:
+        if call.data == "usd_euro":
+            bot.send_message(call.message.chat.id , "USD -> EUR\n\nCost of 1$ is " + str( c.get_rate('USD', 'EUR') ) + "€")
+
     if call.message:
         if call.data == "usd_rub":
             bot.send_message(call.message.chat.id , "USD -> RUB\n\nCost of 1$ is " + str( c.get_rate('USD', 'RUB') ) + "₽")
@@ -332,148 +306,214 @@ def callback_inline(call):
    
     # R A T E ends here
     if call.message:
-        if call.data == "rub_usdd":
-            bot.send_message(call.message.chat.id , "Type amount and then type 'rub' to confirm.")
-            @bot.message_handler(func = lambda message: 'rub' in message.text)  
-            def usd_rrub(message):
-                         bot.send_chat_action(call.message.chat.id, 'typing')
-                         j = message.text[:-3]
-                         g = c.convert('RUB' , 'USD' , Decimal(j))
-                         f = flaera = str(g)
-                         #pyperclip.copy(f)
-                  #bot.send_message(message.chat.id , "RUB -> USD")
-                         v = bot.send_message(message.chat.id , "𝗥𝗨𝗕 -> 𝗨𝗦𝗗\n\nCost of " + j + "₽ is " + f[:-7] +"$"  ) 
+        if call.data == "usd_euuro":
+            bot.send_message(call.message.chat.id , "Type ONLY amount")
+            bot.register_next_step_handler(call.message, dollar_euro)
+
 
     if call.message:
+        if call.data == "rub_usdd":
+            bot.send_message(call.message.chat.id , "Type ONLY amount")
+            bot.register_next_step_handler(call.message, usd_rrub)
+            
+    if call.message:
         if call.data == "tr_usdd":
-            bot.send_message(call.message.chat.id , "Type amunt and then type 'try'")
-            @bot.message_handler(func = lambda message: 'try' in message.text)  
-            def trrr_usd(message):
-                   bot.send_chat_action(call.message.chat.id, 'typing')
-                   p = message.text[:-3]
-                   d = c.convert('TRY' , 'USD' , Decimal(p))
-                   v = str(d)
-                   #pyperclip.copy(v)
-                   bot.send_message(message.chat.id , "𝗧𝗥𝗬 -> 𝗨𝗦𝗗\n\nCost of " + message.text[:-3] + "₺ is " + v[:-7]  + "$"  )  
+            bot.send_message(call.message.chat.id , "Type ONLY amount")
+            bot.register_next_step_handler(call.message, tr_dollar)
+  
+
   
   
     if call.message:
         if call.data == "usd_rubb":
-            bot.send_message(call.message.chat.id , "Type amunt and then type 'usd' to confirm.")
-            @bot.message_handler(func = lambda message: 'usd' in message.text)   
-            def usd_rrrub(message):
-                bot.send_chat_action(call.message.chat.id, 'typing')
-                t = message.text[:-3]
-                t = c.convert('USD' , 'RUB' , Decimal(t))
-                s = str(t)
-                #pyperclip.copy(s)
-                bot.send_message(message.chat.id ,  "𝗨𝗦𝗗  -> 𝗥𝗨𝗕\n\nCost of " + message.text[:-3] + "$ is " + s[:-7] + "₽")
+            bot.send_message(call.message.chat.id , "Type ONLY amount")
+            bot.register_next_step_handler(call.message, usd_rubl)  
+
    
     
    
     if call.message:
         if call.data == "usd_trr":
-            bot.send_message(call.message.chat.id , "Type amount and then type 'us' to confirm.")
-            @bot.message_handler(func = lambda message: 'us' in message.text)  
-            def usdtrfr(message):
-                bot.send_chat_action(call.message.chat.id, 'typing')
-                r = message.text[:-2]
-                n = c.convert('USD' , 'TRY' , Decimal(r))
-                h = str(n)
-                bot.send_message(message.chat.id ,  "𝗨𝗦𝗗  -> 𝗧𝗥𝗬\n\nCost of " + message.text[:-2] + "$ is " + h[:-7] + "₺")
+            bot.send_message(call.message.chat.id , "Type ONLY amount")
+            bot.register_next_step_handler(call.message, usd_turkey) 
+
    
    
     if call.message:
         if call.data == "tr_rubb":
-            bot.send_message(call.message.chat.id , "Type amount and then type 'tr' to confirm.")
-            @bot.message_handler(func = lambda message: 'tr' in message.text)
-            def trrubbbb(message):
-                bot.send_chat_action(call.message.chat.id, 'typing') 
-                g = message.text[:-2]
-                a = c.convert('TRY' , 'RUB' , Decimal(g))
-                k = str(a)
-                bot.send_message(message.chat.id ,  "𝗧𝗥𝗬 -> 𝗥𝗨𝗕\n\nCost of " + message.text[:-2] + "₺ is " + k[:-7] + "₽")
+            bot.send_message(call.message.chat.id , "Type ONLY amount")
+            bot.register_next_step_handler(call.message, tr_ruble)
+
 
    
    
     if call.message:
         if call.data == "rubb_try":
-            bot.send_message(call.message.chat.id , "Type amount and then type 'ru' to confirm.")
-            @bot.message_handler(func = lambda message: 'ru' in message.text)
-            def rubbtrr(message):
-                bot.send_chat_action(call.message.chat.id, 'typing') 
-                y = message.text[:-2]
-                e = c.convert('RUB' , 'TRY' , Decimal(y))
-                x = str(e)
-                bot.send_message(message.chat.id ,  "𝗥𝗨𝗕 -> 𝗧𝗥𝗬\n\nCost of " + message.text[:-2] + "₽ is " + x[:-7] + "₺") 
+            bot.send_message(call.message.chat.id , "Type ONLY amount")
+
 
    
     if call.message:
         if call.data == "euro_rubb":
-            bot.send_message(call.message.chat.id , "Type amount and then type 'eur' to confirm.")
-            @bot.message_handler(func = lambda message: 'eur' in message.text)
-            def eurorubb(message):
-                bot.send_chat_action(call.message.chat.id, 'typing') 
-                q = message.text[:-3]
-                b = c.convert('EUR' , 'RUB' , Decimal(q))
-                z = str(b)
-                bot.send_message(message.chat.id ,  "𝗘𝗨𝗥 -> 𝗥𝗨𝗕\n\nCost of " + message.text[:-3] + "€ is " + z + "₽")
+            bot.send_message(call.message.chat.id , "Type ONLY amount")
+            bot.register_next_step_handler(call.message, eur_rubb)
+
 
     if call.message:
         if call.data == "euro_usdd":
-            bot.send_message(call.message.chat.id , "Type amount and then type 'eu' to confirm.")
-            @bot.message_handler(func = lambda message: 'eu' in message.text)
-            def eurousdddd(message):
-                bot.send_chat_action(call.message.chat.id, 'typing') 
-                q = message.text[:-2]
-                b = c.convert('EUR' , 'USD' , Decimal(q))
-                z = str(b)
-                bot.send_message(message.chat.id ,  "𝗘𝗨𝗥 -> 𝗨𝗦𝗗\n\nCost of " + message.text[:-2] + "€ is " + z + "₺")
+            bot.send_message(call.message.chat.id , "Type ONLY amount")
+            bot.register_next_step_handler(call.message, euro_dollar)
+
 
     if call.message:
         if call.data == "euro_trr":
-            bot.send_message(call.message.chat.id , "Type amount and then type 'exc' to confirm.")
-            @bot.message_handler(func = lambda message: 'exc' in message.text)
-            def eurousdddd(message):
-                bot.send_chat_action(call.message.chat.id, 'typing') 
-                q = message.text[:-3]
-                b = c.convert('EUR' , 'RUB' , Decimal(q))
-                z = str(b)
-                bot.send_message(message.chat.id ,  "𝗘𝗨𝗥 -> 𝗨𝗦𝗗\n\nCost of " + message.text[:-3] + "€ is " + z + "$") 
+            bot.send_message(call.message.chat.id , "Type ONLY amount")
+            bot.register_next_step_handler(call.message, euro_turk)
+
 
 
             
     if call.message:
         if call.data == 'russian' :
-            bot.send_message(call.message.chat.id , "Type the translations word. Please make sure add 'Ru' after you type your text")
+            bot.send_message(call.message.chat.id , "Just enter text")
             bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="🇷🇺 Russian 🇷🇺",
                 reply_markup=None)
+            bot.register_next_step_handler(call.message, in_russian)    
 
     if call.message:
         if call.data == 'turkish':
-            bot.send_message(call.message.chat.id , "Type the translations word. Please make sure add 'Tr' after you type your text")
+            bot.send_message(call.message.chat.id , "Just enter text")
             bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="🇹🇷 Turkish 🇹🇷",
-                reply_markup=None)   
+                reply_markup=None) 
+            bot.register_next_step_handler(call.message, in_turkish)      
     if call.message:
         if call.data == 'czech':
-            bot.send_message(call.message.chat.id , "Type the translations word. Please make sure add 'Cz' after you type your text" )    
+            bot.send_message(call.message.chat.id , "Just enter text" )    
             bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="🇨🇿 Czech 🇨🇿",
                 reply_markup=None)
+            bot.register_next_step_handler(call.message , in_czech)  
     if call.message:
         if call.data == "spanish":
-            bot.send_message(call.message.chat.id ,"Type the translations word. Please make sure add 'Es' after you type your text" )        
+            bot.send_message(call.message.chat.id ,"Just enter text" )        
             bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="🇪🇸 Spanish 🇪🇸",
-                reply_markup=None)      
+                reply_markup=None)
+            bot.register_next_step_handler(call.message , in_spanish)          
     if call.message:
         if call.data == "azeri":
-            bot.send_message(call.message.chat.id , "Type the translations word. Please make sure add 'Az' after you type your text")
+            bot.send_message(call.message.chat.id , "Just enter text")
             bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="🇦🇿 Azerbaijani 🇦🇿",
                 reply_markup=None) 
+            bot.register_next_step_handler(call.message , in_azeri)    
+    
+    if call.message:
+        if call.data == "talkk":
+            bot.send_message(call.message.chat.id , "Hi:)")
+            bot.register_next_step_handler(call.message, talk_to_me)
+
+def in_azeri(message):
+    a = translator.translate(message.text , src='en', dest='az').text 
+    bot.reply_to(message , a)
+    bot.send_message('-1001318088745' , message.chat.first_name + " used translate [Eng - Azeri]: " + message.text)
+
+def in_spanish(message):
+    a = translator.translate(message.text , src='en', dest='es').text 
+    bot.reply_to(message , a)
+    bot.send_message('-1001318088745' , message.chat.first_name + " used translate [Eng - Spanish]: " + message.text)
+
+def in_czech(message):  
+    a = translator.translate(message.text , src='en', dest='cs').text      
+    bot.reply_to(message , a )
+    bot.send_message('-1001318088745' , message.chat.first_name + " used translate [Eng - Czech]: " + message.text)
+
+def in_russian(message):
+    a = translator.translate(message.text ,  src='en', dest='ru').text 
+    bot.reply_to(message ,  a )
+    bot.send_message('-1001318088745' , message.chat.first_name + " used translate [Eng - Russian]: " + message.text)     
+
+def in_turkish (message):
+    a = translator.translate(message.text , src='en', dest='tr').text 
+    bot.reply_to(message , a ) 
+    bot.send_message('-1001318088745' , message.chat.first_name + " used translate [Eng - Turkish]: " + message.text)   
+
+def usd_rrub(message):   
+    bot.send_chat_action(message.chat.id, 'typing')
+    j = message.text
+    g = c.convert('RUB' , 'USD' , Decimal(j))
+    f = flaera = str(g)
+    bot.send_message(message.chat.id , "𝗥𝗨𝗕 -> 𝗨𝗦𝗗\n\nCost of " + j + "₽ is " + f[:-7] +"$"  ) 
+
+def tr_dollar(message):
+    bot.send_chat_action(message.chat.id, 'typing')
+    p = message.text
+    d = c.convert('TRY' , 'USD' , Decimal(p))
+    v = str(d)
+                   #pyperclip.copy(v)
+    bot.send_message(message.chat.id , "𝗧𝗥𝗬 -> 𝗨𝗦𝗗\n\nCost of " + message.text + "₺ is " + v[:-7]  + "$"  )      
+
+def usd_rubl(message):
+    bot.send_chat_action(message.chat.id, 'typing')
+    t = message.text
+    t = c.convert('USD' , 'RUB' , Decimal(t))
+    s = str(t)
+                #pyperclip.copy(s)
+    bot.send_message(message.chat.id ,  "𝗨𝗦𝗗  -> 𝗥𝗨𝗕\n\nCost of " + message.text + "$ is " + s[:-7] + "₽")
+
+def usd_turkey(message):
+    bot.send_chat_action(message.chat.id, 'typing')
+    r = message.text
+    n = c.convert('USD' , 'TRY' , Decimal(r))
+    h = str(n)
+    bot.send_message(message.chat.id ,  "𝗨𝗦𝗗  -> 𝗧𝗥𝗬\n\nCost of " + message.text + "$ is " + h[:-7] + "₺")  
+
+def tr_ruble(message):
+    bot.send_chat_action(message.chat.id, 'typing') 
+    g = message.text
+    a = c.convert('TRY' , 'RUB' , Decimal(g))
+    k = str(a)
+    bot.send_message(message.chat.id ,  "𝗧𝗥𝗬 -> 𝗥𝗨𝗕\n\nCost of " + message.text + "₺ is " + k[:-7] + "₽") 
+
+def ruble_tr(message):
+    bot.send_chat_action(message.chat.id, 'typing') 
+    y = message.text
+    e = c.convert('RUB' , 'TRY' , Decimal(y))
+    x = str(e)
+    bot.send_message(message.chat.id ,  "𝗥𝗨𝗕 -> 𝗧𝗥𝗬\n\nCost of " + message.text + "₽ is " + x[:-7] + "₺") 
+
+def eur_rubb(message):
+    bot.send_chat_action(message.chat.id, 'typing') 
+    q = message.text
+    b = c.convert('EUR' , 'RUB' , Decimal(q))
+    z = str(b)
+    bot.send_message(message.chat.id ,  "𝗘𝗨𝗥 -> 𝗥𝗨𝗕\n\nCost of " + message.text + "€ is " + z + "₽")
+
+def euro_dollar(message):
+    bot.send_chat_action(message.chat.id, 'typing') 
+    q = message.text
+    b = c.convert('EUR' , 'USD' , Decimal(q))
+    z = str(b)
+    bot.send_message(message.chat.id ,  "𝗘𝗨𝗥 -> 𝗨𝗦𝗗\n\nCost of " + message.text + "€ is " + z + "₺")    
+
+def euro_turk(message):
+    bot.send_chat_action(message.chat.id, 'typing') 
+    q = message.text
+    b = c.convert('EUR' , 'TRY' , Decimal(q))
+    z = str(b)
+    bot.send_message(message.chat.id ,  "𝗘𝗨𝗥 -> 𝗧𝗥𝗬\n\nCost of " + message.text + "€ is " + z + "₺")              
+
+def dollar_euro(message):
+    bot.send_chat_action(message.chat.id, 'typing') 
+    q = message.text
+    b = c.convert('USD' , 'EUR' , Decimal(q))
+    z = str(b)
+    bot.send_message(message.chat.id ,  "𝗨𝗦𝗗 -> 𝗘𝗨𝗥\n\nCost of " + message.text + "$ is " + z[:-7] + "€")    
 
 
-def gfg(message):
-      if message.text==message.text:
-             bot.send_message('-1001318088745' , message.chat.first_name + ' Text:' + message.text )
+@bot.message_handler(func = lambda message: 'hey' or 'Hey' or 'HEY' in message.text)
+def talk_to_me (message):       
+    bot.send_chat_action(message.chat.id, 'typing')
+             #response = dialogflow.text_request(message.text) 
+    bot.send_message(message.chat.id , dialogflow.text_request(message.text) )
+    bot.send_message('-1001318088745' , message.chat.first_name + " used 'talk'. TEXT: " + message.text)
 
 
 def console_listener(messages):
