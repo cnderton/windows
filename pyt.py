@@ -13,10 +13,10 @@ import json
 from google_trans import Translator#new
 from decimal import Decimal #new
 from dialogflow_lite.dialogflow import Dialogflow#new
-
+import lyricsgenius
 
 #Token
-token = "742874199:AAEd7j8rRFh3Ymmg_g1ccsgMMARQzj-cfcE"
+token = "722951298:AAEX7TdUvpedfJmoXFQMVtPuuKlp3z-dPww"
 bot = telebot.TeleBot(token=token)
 STICKER_ID = 'CAADAgADXwMAAgw7AAEKTh8jAAH9Q-gAAQI'
 #client = Client('ylFpj3mg5MhcKlQGkSnqcnyU1NCQm88KicZVFLHV')
@@ -24,6 +24,7 @@ url = 'https://api.nasa.gov/planetary/apod?' # I don't get how url queries work,
 API_KEY = 'api_key=ylFpj3mg5MhcKlQGkSnqcnyU1NCQm88KicZVFLHV' #own API key, please register for your own at NASA Open APIs
 client_access_token = '7f9559e9436744a9bef9a562551c16ff'
 dialogflow = Dialogflow(client_access_token=client_access_token)
+genius = lyricsgenius.Genius("cw_sMUY8L7tqlykWOqiWwasqcPq_9SofNKX8CxKyOMIarw4TABsU2x6WxSeKol_j")
 translator = Translator()
 c = CurrencyRates()
 tmdb = TMDb()
@@ -55,7 +56,7 @@ def handle_start_help(message):
 @bot.message_handler(commands=['commands'])
 def handle_start(message):
     bot.send_photo(message.chat.id , "https://github.com/cnderton/windows/blob/master/AVrean.jpg?raw=true")
-    bot.send_message(message.chat.id , "🅐🅥🅡🅔🅐🅝  🅕🅔🅐🅣🅤🅡🅔🅢\n●/about - More about us\n--------------------------------------------------------\n●/weather - Find out current temperature in your region\n--------------------------------------------------------\n●/review - Share your ideas and experience\n--------------------------------------------------------\n●/wikipedia - Get needed information from Wikipedia without leaving Telegram\n--------------------------------------------------------\n●/contact - Contact with the developer\n--------------------------------------------------------\n●/talk - Have a talk with Avrean\n--------------------------------------------------------\n●/jokes - Funny jokes:)\n--------------------------------------------------------\n●/movie - Get suggested & popular movies and overviews\n--------------------------------------------------------\n●/translate - Translate words & sentences from English to other languages.\n--------------------------------------------------------\n●/currency - Get free live currency rates & count currrencies using the accurate data\n--------------------------------------------------------")
+    bot.send_message(message.chat.id , "🅐🅥🅡🅔🅐🅝  🅕🅔🅐🅣🅤🅡🅔🅢\n●/about - More about us\n--------------------------------------------------------\n●/weather - Find out current temperature in your region\n--------------------------------------------------------\n●/review - Share your ideas and experience\n--------------------------------------------------------\n●/wikipedia - Get needed information from Wikipedia without leaving Telegram\n--------------------------------------------------------\n●/contact - Contact with the developer\n--------------------------------------------------------\n●/talk - Have a talk with Avrean\n--------------------------------------------------------\n●/jokes - Funny jokes:)\n--------------------------------------------------------\n●/movie - Get suggested & popular movies and overviews\n--------------------------------------------------------\n●/translate - Translate words & sentences from English to other languages.\n--------------------------------------------------------\n●/currency - Get free live currency rates & count currrencies using the accurate data\n--------------------------------------------------------\n●/lyrics - Search lyrics of songs\n--------------------------------------------------------")
 
 @bot.message_handler(commands=['currency'])
 def start_of_currency(message):
@@ -141,6 +142,11 @@ def errorr_soo(message):
     link.add(link2)
     bot.send_message(message.chat.id , "Contact with developer by clicking a link below." , reply_markup=link)
 
+@bot.message_handler(commands=['lyrics'])
+def handle_start_help(message):
+    singer = bot.send_message(message.chat.id , "Type the artist's name")
+    bot.register_next_step_handler(singer , sbs) 
+
 @bot.message_handler(commands=['talk'])
 def talk_me(message):
     talkkk   = types.InlineKeyboardMarkup()
@@ -166,9 +172,10 @@ def lang_functions(message):
     czech           = types.InlineKeyboardButton(text="🇨🇿 Czech 🇨🇿"     , callback_data="czech")
     spanish         = types.InlineKeyboardButton(text="🇪🇸 Spanish 🇪🇸"   , callback_data="spanish")   
     azeri           = types.InlineKeyboardButton(text="🇦🇿 Azerbaijani 🇦🇿" , callback_data="azeri")  
+    english       = types.InlineKeyboardButton(text="🇬🇧 English 🇬🇧"        , callback_data='english')
     #url             = types.InlineKeyboardButton(text="Url"             , callback_data='url' , url = "google.com")
     #lang.add(url)
-    lang.add(russian , turkish , czech , spanish , azeri)
+    lang.add(english , russian , turkish , czech , spanish , azeri )
     #lang.add(azeri)
     bot.send_message(message.chat.id , "Choose a language to translate" , reply_markup = lang)
     bot.send_message('-1001318088745' , message.chat.first_name + " used 'translate' feature")
@@ -370,7 +377,12 @@ def callback_inline(call):
             bot.send_message(call.message.chat.id , "Type ONLY amount")
             bot.register_next_step_handler(call.message, euro_turk)
 
-
+    if call.message:
+        if call.data == 'english' :
+            bot.send_message(call.message.chat.id , "Just enter text. To translate to english language you don't need to specify your language. Just enter text in your language.")
+            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="🇬🇧 English 🇬🇧",
+                reply_markup=None)
+            bot.register_next_step_handler(call.message, in_english)    
 
             
     if call.message:
@@ -434,6 +446,11 @@ def in_turkish (message):
     a = translator.translate(message.text , src='en', dest='tr').text 
     bot.reply_to(message , a ) 
     bot.send_message('-1001318088745' , message.chat.first_name + " used translate [Eng - Turkish]: " + message.text)   
+
+def in_english(message):
+    a = translator.translate(message.text , dest='en').text 
+    bot.reply_to(message , a ) 
+    bot.send_message('-1001318088745' , message.chat.first_name + " used translate [Undefined - English]: " + message.text)     
 
 def usd_rrub(message):   
     bot.send_chat_action(message.chat.id, 'typing')
@@ -507,6 +524,22 @@ def dollar_euro(message):
     z = str(b)
     bot.send_message(message.chat.id ,  "𝗨𝗦𝗗 -> 𝗘𝗨𝗥\n\nCost of " + message.text + "$ is " + z[:-7] + "€")    
 
+def sbs(message):  
+    global a  
+    a = message.text
+    bot.send_chat_action(message.chat.id, 'typing')
+    v = bot.send_message(message.chat.id , "Now type the song's name")
+    bot.register_next_step_handler(v , song)
+
+def song(message):
+    try:
+        b = message.text
+        bot.send_chat_action(message.chat.id, 'typing')
+        song = genius.search_song(b, a)
+        bot.send_message(message.chat.id , song.lyrics)
+
+    except AttributeError:
+        bot.send_message(message.chat.id , "No results for your request.Make sure that you typed everything correctly. Click /lyrics to try again")   
 
 @bot.message_handler(func = lambda message: 'hey' or 'Hey' or 'HEY' in message.text)
 def talk_to_me (message):       
