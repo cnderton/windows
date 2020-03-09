@@ -379,7 +379,7 @@ def callback_inline(call):
 
     if call.message:
         if call.data == 'english' :
-            bot.send_message(call.message.chat.id , "Just enter text. To translate to english language you don't need to specify your language. Just enter text in your language.")
+            bot.send_message(call.message.chat.id , "You don't need to specify your language when translating to English. Just enter text in your language.")
             bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="🇬🇧 English 🇬🇧",
                 reply_markup=None)
             bot.register_next_step_handler(call.message, in_english)    
