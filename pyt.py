@@ -2,11 +2,14 @@
 import telebot
 import wikipedia
 import pyowm
+import pyshorteners#new
 from forex_python.converter import CurrencyRates #new
 import random
 from tmdbv3api import Movie, TMDb
 from time import sleep
 from telebot import types
+from telebot.types import Message
+from telebot import apihelper, types
 from urllib.request import urlopen as url_open
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 import json
@@ -16,7 +19,7 @@ from dialogflow_lite.dialogflow import Dialogflow#new
 import lyricsgenius
 
 #Token
-token = "742874199:AAEd7j8rRFh3Ymmg_g1ccsgMMARQzj-cfcE"
+token = "722951298:AAEX7TdUvpedfJmoXFQMVtPuuKlp3z-dPww"
 bot = telebot.TeleBot(token=token)
 STICKER_ID = 'CAADAgADXwMAAgw7AAEKTh8jAAH9Q-gAAQI'
 #client = Client('ylFpj3mg5MhcKlQGkSnqcnyU1NCQm88KicZVFLHV')
@@ -105,12 +108,17 @@ def weath(message):
             desc = w.get_detailed_status()
             hum = w.get_humidity()
             wind = w.get_wind()["speed"]
-            temperature = w.get_temperature("celsius")["temp"]
+            temperature = w.get_temperature("celsius")["temp"]          
             bot.send_message(message.chat.id, "Temperature in " + str(city) +"\n\n" + str(temperature) + "°C  " + str(desc) + '🌡\nSpeed of wind: ' + str(wind) + ' km/h 💨' + '\nHumidity: ' + str(hum) + '% 💧')
             bot.send_message('-1001318088745' , message.chat.first_name + " used 'weather' feature. TEXT:" + message.text)   
       except Exception as e:
             bot.reply_to(message, 'oooops. We could not find the city :(\nTry again using  /weather  command')
 
+
+@bot.message_handler(commands=['links'])
+def mdg(message):
+    a = bot.send_message(message.chat.id , "Just paste the original link")
+    bot.register_next_step_handler(a , link)
 
 @bot.message_handler(commands=['wikipedia'])
 def wikiipedia(message):
@@ -152,7 +160,7 @@ def talk_me(message):
     talkkk   = types.InlineKeyboardMarkup()
     talkk           =types.InlineKeyboardButton(text="Talk" , callback_data="talkk")
     talkkk.add(talkk)
-    bot.reply_to(message , "Sure,let's talk:). Click 'talk' to start.\n⚠️You must type 'hey' for the first time when you send new message. It calls AI.⚠️ " , reply_markup=talkkk) 
+    bot.reply_to(message , "Sure,let's talk:). Click 'talk' to start." , reply_markup=talkkk) 
 
 
 @bot.message_handler(commands=["movie"])
@@ -271,43 +279,74 @@ def callback_inline(call):
     #  R A T E starts here
     if call.message:
         if call.data == "usd_euro":
-            bot.send_message(call.message.chat.id , "USD -> EUR\n\nCost of 1$ is " + str( c.get_rate('USD', 'EUR') ) + "€")
+            markup = types.InlineKeyboardMarkup()
+            switch_button = types.InlineKeyboardButton(text="Share" ,  switch_inline_query= "\n\nUSD -> EUR\n\nCost of 1$ is " + str( c.get_rate('USD', 'EUR') ) + "€" )
+            markup.add(switch_button)    
+            bot.send_message(call.message.chat.id, "USD -> EUR\n\nCost of 1$ is " + str( c.get_rate('USD', 'EUR') ) + "€" , reply_markup=markup)
+            
 
     if call.message:
         if call.data == "usd_rub":
-            bot.send_message(call.message.chat.id , "USD -> RUB\n\nCost of 1$ is " + str( c.get_rate('USD', 'RUB') ) + "₽")
+            markup = types.InlineKeyboardMarkup()
+            switch_button = types.InlineKeyboardButton(text="Share" ,  switch_inline_query= "\n\nUSD -> RUB\n\nCost of 1$ is " + str( c.get_rate('USD', 'RUB') ) + "₽" )
+            markup.add(switch_button)    
+            bot.send_message(call.message.chat.id, "USD -> RUB\n\nCost of 1$ is " + str( c.get_rate('USD', 'RUB') ) + "₽" , reply_markup=markup)
 
     if call.message:
         if call.data == "rub_usd":
-            bot.send_message(call.message.chat.id , "RUB -> USD\n\nCost of 1₽ is " + str(c.get_rate('RUB', 'USD') )+ "$")
+            markup = types.InlineKeyboardMarkup()
+            switch_button = types.InlineKeyboardButton(text="Share" ,  switch_inline_query= "\n\nRUB -> USD\n\nCost of 1₽ is " + str(c.get_rate('RUB', 'USD') )+ "$" )
+            markup.add(switch_button)    
+            bot.send_message(call.message.chat.id, "RUB -> USD\n\nCost of 1₽ is " + str(c.get_rate('RUB', 'USD') )+ "$" , reply_markup=markup)
 
     if call.message:
         if call.data == "tr_usd":
-            bot.send_message(call.message.chat.id , "TRY -> USD\n\nCost of 1₺ is " + str(c.get_rate('TRY', 'USD') )+ "$")        
-                                                       
+            markup = types.InlineKeyboardMarkup()
+            switch_button = types.InlineKeyboardButton(text="Share" ,  switch_inline_query= "\n\nTRY -> USD\n\nCost of 1₺ is " + str(c.get_rate('TRY', 'USD') )+ "$" )
+            markup.add(switch_button)    
+            bot.send_message(call.message.chat.id, "TRY -> USD\n\nCost of 1₺ is " + str(c.get_rate('TRY', 'USD') )+ "$" , reply_markup=markup)       
+                                                 
     if call.message:
         if call.data == "usd_tr":
-            bot.send_message(call.message.chat.id , "USD -> TRY\n\nCost of 1$ is " + str(c.get_rate('USD', 'TRY') )+"₺")
+            markup = types.InlineKeyboardMarkup()
+            switch_button = types.InlineKeyboardButton(text="Share" ,  switch_inline_query= "\n\nUSD -> TRY\n\nCost of 1$ is " + str(c.get_rate('USD', 'TRY') )+"₺" )
+            markup.add(switch_button)    
+            bot.send_message(call.message.chat.id, "USD -> TRY\n\nCost of 1$ is " + str(c.get_rate('USD', 'TRY') )+"₺" , reply_markup=markup)  
 
     if call.message:
         if call.data == "rub_tr":
-            bot.send_message(call.message.chat.id , "RUB -> TRY\n\nCost of 1₽ is " + str(c.get_rate('RUB', 'TRY') )+"₺") 
+            markup = types.InlineKeyboardMarkup()
+            switch_button = types.InlineKeyboardButton(text="Share" ,  switch_inline_query= "\n\nRUB -> TRY\n\nCost of 1₽ is " + str(c.get_rate('RUB', 'TRY') )+"₺" )
+            markup.add(switch_button)    
+            bot.send_message(call.message.chat.id, "RUB -> TRY\n\nCost of 1₽ is " + str(c.get_rate('RUB', 'TRY') )+"₺" , reply_markup=markup)  
 
     if call.message:
         if call.data == "tr_rub":
-            bot.send_message(call.message.chat.id , "TRY -> RUB\n\nCost of 1₺ is " + str(c.get_rate('TRY', 'RUB') )+"₽" ) 
+            markup = types.InlineKeyboardMarkup()
+            switch_button = types.InlineKeyboardButton(text="Share" ,  switch_inline_query= "\n\nTRY -> RUB\n\nCost of 1₺ is " + str(c.get_rate('TRY', 'RUB') )+"₽" )
+            markup.add(switch_button)    
+            bot.send_message(call.message.chat.id, "TRY -> RUB\n\nCost of 1₺ is " + str(c.get_rate('TRY', 'RUB') )+"₽" , reply_markup=markup)  
 
     if call.message:
         if call.data == "euro_tr":
-            bot.send_message(call.message.chat.id , "EUR -> TRY\n\nCost of 1€ is " + str(c.get_rate('EUR', 'TRY') )+"₺" )
-
+            markup = types.InlineKeyboardMarkup()
+            switch_button = types.InlineKeyboardButton(text="Share" ,  switch_inline_query= "\n\nEUR -> TRY\n\nCost of 1€ is " + str(c.get_rate('EUR', 'TRY') )+"₺" )
+            markup.add(switch_button)    
+            bot.send_message(call.message.chat.id, "EUR -> TRY\n\nCost of 1€ is " + str(c.get_rate('EUR', 'TRY') )+"₺" , reply_markup=markup)
+   
     if call.message:
         if call.data == "euro_usd":
-            bot.send_message(call.message.chat.id , "EUR -> USD\n\nCost of 1€ is " + str(c.get_rate('EUR', 'USD') )+"$" )    
+            markup = types.InlineKeyboardMarkup()
+            switch_button = types.InlineKeyboardButton(text="Share" ,  switch_inline_query= "\n\nEUR -> USD\n\nCost of 1€ is " + str(c.get_rate('EUR', 'USD') )+"$" )
+            markup.add(switch_button)    
+            bot.send_message(call.message.chat.id, "EUR -> USD\n\nCost of 1€ is " + str(c.get_rate('EUR', 'USD') )+"$" , reply_markup=markup)    
 
     if call.message:
         if call.data == "euro_rub":
-            bot.send_message(call.message.chat.id , "EUR -> RUB\n\nCost of 1€ is " + str(c.get_rate('EUR', 'RUB') )+"₽" )          
+            markup = types.InlineKeyboardMarkup()
+            switch_button = types.InlineKeyboardButton(text="Share" ,  switch_inline_query= "\n\nEUR -> RUB\n\nCost of 1€ is " + str(c.get_rate('EUR', 'RUB') )+"₽" )
+            markup.add(switch_button)    
+            bot.send_message(call.message.chat.id, "EUR -> RUB\n\nCost of 1€ is " + str(c.get_rate('EUR', 'RUB') )+"₽" , reply_markup=markup)             
 
        
    
@@ -357,6 +396,7 @@ def callback_inline(call):
     if call.message:
         if call.data == "rubb_try":
             bot.send_message(call.message.chat.id , "Type ONLY amount")
+            bot.register_next_step_handler(call.message , ruble_tr)
 
 
    
@@ -379,7 +419,7 @@ def callback_inline(call):
 
     if call.message:
         if call.data == 'english' :
-            bot.send_message(call.message.chat.id , "You don't need to specify your language when translating to English. Just enter text in your language.")
+            bot.send_message(call.message.chat.id , "Just enter text. To translate to english language you don't need to specify your language. Just enter text in your language.")
             bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="🇬🇧 English 🇬🇧",
                 reply_markup=None)
             bot.register_next_step_handler(call.message, in_english)    
@@ -522,7 +562,10 @@ def dollar_euro(message):
     q = message.text
     b = c.convert('USD' , 'EUR' , Decimal(q))
     z = str(b)
-    bot.send_message(message.chat.id ,  "𝗨𝗦𝗗 -> 𝗘𝗨𝗥\n\nCost of " + message.text + "$ is " + z[:-7] + "€")    
+    a = bot.send_message(message.chat.id ,  "𝗨𝗦𝗗 -> 𝗘𝗨𝗥\n\nCost of " + message.text + "$ is " + z[:-7] + "€" )
+
+    
+    
 
 def sbs(message):  
     global a  
@@ -540,6 +583,19 @@ def song(message):
 
     except AttributeError:
         bot.send_message(message.chat.id , "No results for your request.Make sure that you typed everything correctly. Click /lyrics to try again")   
+
+
+def link(message):
+    try:
+       markup = types.InlineKeyboardMarkup() 
+       s = pyshorteners.Shortener(api_key='ef941aaa8d3343585156eb1b19362bc916727cc2')
+       a = s.bitly.short(message.text)  
+       switch_button = types.InlineKeyboardButton(text="Share" ,  switch_inline_query =  '\n\n Made with Avrean - ' + s.bitly.short(message.text) )
+       markup.add(switch_button)
+       bot.send_message(message.chat.id, "Here is the short version of the original link: - " + s.bitly.short(message.text) , reply_markup=markup) 
+
+    except Exception:
+        bot.send_message(message.chat.id , "Wrong link! Make sure that your link includes 'https://' or you don't have any other mistakes in your link.")        
 
 @bot.message_handler(func = lambda message: 'hey' or 'Hey' or 'HEY' in message.text)
 def talk_to_me (message):       
