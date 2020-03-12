@@ -19,7 +19,7 @@ from dialogflow_lite.dialogflow import Dialogflow#new
 import lyricsgenius
 
 #Token
-token = "742874199:AAEd7j8rRFh3Ymmg_g1ccsgMMARQzj-cfcE"
+token = "722951298:AAEX7TdUvpedfJmoXFQMVtPuuKlp3z-dPww"
 bot = telebot.TeleBot(token=token)
 STICKER_ID = 'CAADAgADXwMAAgw7AAEKTh8jAAH9Q-gAAQI'
 #client = Client('ylFpj3mg5MhcKlQGkSnqcnyU1NCQm88KicZVFLHV')
@@ -55,12 +55,15 @@ jokes = ["https://raw.githubusercontent.com/cnderton/windows/master/Screenshot_2
 @bot.message_handler(commands=['start'])
 def handle_start_help(message):
     name = message.from_user.first_name
+    #vdeo = open('https://github.com/cnderton/windows/blob/master/Rush%20Story_0366.mp4', 'rb')
+    #bot.send_video(message.chat.id , 'https://github.com/cnderton/windows/blob/master/Rush%20Story_0366.mp4')
     bot.send_message(message.chat.id, "Welcome " + name + ".  I'm your Telegram asistant. You can call me Avrean😊.To find out my features just click /commands button." )
-    bot.send_message('-1001318088745' , message.chat.first_name + ' just started using bot.' )
+    bot.send_message('-1001318088745' , name + ' @' + message.from_user.username +' just started using bot.' )
+    
 @bot.message_handler(commands=['commands'])
 def handle_start(message):
     bot.send_photo(message.chat.id , "https://github.com/cnderton/windows/blob/master/AVrean.jpg?raw=true")
-    bot.send_message(message.chat.id , "🅐🅥🅡🅔🅐🅝  🅕🅔🅐🅣🅤🅡🅔🅢\n●/about - More about us\n--------------------------------------------------------\n●/weather - Find out current temperature in your region\n--------------------------------------------------------\n●/review - Share your ideas and experience\n--------------------------------------------------------\n●/wikipedia - Get needed information from Wikipedia without leaving Telegram\n--------------------------------------------------------\n●/contact - Contact with the developer\n--------------------------------------------------------\n●/talk - Have a talk with Avrean\n--------------------------------------------------------\n●/jokes - Funny jokes:)\n--------------------------------------------------------\n●/movie - Get suggested & popular movies and overviews\n--------------------------------------------------------\n●/translate - Translate words & sentences from English to other languages.\n--------------------------------------------------------\n●/currency - Get free live currency rates & count currrencies using the accurate data\n--------------------------------------------------------\n●/lyrics - Search lyrics of songs\n--------------------------------------------------------\n●/links - Make long links shorter")
+    bot.send_message(message.chat.id , "🅐🅥🅡🅔🅐🅝  🅕🅔🅐🅣🅤🅡🅔🅢\n●/about - More about us\n--------------------------------------------------------\n●/weather - Find out current temperature in your region\n--------------------------------------------------------\n●/review - Share your ideas and experience\n--------------------------------------------------------\n●/wikipedia - Get needed information from Wikipedia without leaving Telegram\n--------------------------------------------------------\n●/contact - Contact with the developer\n--------------------------------------------------------\n●/talk - Have a talk with Avrean\n--------------------------------------------------------\n●/jokes - Funny jokes:)\n--------------------------------------------------------\n●/movie - Get suggested & popular movies and overviews\n--------------------------------------------------------\n●/translate - Translate words & sentences from English to other languages.\n--------------------------------------------------------\n●/currency - Get free live currency rates & count currrencies using the accurate data\n--------------------------------------------------------\n●/lyrics - Search lyrics of songs\n--------------------------------------------------------\n●/link - Make long links shorter")
 
 @bot.message_handler(commands=['currency'])
 def start_of_currency(message):
@@ -69,12 +72,13 @@ def start_of_currency(message):
     count_currency = types.InlineKeyboardButton(text="Count Currencies" , callback_data="count_currency")
     main_cy.add(live_currency , count_currency)
     bot.send_message(message.chat.id , "Make a choice" , reply_markup=main_cy)
-    bot.send_message('-1001318088745' , message.chat.first_name + " used 'currency' feature")
+    bot.send_message('-1001318088745' , message.chat.first_name + ' @' + message.from_user.username + " used 'currency' feature")
+
 
 
 @bot.message_handler(commands = ['jokes'])
 def jokess(message):
-    bot.send_message('-1001318088745' , message.chat.first_name + " used 'jokes' feature" )
+    bot.send_message('-1001318088745' , message.chat.first_name + ' @' + message.from_user.username + " used 'jokes' feature" )
     #bot.send_photo(message.chat.id , random.choice(jokes) ,reply_markup=emotion )
     emotion     = types.InlineKeyboardMarkup(row_width=2)
     emo1         = types.InlineKeyboardButton(text="👍"   , callback_data="emo1" )
@@ -86,7 +90,7 @@ def jokess(message):
 @bot.message_handler(commands=['about'])
 def handle(message):
     bot.send_message(message.chat.id , " Meet the multifucntional bot 'Avrean' that can be used on telegram as your assistant. Bot gets smarter with every update. It lets you do some basic operations without leaving telegram app. Click /commands to see features. ")
-    bot.send_message('-1001318088745' , message.chat.first_name + " used 'about' feature")   
+    bot.send_message('-1001318088745' , message.chat.first_name + ' @' + message.from_user.username + " used 'about' feature")   
 @bot.message_handler(commands=['review'])
 def error_soo(message):
     linkk    = types.InlineKeyboardMarkup()
@@ -111,7 +115,7 @@ def weath(message):
             wind = w.get_wind()["speed"]
             temperature = w.get_temperature("celsius")["temp"]          
             bot.send_message(message.chat.id, "Temperature in " + str(city) +"\n\n" + str(temperature) + "°C  " + str(desc) + '🌡\nSpeed of wind: ' + str(wind) + ' km/h 💨' + '\nHumidity: ' + str(hum) + '% 💧')
-            bot.send_message('-1001318088745' , message.chat.first_name + " used 'weather' feature. TEXT:" + message.text)   
+            bot.send_message('-1001318088745' , message.chat.first_name + ' @' + message.from_user.username + " used 'weather' feature. TEXT:" + message.text)   
       except Exception as e:
             bot.reply_to(message, 'oooops. We could not find the city :(\nTry again using  /weather  command')
 
@@ -125,7 +129,7 @@ def mdg(message):
 def wikiipedia(message):
     v = message.text
     bot.send_message(message.chat.id, "type your request. To get result you MUST add 'wiki' after typing your request.")
-    bot.send_message('-1001318088745' , message.chat.first_name + " used 'wikipedia' feature")
+    bot.send_message('-1001318088745' , message.chat.first_name + ' @' + message.from_user.username + " used 'wikipedia' feature")
     sleep(15)
    
 @bot.message_handler(func = lambda message: message.text and 'wiki' in message.text)    
@@ -136,7 +140,7 @@ def echo_all(message):
         bot.send_message(message.chat.id, wikipedia.summary(g) )
         a = wikipedia.page(message.text) 
         bot.send_message(message.chat.id ,a.url )
-        bot.send_message('-1001318088745' , message.chat.first_name + " used 'wikipedia' feature. TEXT: " + message.text)
+        bot.send_message('-1001318088745' , message.chat.first_name + ' @' + message.from_user.username + " used 'wikipedia' feature. TEXT: " + message.text)
         sleep(1)
         bot.send_message(message.chat.id,'/commands')      
     except Exception:
@@ -155,6 +159,7 @@ def errorr_soo(message):
 def handle_start_help(message):
     singer = bot.send_message(message.chat.id , "Type the artist's name")
     bot.register_next_step_handler(singer , sbs) 
+    #HERE LOGS
 
 @bot.message_handler(commands=['talk'])
 def talk_me(message):
@@ -187,7 +192,7 @@ def lang_functions(message):
     lang.add(english , russian , turkish , czech , spanish , azeri )
     #lang.add(azeri)
     bot.send_message(message.chat.id , "Choose a language to translate" , reply_markup = lang)
-    bot.send_message('-1001318088745' , message.chat.first_name + " used 'translate' feature")
+    bot.send_message('-1001318088745' , message.chat.first_name + ' @' + message.from_user.username + " used 'translate' feature")
 
     
 @bot.callback_query_handler(func=lambda call: True)
@@ -466,32 +471,32 @@ def callback_inline(call):
 def in_azeri(message):
     a = translator.translate(message.text , src='en', dest='az').text 
     bot.reply_to(message , a)
-    bot.send_message('-1001318088745' , message.chat.first_name + " used translate [Eng - Azeri]: " + message.text)
+    bot.send_message('-1001318088745' , message.chat.first_name + ' @' + message.from_user.username + " used translate [Eng - Azeri]: " + message.text)
 
 def in_spanish(message):
     a = translator.translate(message.text , src='en', dest='es').text 
     bot.reply_to(message , a)
-    bot.send_message('-1001318088745' , message.chat.first_name + " used translate [Eng - Spanish]: " + message.text)
+    bot.send_message('-1001318088745' , message.chat.first_name + ' @' + message.from_user.username + " used translate [Eng - Spanish]: " + message.text)
 
 def in_czech(message):  
     a = translator.translate(message.text , src='en', dest='cs').text      
     bot.reply_to(message , a )
-    bot.send_message('-1001318088745' , message.chat.first_name + " used translate [Eng - Czech]: " + message.text)
+    bot.send_message('-1001318088745' , message.chat.first_name + ' @' + message.from_user.username + " used translate [Eng - Czech]: " + message.text)
 
 def in_russian(message):
     a = translator.translate(message.text ,  src='en', dest='ru').text 
     bot.reply_to(message ,  a )
-    bot.send_message('-1001318088745' , message.chat.first_name + " used translate [Eng - Russian]: " + message.text)     
+    bot.send_message('-1001318088745' , message.chat.first_name + ' @' + message.from_user.username + " used translate [Eng - Russian]: " + message.text)     
 
 def in_turkish (message):
     a = translator.translate(message.text , src='en', dest='tr').text 
     bot.reply_to(message , a ) 
-    bot.send_message('-1001318088745' , message.chat.first_name + " used translate [Eng - Turkish]: " + message.text)   
+    bot.send_message('-1001318088745' , message.chat.first_name + ' @' + message.from_user.username + " used translate [Eng - Turkish]: " + message.text)   
 
 def in_english(message):
     a = translator.translate(message.text , dest='en').text 
     bot.reply_to(message , a ) 
-    bot.send_message('-1001318088745' , message.chat.first_name + " used translate [Undefined - English]: " + message.text)     
+    bot.send_message('-1001318088745' , message.chat.first_name + ' @' + message.from_user.username + " used translate [Undefined - English]: " + message.text)     
 
 def usd_rrub(message):   
     bot.send_chat_action(message.chat.id, 'typing')
@@ -574,6 +579,7 @@ def sbs(message):
     bot.send_chat_action(message.chat.id, 'typing')
     v = bot.send_message(message.chat.id , "Now type the song's name")
     bot.register_next_step_handler(v , song)
+    
 
 def song(message):
     try:
@@ -581,6 +587,7 @@ def song(message):
         bot.send_chat_action(message.chat.id, 'typing')
         song = genius.search_song(b, a)
         bot.send_message(message.chat.id , song.lyrics)
+        bot.send_message('-1001318088745' , message.chat.first_name + ' @' + message.from_user.username + " used 'lyrics' feature TEXT: " + a + ' ' + message.text)
 
     except AttributeError:
         bot.send_message(message.chat.id , "No results for your request.Make sure that you typed everything correctly. Click /lyrics to try again")   
@@ -603,7 +610,7 @@ def talk_to_me (message):
     bot.send_chat_action(message.chat.id, 'typing')
              #response = dialogflow.text_request(message.text) 
     bot.send_message(message.chat.id , dialogflow.text_request(message.text) )
-    bot.send_message('-1001318088745' , message.chat.first_name + " used 'talk'. TEXT: " + message.text)
+    bot.send_message('-1001318088745' , message.chat.first_name + ' @' + message.from_user.username + " used 'talk'. TEXT: " + message.text)
 
 
 def console_listener(messages):
