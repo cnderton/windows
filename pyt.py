@@ -19,7 +19,7 @@ from dialogflow_lite.dialogflow import Dialogflow#new
 import lyricsgenius
 
 #Token
-token = "742874199:AAEd7j8rRFh3Ymmg_g1ccsgMMARQzj-cfcE"
+token = "1014221587:AAHe6wUDSBf47Oj1Lb_JMEk8EgBmYU0yKvY"
 bot = telebot.TeleBot(token=token)
 STICKER_ID = 'CAADAgADXwMAAgw7AAEKTh8jAAH9Q-gAAQI'
 #client = Client('ylFpj3mg5MhcKlQGkSnqcnyU1NCQm88KicZVFLHV')
