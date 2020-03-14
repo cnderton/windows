@@ -58,7 +58,7 @@ def handle_start_help(message):
     #vdeo = open('https://github.com/cnderton/windows/blob/master/Rush%20Story_0366.mp4', 'rb')
     #bot.send_video(message.chat.id , 'https://github.com/cnderton/windows/blob/master/Rush%20Story_0366.mp4')
     bot.send_message(message.chat.id, "Welcome " + name + ".  I'm your Telegram asistant. You can call me Avrean😊.To find out my features just click /commands button." )
-    bot.send_message('-1105127513' , name + ' @' + message.from_user.username +' just started using bot.' )
+    bot.send_message('-476810016' , name + ' @' + message.from_user.username +' just started using bot.' )
     
 @bot.message_handler(commands=['commands'])
 def handle_start(message):
@@ -625,3 +625,4 @@ def console_listener(messages):
          
 bot.set_update_listener(console_listener)
 bot.polling(none_stop=True)
+
