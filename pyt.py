@@ -58,7 +58,7 @@ def handle_start_help(message):
     #vdeo = open('https://github.com/cnderton/windows/blob/master/Rush%20Story_0366.mp4', 'rb')
     #bot.send_video(message.chat.id , 'https://github.com/cnderton/windows/blob/master/Rush%20Story_0366.mp4')
     bot.send_message(message.chat.id, "Welcome " + name + ".  I'm your Telegram asistant. You can call me Avrean😊.To find out my features just click /commands button." )
-    bot.send_message('-174059665' , name + ' @' + message.from_user.username +' just started using bot.' )
+    bot.send_message('-476810016' , name + ' @' + message.from_user.username +' just started using bot.' )
     
 @bot.message_handler(commands=['commands'])
 def handle_start(message):
@@ -78,7 +78,7 @@ def start_of_currency(message):
 
 @bot.message_handler(commands = ['jokes'])
 def jokess(message):
-    bot.send_message('-1001318088745' , message.chat.first_name + ' @' + message.from_user.username + " used 'jokes' feature" )
+    bot.send_message('-476810016' , message.chat.first_name + ' @' + message.from_user.username + " used 'jokes' feature" )
     #bot.send_photo(message.chat.id , random.choice(jokes) ,reply_markup=emotion )
     emotion     = types.InlineKeyboardMarkup(row_width=2)
     emo1         = types.InlineKeyboardButton(text="👍"   , callback_data="emo1" )
