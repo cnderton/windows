@@ -58,7 +58,8 @@ def handle_start_help(message):
     #vdeo = open('https://github.com/cnderton/windows/blob/master/Rush%20Story_0366.mp4', 'rb')
     #bot.send_video(message.chat.id , 'https://github.com/cnderton/windows/blob/master/Rush%20Story_0366.mp4')
     bot.send_message(message.chat.id, "Welcome " + name + ".  I'm your Telegram asistant. You can call me Avrean😊.To find out my features just click /commands button." )
-    bot.send_message('-476810016' , name + ' @' + message.from_user.username +' just started using bot.' )
+    bot.send_message('-100476810016' , name + ' @' + message.from_user.username +' just started using bot.' )
+    
     
 @bot.message_handler(commands=['commands'])
 def handle_start(message):
@@ -72,13 +73,13 @@ def start_of_currency(message):
     count_currency = types.InlineKeyboardButton(text="Count Currencies" , callback_data="count_currency")
     main_cy.add(live_currency , count_currency)
     bot.send_message(message.chat.id , "Make a choice" , reply_markup=main_cy)
-    bot.send_message('-476810016' , message.chat.first_name + ' @' + message.from_user.username + " used 'currency' feature")
+    bot.send_message('-100476810016' , message.chat.first_name + ' @' + message.from_user.username + " used 'currency' feature")
 
 
 
 @bot.message_handler(commands = ['jokes'])
 def jokess(message):
-    bot.send_message('-476810016' , message.chat.first_name + ' @' + message.from_user.username + " used 'jokes' feature" )
+    bot.send_message('-100476810016' , message.chat.first_name + ' @' + message.from_user.username + " used 'jokes' feature" )
     #bot.send_photo(message.chat.id , random.choice(jokes) ,reply_markup=emotion )
     emotion     = types.InlineKeyboardMarkup(row_width=2)
     emo1         = types.InlineKeyboardButton(text="👍"   , callback_data="emo1" )
@@ -90,14 +91,14 @@ def jokess(message):
 @bot.message_handler(commands=['about'])
 def handle(message):
     bot.send_message(message.chat.id , " Meet the multifucntional bot 'Avrean' that can be used on telegram as your assistant. Bot gets smarter with every update. It lets you do some basic operations without leaving telegram app. Click /commands to see features. ")
-    bot.send_message('-476810016' , message.chat.first_name + ' @' + message.from_user.username + " used 'about' feature")   
+    bot.send_message('-100476810016' , message.chat.first_name + ' @' + message.from_user.username + " used 'about' feature")   
 @bot.message_handler(commands=['review'])
 def error_soo(message):
     linkk    = types.InlineKeyboardMarkup()
     link3         = types.InlineKeyboardButton(text="Write your feedback here"   , callback_data="link" , url = "https://t.me/demoonov")
     linkk.add(link3)
     bot.send_message(message.chat.id , "I would highly rate it if you write your feedback about this bot. You can contact with me by clicking the link below." , reply_markup=linkk)
-    bot.send_message('-476810016' , message.chat.first_name + " used 'review' feature")
+    bot.send_message('-100476810016' , message.chat.first_name + " used 'review' feature")
 @bot.message_handler(commands=["weather"])
 def weather(message):
     city = bot.send_message(message.chat.id, "Type city name first.")
@@ -115,7 +116,7 @@ def weath(message):
             wind = w.get_wind()["speed"]
             temperature = w.get_temperature("celsius")["temp"]          
             bot.send_message(message.chat.id, "Temperature in " + str(city) +"\n\n" + str(temperature) + "°C  " + str(desc) + '🌡\nSpeed of wind: ' + str(wind) + ' km/h 💨' + '\nHumidity: ' + str(hum) + '% 💧')
-            bot.send_message('-1001318088745' , message.chat.first_name + ' @' + message.from_user.username + " used 'weather' feature. TEXT:" + message.text)   
+            bot.send_message('-100476810016' , message.chat.first_name + ' @' + message.from_user.username + " used 'weather' feature. TEXT:" + message.text)   
       except Exception as e:
             bot.reply_to(message, 'oooops. We could not find the city :(\nTry again using  /weather  command')
 
@@ -129,7 +130,7 @@ def mdg(message):
 def wikiipedia(message):
     v = message.text
     bot.send_message(message.chat.id, "type your request. To get result you MUST add 'wiki' after typing your request.")
-    bot.send_message('-476810016' , message.chat.first_name + ' @' + message.from_user.username + " used 'wikipedia' feature")
+    bot.send_message('-100476810016' , message.chat.first_name + ' @' + message.from_user.username + " used 'wikipedia' feature")
     sleep(15)
    
 @bot.message_handler(func = lambda message: message.text and 'wiki' in message.text)    
@@ -140,7 +141,7 @@ def echo_all(message):
         bot.send_message(message.chat.id, wikipedia.summary(g) )
         a = wikipedia.page(message.text) 
         bot.send_message(message.chat.id ,a.url )
-        bot.send_message('-476810016' , message.chat.first_name + ' @' + message.from_user.username + " used 'wikipedia' feature. TEXT: " + message.text)
+        bot.send_message('-100476810016' , message.chat.first_name + ' @' + message.from_user.username + " used 'wikipedia' feature. TEXT: " + message.text)
         sleep(1)
         bot.send_message(message.chat.id,'/commands')      
     except Exception:
