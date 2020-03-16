@@ -121,7 +121,7 @@ def weath(message):
             bot.reply_to(message, 'oooops. We could not find the city :(\nTry again using  /weather  command')
 
 
-@bot.message_handler(commands=['links'])
+@bot.message_handler(commands=['link'])
 def mdg(message):
     a = bot.send_message(message.chat.id , "Just paste the original link")
     bot.register_next_step_handler(a , link)
