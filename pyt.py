@@ -17,9 +17,15 @@ from google_trans import Translator#new
 from decimal import Decimal #new
 from dialogflow_lite.dialogflow import Dialogflow#new
 import lyricsgenius
+from lxml import html
+import re
+from dateutil import tz
+from datetime import datetime
+from covid.api import CovId19Data
+import requests
 
 #Token
-token = "1014221587:AAHe6wUDSBf47Oj1Lb_JMEk8EgBmYU0yKvY"
+token = "1106602712:AAHgG80PMZz8TCOHWmBr576aXSkQRRUOqME"
 bot = telebot.TeleBot(token=token)
 STICKER_ID = 'CAADAgADXwMAAgw7AAEKTh8jAAH9Q-gAAQI'
 #client = Client('ylFpj3mg5MhcKlQGkSnqcnyU1NCQm88KicZVFLHV')
@@ -58,7 +64,11 @@ def handle_start_help(message):
     #vdeo = open('https://github.com/cnderton/windows/blob/master/Rush%20Story_0366.mp4', 'rb')
     #bot.send_video(message.chat.id , 'https://github.com/cnderton/windows/blob/master/Rush%20Story_0366.mp4')
     bot.send_message(message.chat.id, "Welcome " + name + ".  I'm your Telegram asistant. You can call me Avrean😊.To find out my features just click /commands button." )
-    bot.send_message('-1001189920105' , message.from_user.first_name + ' @' + message.from_user.username +' just started using bot.' )
+    try:
+        bot.send_message('-1001189920105' , message.from_user.first_name + ' @' + message.from_user.username +' just started using bot.' )
+    except Exception:
+        bot.send_message('-1001189920105' , message.from_user.first_name +' just started using bot.' )
+     
     
     
 @bot.message_handler(commands=['commands'])
@@ -73,9 +83,25 @@ def start_of_currency(message):
     count_currency = types.InlineKeyboardButton(text="Count Currencies" , callback_data="count_currency")
     main_cy.add(live_currency , count_currency)
     bot.send_message(message.chat.id , "Make a choice" , reply_markup=main_cy)
-    bot.send_message('-1001189920105' , message.chat.first_name + ' @' + message.from_user.username + " used 'currency' feature")
+    try:
+        bot.send_message('-1001189920105' , message.from_user.first_name + ' @' + message.from_user.username +' used CURRENCY feature.' )
+    except Exception:
+        bot.send_message('-1001189920105' , message.from_user.first_name +' used CURRENCY feature.' )
 
-
+@bot.message_handler(commands=['Coronavirus'])
+def corona(message):
+    global html
+    html = requests.get("https://bing.com/covid/data")
+    global data
+    data = html.text
+    global res
+    res = json.loads(data) 
+    bot.send_message(message.chat.id , "Tell me your country ")
+    try:
+        bot.send_message('-1001189920105' , message.from_user.first_name + ' @' + message.from_user.username +' used CORONAVIRUS feature.' )
+    except Exception:
+        bot.send_message('-1001189920105' , message.from_user.first_name +' used CORONAVIRUS feature.' )
+    bot.register_next_step_handler(message, covid)
 
 @bot.message_handler(commands = ['jokes'])
 def jokess(message):
@@ -91,14 +117,20 @@ def jokess(message):
 @bot.message_handler(commands=['about'])
 def handle(message):
     bot.send_message(message.chat.id , " Meet the multifucntional bot 'Avrean' that can be used on telegram as your assistant. Bot gets smarter with every update. It lets you do some basic operations without leaving telegram app. Click /commands to see features. ")
-    bot.send_message('-1001189920105' , message.chat.first_name + ' @' + message.from_user.username + " used 'about' feature")   
+    try:
+        bot.send_message('-1001189920105' , message.from_user.first_name + ' @' + message.from_user.username +' used ABOUT feature.' )
+    except Exception:
+        bot.send_message('-1001189920105' , message.from_user.first_name +' used ABOUT feature.' )  
 @bot.message_handler(commands=['review'])
 def error_soo(message):
     linkk    = types.InlineKeyboardMarkup()
     link3         = types.InlineKeyboardButton(text="Write your feedback here"   , callback_data="link" , url = "https://t.me/demoonov")
     linkk.add(link3)
     bot.send_message(message.chat.id , "I would highly rate it if you write your feedback about this bot. You can contact with me by clicking the link below." , reply_markup=linkk)
-    bot.send_message('-1001189920105' , message.chat.first_name + " used 'review' feature")
+    try:
+        bot.send_message('-1001189920105' , message.from_user.first_name + ' @' + message.from_user.username +' used REVIEW feature.' )
+    except Exception:
+        bot.send_message('-1001189920105' , message.from_user.first_name +' used REVIEW feature.' )
 @bot.message_handler(commands=["weather"])
 def weather(message):
     city = bot.send_message(message.chat.id, "Type city name first.")
@@ -106,7 +138,7 @@ def weather(message):
 
 
 def weath(message):
-      try:
+    try:
             owm = pyowm.OWM("f2e8fbf7c64ac203354e80290ae0fc51")
             city = message.text
             weather = owm.weather_at_place(city)
@@ -116,9 +148,9 @@ def weath(message):
             wind = w.get_wind()["speed"]
             temperature = w.get_temperature("celsius")["temp"]          
             bot.send_message(message.chat.id, "Temperature in " + str(city) +"\n\n" + str(temperature) + "°C  " + str(desc) + '🌡\nSpeed of wind: ' + str(wind) + ' km/h 💨' + '\nHumidity: ' + str(hum) + '% 💧')
-            bot.send_message('-1001189920105' , message.chat.first_name + ' @' + message.from_user.username + " used 'weather' feature. TEXT:" + message.text)   
-      except Exception as e:
-            bot.reply_to(message, 'oooops. We could not find the city :(\nTry again using  /weather  command')
+            bot.send_message('-1001189920105' , message.chat.first_name + " used 'weather' feature. TEXT:" + message.text)   
+    except AttributeError:
+             bot.reply_to(message, 'oooops. We could not find the city :(\nTry again using  /weather  command')
 
 
 @bot.message_handler(commands=['link'])
@@ -130,7 +162,10 @@ def mdg(message):
 def wikiipedia(message):
     v = message.text
     bot.send_message(message.chat.id, "type your request. To get result you MUST add 'wiki' after typing your request.")
-    bot.send_message('-1001189920105' , message.chat.first_name + ' @' + message.from_user.username + " used 'wikipedia' feature")
+    try:
+        bot.send_message('-1001189920105' , message.from_user.first_name + ' @' + message.from_user.username +' used WIKIPEDIA feature.' )
+    except Exception:
+        bot.send_message('-1001189920105' , message.from_user.first_name +' used WIKIPEDIA feature.' )
     sleep(15)
    
 @bot.message_handler(func = lambda message: message.text and 'wiki' in message.text)    
@@ -141,7 +176,7 @@ def echo_all(message):
         bot.send_message(message.chat.id, wikipedia.summary(g) )
         a = wikipedia.page(message.text) 
         bot.send_message(message.chat.id ,a.url )
-        bot.send_message('-1001189920105' , message.chat.first_name + ' @' + message.from_user.username + " used 'wikipedia' feature. TEXT: " + message.text)
+        bot.send_message('-1001189920105' , message.chat.first_name + " used 'wikipedia' feature. TEXT: " + message.text)
         sleep(1)
         bot.send_message(message.chat.id,'/commands')      
     except Exception:
@@ -193,7 +228,10 @@ def lang_functions(message):
     lang.add(english , russian , turkish , czech , spanish , azeri )
     #lang.add(azeri)
     bot.send_message(message.chat.id , "Choose a language to translate" , reply_markup = lang)
-    bot.send_message('-1001189920105' , message.chat.first_name + ' @' + message.from_user.username + " used 'translate' feature")
+    try:
+        bot.send_message('-1001189920105' , message.from_user.first_name + ' @' + message.from_user.username +' used TRANSLATE feature.' )
+    except Exception:
+        bot.send_message('-1001189920105' , message.from_user.first_name +' used TRANSLATE feature.' )
 
     
 @bot.callback_query_handler(func=lambda call: True)
@@ -472,32 +510,32 @@ def callback_inline(call):
 def in_azeri(message):
     a = translator.translate(message.text , src='en', dest='az').text 
     bot.reply_to(message , a)
-    bot.send_message('-1001189920105' , message.chat.first_name + ' @' + message.from_user.username + " used translate [Eng - Azeri]: " + message.text)
+    bot.send_message('-1001189920105' , message.chat.first_name + " used translate [Eng - Azeri]: " + message.text)
 
 def in_spanish(message):
     a = translator.translate(message.text , src='en', dest='es').text 
     bot.reply_to(message , a)
-    bot.send_message('-1001189920105' , message.chat.first_name + ' @' + message.from_user.username + " used translate [Eng - Spanish]: " + message.text)
+    bot.send_message('-1001189920105' , message.chat.first_name + ' @' + " used translate [Eng - Spanish]: " + message.text)
 
 def in_czech(message):  
     a = translator.translate(message.text , src='en', dest='cs').text      
     bot.reply_to(message , a )
-    bot.send_message('-1001189920105' , message.chat.first_name + ' @' + message.from_user.username + " used translate [Eng - Czech]: " + message.text)
+    bot.send_message('-1001189920105' , message.chat.first_name + ' @' + " used translate [Eng - Czech]: " + message.text)
 
 def in_russian(message):
     a = translator.translate(message.text ,  src='en', dest='ru').text 
     bot.reply_to(message ,  a )
-    bot.send_message('-1001189920105' , message.chat.first_name + ' @' + message.from_user.username + " used translate [Eng - Russian]: " + message.text)     
+    bot.send_message('-1001189920105' , message.chat.first_name + " used translate [Eng - Russian]: " + message.text)     
 
 def in_turkish (message):
     a = translator.translate(message.text , src='en', dest='tr').text 
     bot.reply_to(message , a ) 
-    bot.send_message('-1001189920105' , message.chat.first_name + ' @' + message.from_user.username + " used translate [Eng - Turkish]: " + message.text)   
+    bot.send_message('-1001189920105' , message.chat.first_name + " used translate [Eng - Turkish]: " + message.text)   
 
 def in_english(message):
     a = translator.translate(message.text , dest='en').text 
     bot.reply_to(message , a ) 
-    bot.send_message('-1001189920105' , message.chat.first_name + ' @' + message.from_user.username + " used translate [Undefined - English]: " + message.text)     
+    bot.send_message('-1001189920105' , message.chat.first_name + " used translate [Undefined - English]: " + message.text)     
 
 def usd_rrub(message):   
     bot.send_chat_action(message.chat.id, 'typing')
@@ -604,14 +642,40 @@ def link(message):
        bot.send_message(message.chat.id, "Here is the short version of the original link: - " + s.bitly.short(message.text) , reply_markup=markup) 
 
     except Exception:
-        bot.send_message(message.chat.id , "Wrong link! Make sure that your link includes 'https://' or you don't have any other mistakes in your link.")        
+        bot.send_message(message.chat.id , "Wrong link! Make sure that your link includes 'https://' or you don't have any other mistakes in your link.")  
+
+def covid(message):
+    for item in res['areas']:
+        if item['displayName']==message.text:
+            #print(item['id'])
+            
+            palavra = re.search('(\d*)-(\d*)-(\d*)T(\d*):(\d*):(\d*)', item['lastUpdated'])
+            # Data e Hora - LOCAL (convert UTC to LOCAL)
+            from_zone = tz.gettz('UTC')
+            to_zone = tz.gettz('Azerbaijan/Baku')
+            utc = datetime.strptime('{}:{}:{} {}/{}/{}'.format(palavra[4], palavra[5], palavra[6], palavra[3], palavra[2], palavra[1]), '%H:%M:%S %d/%m/%Y')
+            utc = utc.replace(tzinfo=from_zone)
+            central = utc.astimezone(to_zone)
+            ultima_atualizacao = central.strftime ("%H:%M:%S - %d/%m/%Y")
+            
+            print(item['totalConfirmed'])
+            print(item['totalDeaths'])
+            print(item['totalRecovered'])
+            bot.reply_to(message, """😷Active Cases: {}
+☠️Deaths: {}
+💊Recovered Cases: {}
+🕐Last update(Azerbaijan/Baku): {}
+    """.format(item['totalConfirmed'], item['totalDeaths'], item['totalRecovered'], ultima_atualizacao))              
 
 @bot.message_handler(func = lambda message: 'hey' or 'Hey' or 'HEY' in message.text)
 def talk_to_me (message):       
     bot.send_chat_action(message.chat.id, 'typing')
              #response = dialogflow.text_request(message.text) 
     bot.send_message(message.chat.id , dialogflow.text_request(message.text) )
-    bot.send_message('-1001189920105' , message.chat.first_name + ' @' + message.from_user.username + " used 'talk'. TEXT: " + message.text)
+    try:
+        bot.send_message('-1001189920105' , message.from_user.first_name + ' @' + message.from_user.username +' used TALK feature. TEXT:' + message.text )
+    except Exception:
+        bot.send_message('-1001189920105' , message.from_user.first_name +' used TALK feature. TEXT:' + message.text )
 
 
 def console_listener(messages):
@@ -626,4 +690,3 @@ def console_listener(messages):
          
 bot.set_update_listener(console_listener)
 bot.polling(none_stop=True)
-
