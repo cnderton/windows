@@ -94,3 +94,4 @@ dialogflow-lite==0.0.6
 google-trans==2.4.0
 lyricsgenius==1.8.2
 pyshorteners==1.0.0
+covid-data-api==1.3 
