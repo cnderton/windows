@@ -25,7 +25,7 @@ from covid.api import CovId19Data
 import requests
 
 #Token
-token = "1106602712:AAHgG80PMZz8TCOHWmBr576aXSkQRRUOqME"
+token = "1014221587:AAHe6wUDSBf47Oj1Lb_JMEk8EgBmYU0yKvY"
 bot = telebot.TeleBot(token=token)
 STICKER_ID = 'CAADAgADXwMAAgw7AAEKTh8jAAH9Q-gAAQI'
 #client = Client('ylFpj3mg5MhcKlQGkSnqcnyU1NCQm88KicZVFLHV')
@@ -74,7 +74,7 @@ def handle_start_help(message):
 @bot.message_handler(commands=['commands'])
 def handle_start(message):
     bot.send_photo(message.chat.id , "https://github.com/cnderton/windows/blob/master/AVrean.jpg?raw=true")
-    bot.send_message(message.chat.id , "🅐🅥🅡🅔🅐🅝  🅕🅔🅐🅣🅤🅡🅔🅢\n●/about - More about us\n--------------------------------------------\n●/weather - Find out current temperature in your region\n--------------------------------------------\n●/review - Share your ideas and experience\n--------------------------------------------\n●/wikipedia - Get needed information from Wikipedia without leaving Telegram\n--------------------------------------------\n●/contact - Contact with the developer\n--------------------------------------------\n●/talk - Have a talk with Avrean\n--------------------------------------------\n●/jokes - Funny jokes:)\n--------------------------------------------\n●/movie - Get suggested & popular movies and overviews\n--------------------------------------------\n●/translate - Translate words & sentences from English to other languages.\n--------------------------------------------\n●/currency - Get free live currency rates & count currrencies using the accurate data\n--------------------------------------------\n●/lyrics - Search lyrics of songs\n--------------------------------------------\n●/link - Make long links shorter")
+    bot.send_message(message.chat.id , "🅐🅥🅡🅔🅐🅝  🅕🅔🅐🅣🅤🅡🅔🅢\n●/about - More about us\n--------------------------------------------\n●/weather - Find out current temperature in your region\n--------------------------------------------\n●/review - Share your ideas and experience\n--------------------------------------------\n●/wikipedia - Get needed information from Wikipedia without leaving Telegram\n--------------------------------------------\n●/contact - Contact with the developer\n--------------------------------------------\n●/talk - Have a talk with Avrean\n--------------------------------------------\n●/jokes - Funny jokes:)\n--------------------------------------------\n●/movie - Get suggested & popular movies and overviews\n--------------------------------------------\n●/translate - Translate words & sentences from English to other languages.\n--------------------------------------------\n●/currency - Get free live currency rates & count currrencies using the accurate data\n--------------------------------------------\n●/lyrics - Search lyrics of songs\n--------------------------------------------\n●/link - Make long links shorter\n--------------------------------------------\n🦠/coronavirus - Current situation in your country about Covid-19")
 
 @bot.message_handler(commands=['currency'])
 def start_of_currency(message):
