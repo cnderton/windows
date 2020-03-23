@@ -88,7 +88,7 @@ def start_of_currency(message):
     except Exception:
         bot.send_message('-1001189920105' , message.from_user.first_name +' used CURRENCY feature.' )
 
-@bot.message_handler(commands=['Coronavirus'])
+@bot.message_handler(commands=['coronavirus'])
 def corona(message):
     global html
     html = requests.get("https://bing.com/covid/data")
