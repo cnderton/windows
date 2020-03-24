@@ -124,7 +124,7 @@ def handle(message):
 @bot.message_handler(commands=['review'])
 def error_soo(message):
     linkk    = types.InlineKeyboardMarkup()
-    link3         = types.InlineKeyboardButton(text="Write your feedback here"   , callback_data="link" , url = "https://t.me/demoonov")
+    link3         = types.InlineKeyboardButton(text="Write your feedback here"   , callback_data="link" , url = "https://t.me/demmonov")
     linkk.add(link3)
     bot.send_message(message.chat.id , "I would highly rate it if you write your feedback about this bot. You can contact with me by clicking the link below." , reply_markup=linkk)
     try:
