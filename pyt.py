@@ -652,11 +652,11 @@ def covid(message):
             palavra = re.search('(\d*)-(\d*)-(\d*)T(\d*):(\d*):(\d*)', item['lastUpdated'])
             # Data e Hora - LOCAL (convert UTC to LOCAL)
             from_zone = tz.gettz('UTC')
-            to_zone = tz.gettz('Azerbaijan/Baku')
+            #to_zone = tz.gettz("Turkey")
             utc = datetime.strptime('{}:{}:{} {}/{}/{}'.format(palavra[4], palavra[5], palavra[6], palavra[3], palavra[2], palavra[1]), '%H:%M:%S %d/%m/%Y')
-            utc = utc.replace(tzinfo=from_zone)
-            central = utc.astimezone(to_zone)
-            ultima_atualizacao = central.strftime ("%H:%M:%S - %d/%m/%Y")
+            #utc = utc.replace(tzinfo=from_zone)
+            #central = utc.astimezone(from_zone)
+            ultima_atualizacao = utc.strftime ("%H:%M:%S - %d/%m/%Y")
             
             print(item['totalConfirmed'])
             print(item['totalDeaths'])
@@ -664,7 +664,7 @@ def covid(message):
             bot.reply_to(message, """😷Active Cases: {}
 ☠️Deaths: {}
 💊Recovered Cases: {}
-🕐Last update(Azerbaijan/Baku): {}
+🕐Last update at: {} - UTC(Universal Time Coordinated)
     """.format(item['totalConfirmed'], item['totalDeaths'], item['totalRecovered'], ultima_atualizacao))              
 
 @bot.message_handler(func = lambda message: 'hey' or 'Hey' or 'HEY' in message.text)
