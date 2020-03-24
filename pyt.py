@@ -187,7 +187,7 @@ def echo_all(message):
 @bot.message_handler(commands=['contact'])
 def errorr_soo(message):
     link     = types.InlineKeyboardMarkup()
-    link2         = types.InlineKeyboardButton(text="Contact with Developer"   , callback_data="link" , url = "https://t.me/demoonov")
+    link2         = types.InlineKeyboardButton(text="Contact with Developer"   , callback_data="link" , url = "https://t.me/demmonov")
     link.add(link2)
     bot.send_message(message.chat.id , "Contact with developer by clicking a link below." , reply_markup=link)
 
