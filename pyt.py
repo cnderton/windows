@@ -90,13 +90,7 @@ def start_of_currency(message):
 
 @bot.message_handler(commands=['coronavirus'])
 def corona(message):
-    global html
-    html = requests.get("https://bing.com/covid/data")
-    global data
-    data = html.text
-    global res
-    res = json.loads(data) 
-    bot.send_message(message.chat.id , "Tell me your country ")
+    bot.send_message(message.chat.id , "This feature is temporarily unavaible. This feature will be out in a few hours. I apoligize for the inconvenience")
     try:
         bot.send_message('-1001189920105' , message.from_user.first_name + ' @' + message.from_user.username +' used CORONAVIRUS feature.' )
     except Exception:
@@ -644,28 +638,7 @@ def link(message):
     except Exception:
         bot.send_message(message.chat.id , "Wrong link! Make sure that your link includes 'https://' or you don't have any other mistakes in your link.")  
 
-def covid(message):
-    for item in res['areas']:
-        if item['displayName']==message.text:
-            #print(item['id'])
-            
-            palavra = re.search('(\d*)-(\d*)-(\d*)T(\d*):(\d*):(\d*)', item['lastUpdated'])
-            # Data e Hora - LOCAL (convert UTC to LOCAL)
-            from_zone = tz.gettz('UTC')
-            #to_zone = tz.gettz("Turkey")
-            utc = datetime.strptime('{}:{}:{} {}/{}/{}'.format(palavra[4], palavra[5], palavra[6], palavra[3], palavra[2], palavra[1]), '%H:%M:%S %d/%m/%Y')
-            #utc = utc.replace(tzinfo=from_zone)
-            #central = utc.astimezone(from_zone)
-            ultima_atualizacao = utc.strftime ("%H:%M:%S - %d/%m/%Y")
-            
-            print(item['totalConfirmed'])
-            print(item['totalDeaths'])
-            print(item['totalRecovered'])
-            bot.reply_to(message, """😷Active Cases: {}
-☠️Deaths: {}
-💊Recovered Cases: {}
-🕐Last update at: {} - UTC(Universal Time Coordinated)
-    """.format(item['totalConfirmed'], item['totalDeaths'], item['totalRecovered'], ultima_atualizacao))              
+             
 
 @bot.message_handler(func = lambda message: 'hey' or 'Hey' or 'HEY' in message.text)
 def talk_to_me (message):       
