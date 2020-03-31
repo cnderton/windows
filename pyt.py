@@ -95,7 +95,7 @@ def corona(message):
         bot.send_message('-1001189920105' , message.from_user.first_name + ' @' + message.from_user.username +' used CORONAVIRUS feature.' )
     except Exception:
         bot.send_message('-1001189920105' , message.from_user.first_name +' used CORONAVIRUS feature.' )
-    bot.register_next_step_handler(message, covid)
+    
 
 @bot.message_handler(commands = ['jokes'])
 def jokess(message):
