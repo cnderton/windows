@@ -7,6 +7,7 @@ from forex_python.converter import CurrencyRates #new
 import random
 from tmdbv3api import Movie, TMDb
 from time import sleep
+from bs4 import BeautifulSoup#new
 from telebot import types
 from telebot.types import Message
 from telebot import apihelper, types
@@ -21,11 +22,11 @@ from lxml import html
 import re
 from dateutil import tz
 from datetime import datetime
-from covid.api import CovId19Data
+from covid import Covid#new
 import requests
 
 #Token
-token = "1014221587:AAHe6wUDSBf47Oj1Lb_JMEk8EgBmYU0yKvY"
+token = "1106602712:AAEIun7Sw6G49r7XaS7cbCfP-5GJotdrexQ"
 bot = telebot.TeleBot(token=token)
 STICKER_ID = 'CAADAgADXwMAAgw7AAEKTh8jAAH9Q-gAAQI'
 #client = Client('ylFpj3mg5MhcKlQGkSnqcnyU1NCQm88KicZVFLHV')
@@ -40,6 +41,10 @@ tmdb = TMDb()
 tmdb.api_key = 'ee01893e3d8f4d2026795ad38b8bb5fe'
 tmdb.language = 'en'
 movie = Movie()
+covid = Covid(source="worldometers")
+confirmed_t = covid.get_total_confirmed_cases()
+deaths_t = covid.get_total_deaths()
+recovered_t = covid.get_total_recovered() 
 #c = CurrencyConverter()
 
 def find_at(msg):
@@ -90,7 +95,8 @@ def start_of_currency(message):
 
 @bot.message_handler(commands=['coronavirus'])
 def corona(message):
-    bot.send_message(message.chat.id , "This feature is temporarily unavaible. This feature will be out in a few hours. I apoligize for the inconvenience")
+    bot.send_message(message.chat.id , "Tell me your country name")
+    bot.register_next_step_handler(message , corona)
     try:
         bot.send_message('-1001189920105' , message.from_user.first_name + ' @' + message.from_user.username +' used CORONAVIRUS feature.' )
     except Exception:
@@ -638,7 +644,32 @@ def link(message):
     except Exception:
         bot.send_message(message.chat.id , "Wrong link! Make sure that your link includes 'https://' or you don't have any other mistakes in your link.")  
 
-             
+def corona(message):
+    bot.send_chat_action(message.chat.id, 'typing')
+    markup = types.InlineKeyboardMarkup()
+
+    try:
+        html_page = requests.get("https://www.worldometers.info/coronavirus/")
+    except requests.exceptions.RequestException as e: 
+        bot.reply_to(message , "An error occured")
+    bs = BeautifulSoup(html_page.content, 'html.parser')
+    co = message.text
+    search = bs.select("div tbody tr td")
+    start = -1
+    for i in range(len(search)):
+        if search[i].get_text().find(co) !=-1:
+            start = i
+            break
+    data = []
+    for i in range(1,8):
+        try:
+            data = data + [search[start+i].get_text()]
+        except:
+            data = data + ["0"]
+    mss = "🌍 Situation around world 🌍 \n😷Total cases {};\n⚰Total deaths: {};\n💊Recovered cases: {}.".format(confirmed_t, deaths_t, recovered_t)
+    switch_button = types.InlineKeyboardButton(text="Share" ,  switch_inline_query= "\n😷Total infected: {}\n🆕New Cases: {}\n⚰Total Deaths: {}\n☠New Deaths: {}\n💊Recovred: {}\n☢Active Case: {}\n☣Serious Critical: {}".format(*data)  + "\n -  -  -  -  -  -\n"+ mss + "\n #Stayhome #Staysafe" )
+    markup.add(switch_button)  
+    bot.reply_to(message , "😷Total infected: {}\n🆕New Cases: {}\n⚰Total Deaths: {}\n☠New Deaths: {}\n💊Recovred: {}\n☢Active Case: {}\n☣Serious Critical: {}".format(*data)  + "\n -  -  -  -  -  -\n"+ mss + "\n #Stayhome #Staysafe" , reply_markup=markup)           
 
 @bot.message_handler(func = lambda message: 'hey' or 'Hey' or 'HEY' in message.text)
 def talk_to_me (message):       
