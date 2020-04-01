@@ -26,7 +26,7 @@ from covid import Covid#new
 import requests
 
 #Token
-token = "1106602712:AAEIun7Sw6G49r7XaS7cbCfP-5GJotdrexQ"
+token = "1014221587:AAHe6wUDSBf47Oj1Lb_JMEk8EgBmYU0yKvY"
 bot = telebot.TeleBot(token=token)
 STICKER_ID = 'CAADAgADXwMAAgw7AAEKTh8jAAH9Q-gAAQI'
 #client = Client('ylFpj3mg5MhcKlQGkSnqcnyU1NCQm88KicZVFLHV')
@@ -95,7 +95,7 @@ def start_of_currency(message):
 
 @bot.message_handler(commands=['coronavirus'])
 def corona(message):
-    bot.send_message(message.chat.id , "Tell me your country name")
+    bot.send_message(message.chat.id , "Tell me your country name\n⚠️For every new request click /coronavirus⚠️\nNote:Type your request only in English\nFor instance:\nDeutschland✘\nGerman✘\nDe✘\nGermany✔")
     bot.register_next_step_handler(message , corona)
     try:
         bot.send_message('-1001189920105' , message.from_user.first_name + ' @' + message.from_user.username +' used CORONAVIRUS feature.' )
