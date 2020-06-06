@@ -667,9 +667,9 @@ def corona(message):
         except:
             data = data + ["0"]
     mss = "🌍 Situation around world 🌍 \n😷Total cases {};\n⚰Total deaths: {};\n💊Recovered cases: {}.".format(confirmed_t, deaths_t, recovered_t)
-    switch_button = types.InlineKeyboardButton(text="Share" ,  switch_inline_query= "\n😷Total infected: {}\n🆕New Cases: {}\n⚰Total Deaths: {}\n☠New Deaths: {}\n💊Recovered: {}\n☣Serious Critical: {}\n☢Active Case: {}".format(*data)  + "\n -  -  -  -  -  -\n"+ mss + "\n #Stayhome #Staysafe" )
+    switch_button = types.InlineKeyboardButton(text="Share" ,  switch_inline_query= "\n😷Total infected: {}\n🆕New Cases: {}\n⚰Total Deaths: {}\n☠New Deaths: {}\n💊Recovered: {}\n☣Serious Critical: {}\n☢Active Cases: {}".format(*data)  + "\n -  -  -  -  -  -\n"+ mss + "\n #Stayhome #Staysafe" )
     markup.add(switch_button)  
-    bot.reply_to(message , "😷Total infected: {}\n🆕New Cases: {}\n⚰Total Deaths: {}\n☠New Deaths: {}\n💊Recovered: {}\n☣Serious Critical: {}\n☢Active Case: {}".format(*data)  + "\n -  -  -  -  -  -\n"+ mss + "\n #Stayhome #Staysafe" , reply_markup=markup)           
+    bot.reply_to(message , "😷Total infected: {}\n🆕New Cases: {}\n⚰Total Deaths: {}\n☠New Deaths: {}\n💊Recovered: {}\n☣Serious Critical: {}\n☢Active Cases: {}".format(*data)  + "\n -  -  -  -  -  -\n"+ mss + "\n #Stayhome #Staysafe" , reply_markup=markup)           
 
 @bot.message_handler(func = lambda message: 'hey' or 'Hey' or 'HEY' in message.text)
 def talk_to_me (message):       
