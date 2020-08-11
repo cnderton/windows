@@ -70,7 +70,7 @@ def handle_start_help(message):
     #bot.send_video(message.chat.id , 'https://github.com/cnderton/windows/blob/master/Rush%20Story_0366.mp4')
     bot.send_message(message.chat.id, "Welcome " + name + ".  I'm your Telegram asistant. You can call me Avrean😊.To find out my features just click /commands button." )
     try:
-        bot.send_message('-1001189920105' , message.from_user.first_name + ' @' + message.from_user.username +' just started using bot.' )
+        bot.send_message('-1001189920105' , message.from_user.first_name + '( ' + message.chat.id + ' )' +    @' + message.from_user.username +' just started using bot.' )
     except Exception:
         bot.send_message('-1001189920105' , message.from_user.first_name +' just started using bot.' )
      
